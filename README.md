@@ -3,7 +3,7 @@
 ## A Játék Alapműködése
 A szoftver egy 2 dimenziós, felülnézetes kaland- és szerepjáték.
 
-A felhasználó irányít egy avatárt/karaktert. A játék egy olyan világban játszódik, ami csak minimálisan korlátozza a játékos avatárját a mozgásban, ezért ez egy **open-world** játék. Az avatár képes szabadon mozogni 4 irányba (jobbra, balra, előre, hátra) ebben a világaban, de felfele és lefele nem. 
+A felhasználó irányít egy avatárt/karaktert. A játék egy olyan világban játszódik, ami csak minimálisan korlátozza a játékos avatárját a mozgásban, ezért ez egy **open-world** játék. Az avatár képes szabadon mozogni 4 irányba (jobbra, balra, előre, hátra), de felfele és lefele nem. 
 
 A játékos gyűjthet a világban **aranyat**, **tapasztalati pontot**, és **tárgyakat**.
 
@@ -32,7 +32,7 @@ Az életerőn kívül még számos attribútumai lehetnek a játékos avatárjá
 
 ## Tárgyak
 A világban van egy bolt, ahol a játékos tárgyakat tud venni, amik aranyba kerülnek. A tárgyak erősebbé teszik a játékost. Mindegyik tárgy különböző bónuszokat ad, különböző attribútumokat növelnek, vagy csökkentenek. Több fajta tárgy van:
-- Fegyverek. Befolyásolt attribútumok:
+- Fegyver. Befolyásolt attribútumok:
     - sebzés
     - kritikus csapás esélye
 - Vért. Befolyásolt attribútumok:
