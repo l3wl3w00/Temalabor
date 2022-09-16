@@ -1,27 +1,44 @@
-Rpg jatek
+# GYÖRGYDEÁK LEVENTE, NC1O2T - TÉMALABOR
 
-ALAP:
-2D, felülnézet
+## A Játék Alapműködése
+A szoftver egy 2 dimenziós, felülnézetes kaland- és szerepjáték.
 
-Mozgatni lehet a karaktert egy világban, a kamera vele mozog
+A felhasználó irányít egy avatárt/karaktert. A játék egy olyan világban játszódik, ami csak minimálisan korlátozza a játékos avatárját a mozgásban, ezért ez egy **open-world** játék. Az avatár képes szabadon mozogni 4 irányba (jobbra, balra, előre, hátra) ebben a világaban, de felfele és lefele nem. 
 
-Vannak szörnyek - mozgásuk akár ai
+A játékos gyűjthet a világban **aranyat**, **tapasztalati pontot**, és **tárgyakat**.
 
-Szörnyek megöléséért goldot és xp-t kap a játékos
+## Ellenségek
+A világban vannak ellenségek. Ha ezeket a játékos megöli, akkor kaphat jutalmakat (pl. aranyot, tapasztalati pontot, tárgyakat). Több fajta ellenség van:
+- Távharci ellenség, akinek van egy hatótávolsága, amin belül megtámadja ellenségeit.
+- Közelharci ellenség, ami az ellenségéhez odafut, és közelről támadja.
 
-Vannak képességei a karakternek, ezekkel erősebb, gyorsabban legyőzi a szörnyeket. Ezeket lehet fejleszteni
+## Képességek
 
-Vannak tárgyak, amiket szerezhet a karakter, ezek is erősebbé teszik
+A játékos avatárjának vannak **képességei**. A képességek segítik a játékost az ellenségek legyőzésében, vagy valahogyan védelmezik a játékost. Képességek:
+- Az avatár gyorsan a kurzor irányába ugrik.
+- Az avatár előtt egy területrészen minden ellenséget megsebez.
+- A játékos kiválaszt egy ellenséget, és az megsebződik, illetve pár másodpercig nem tud semmit cselekedni, azaz **kábítva** lesz.
 
-Bolt, ahol lehet tárgyakat venni
+A játékos avatárjának van egy szintje, ami az erősségét jelzi. Ezt a játékos fejlesztheti, amivel erősebbé válik, és képességeket tanulhat meg, vagy a meglévőket erősítheti. A tapasztalati pont segíti a játékost abban, hogy szintet fejlődjön.
 
-BÓNUSZ:
-Több nyersanyagtípus - nem csak gold
+## Attribútumok
+Az játékos avatárjának és az ellenségeknek is van életereje, ami egy-egy számmal van reprezentálva. Ha az életerejük eléri a 0-t, vagy alá kerül, akkor meghal. Az avatár ezek után újraéled egy fix ponton, de tapasztalati pontot és aranyat veszít.
 
-Több karaktertípus - akár egy karakter customizáló felület
+Az életerőn kívül még számos attribútumai lehetnek a játékos avatárjának, és az ellenségeknek:
+- sebzés - ettől az értéktől (is) függ, hogy mennyivel csökkenti a célpont életerejét egy támadás hatására
+- kritikus csapás esélye - egy kritikus találat többet sebez egy átlagos találatnál
+- védekezés - ettől az értéktől (is) függ, hogy mennyivel csökken az avatár által elszenvedett életerő veszteség
+- mozgási sebesség - ettől az értéktől (is) függ az avatár mozgási sebessége a világban
 
-több maprész van, ahol más szörnyek vannak - akár map builder felület
-
-A tárgyakat lehet akár fejleszteni, merge-elni vagy bónuszokat tenni beléjük
-
-Akár több játékos - multiplayer
+## Tárgyak
+A világban van egy bolt, ahol a játékos tárgyakat tud venni, amik aranyba kerülnek. A tárgyak erősebbé teszik a játékost. Mindegyik tárgy különböző bónuszokat ad, különböző attribútumokat növelnek, vagy csökkentenek. Több fajta tárgy van:
+- Fegyverek. Befolyásolt attribútumok:
+    - sebzés
+    - kritikus csapás esélye
+- Vért. Befolyásolt attribútumok:
+    - védekezés
+    - életerő
+- Cipő. Befolyásolt attribútumok:
+    - mozgási sebesség
+    - védekezés
+    - életerő
