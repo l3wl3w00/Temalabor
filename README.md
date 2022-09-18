@@ -1,7 +1,7 @@
-# GYÖRGYDEÁK LEVENTE, NC1O2T - TÉMALABOR
+# TÉMALABOR SPECIFIKÁCIÓ - GYÖRGYDEÁK LEVENTE, NC1O2T
 
 ## A Játék Alapműködése
-A szoftver egy 2 dimenziós, felülnézetes kaland- és szerepjáték.
+A szoftver egy 2 dimenziós, felülnézetes kaland - és szerepjáték.
 
 A felhasználó irányít egy avatárt/karaktert. A játék egy olyan világban játszódik, ami csak minimálisan korlátozza a játékos avatárját a mozgásban, ezért ez egy **open-world** játék. Az avatár képes szabadon mozogni 4 irányba (jobbra, balra, előre, hátra), de felfele és lefele nem. 
 
@@ -22,7 +22,7 @@ A játékos avatárjának vannak **képességei**. A képességek segítik a já
 A játékos avatárjának van egy szintje, ami az erősségét jelzi. Ezt a játékos fejlesztheti, amivel erősebbé válik, és képességeket tanulhat meg, vagy a meglévőket erősítheti. A tapasztalati pont segíti a játékost abban, hogy szintet fejlődjön.
 
 ## Attribútumok
-Az játékos avatárjának és az ellenségeknek is van életereje, ami egy-egy számmal van reprezentálva. Ha az életerejük eléri a 0-t, vagy alá kerül, akkor meghal. Az avatár ezek után újraéled egy fix ponton, de tapasztalati pontot és aranyat veszít.
+Az játékos avatárjának és az ellenségeknek is van életereje, ami egy-egy számmal van reprezentálva. Ha az életerejük eléri a 0-t, vagy alá kerül, akkor meghalnak. Az avatár ezek után újraéled egy fix ponton, de tapasztalati pontot és aranyat veszít.
 
 Az életerőn kívül még számos attribútumai lehetnek a játékos avatárjának, és az ellenségeknek:
 - sebzés - ettől az értéktől (is) függ, hogy mennyivel csökkenti a célpont életerejét egy támadás hatására
@@ -42,3 +42,12 @@ A világban van egy bolt, ahol a játékos tárgyakat tud venni, amik aranyba ke
     - mozgási sebesség
     - védekezés
     - életerő
+
+A játékos avatárjának van egy leltára, amiben több tárgyat is tárolhat, illetve felszerelhet. Nem szerelhet fel azonban 2 azonos típusú tárgyat (pl 2 különböző fegyvert).
+
+## Menü
+A játék elinduláskor egy menüt mutat a felhasználónak, amin az alábbi opciók érhetők el:
+- Játék
+    - Erre kattintva elindul a játék
+- Kilépés
+    - Erre kattintva bezárul a program
