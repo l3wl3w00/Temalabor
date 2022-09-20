@@ -12,4 +12,4 @@
 
 ## A Conroller usecase-ei
 1. Telik az idő
-2. Szintet lép az avatár
+2. A játékos avatárja szintet lép

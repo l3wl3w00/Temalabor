@@ -12,6 +12,7 @@ A világban vannak ellenségek. Ha ezeket a játékos megöli, akkor kaphat juta
 - Távharci ellenség, akinek van egy hatótávolsága, amin belül megtámadja ellenségeit.
 - Közelharci ellenség, ami az ellenségéhez odafut, és közelről támadja.
 
+
 ## Képességek
 
 A játékos avatárjának vannak **képességei**. A képességek segítik a játékost az ellenségek legyőzésében, vagy valahogyan védelmezik a játékost. Képességek:
@@ -45,9 +46,19 @@ A világban van egy bolt, ahol a játékos tárgyakat tud venni, amik aranyba ke
 
 A játékos avatárjának van egy leltára, amiben több tárgyat is tárolhat, illetve felszerelhet. Nem szerelhet fel azonban 2 azonos típusú tárgyat (pl 2 különböző fegyvert).
 
+
+
 ## Menü
 A játék elinduláskor egy menüt mutat a felhasználónak, amin az alábbi opciók érhetők el:
 - Játék
     - Erre kattintva elindul a játék
 - Kilépés
     - Erre kattintva bezárul a program
+
+## Képernyőképek
+**A játékos avatárja:**
+![](avatar.png)
+**A játékos avatárja egy karddal felszerelve:**
+![](avatar-with-weapon.png)
+**Közelharci ellenség, aki közeledik a játékos avatárja felé:**
+![](enemy-attacking-avatar.png)
