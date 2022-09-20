@@ -57,8 +57,8 @@ A játék elinduláskor egy menüt mutat a felhasználónak, amin az alábbi opc
 
 ## Képernyőképek
 **A játékos avatárja:**
-![](avatar.png)
+![](screenshotok/avatar.png)
 **A játékos avatárja egy karddal felszerelve:**
-![](avatar-with-weapon.png)
+![](screenshotok/avatar-with-weapon.png)
 **Közelharci ellenség, aki közeledik a játékos avatárja felé:**
-![](enemy-attacking-avatar.png)
+![](screenshotok/enemy-attacking-avatar.png)
