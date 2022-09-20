@@ -15,7 +15,7 @@ A világban vannak ellenségek. Ha ezeket a játékos megöli, akkor kaphat juta
 ## Képességek
 
 A játékos avatárjának vannak **képességei**. A képességek segítik a játékost az ellenségek legyőzésében, vagy valahogyan védelmezik a játékost. Képességek:
-- Az avatár gyorsan a kurzor irányába ugrik.
+- Az avatár gyorsan egy kijelölt irányába ugrik.
 - Az avatár előtt egy területrészen minden ellenséget megsebez.
 - A játékos kiválaszt egy ellenséget, és az megsebződik, illetve pár másodpercig nem tud semmit cselekedni, azaz **kábítva** lesz.
 
