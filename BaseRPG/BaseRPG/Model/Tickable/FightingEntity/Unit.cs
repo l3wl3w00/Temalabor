@@ -16,6 +16,9 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         private Stat damage;
 
         public Vector2D Position { get { return position.Position; } }
+
+        public AttackabilityService.Group Group { get; set; }
+
         public abstract void OnTick();
 
         public abstract void Attack();

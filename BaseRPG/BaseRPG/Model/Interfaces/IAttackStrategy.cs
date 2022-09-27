@@ -8,6 +8,6 @@ namespace BaseRPG.Model.Interfaces
 {
     public interface IAttackStrategy
     {
-        void OnAttackHit(IAttackable attackable);
+        void OnAttackHit(IAttacking attacker, IAttackable attacked);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace BaseRPG.Model.Worlds
         private List<ITickable> tickables;
 
         public IEnumerable<ITickable> Tickables { get;}
+        public Hero Hero { get; internal set; }
 
         public void OnTick()
         {

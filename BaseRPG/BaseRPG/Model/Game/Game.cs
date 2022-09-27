@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Worlds;
+﻿using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Model.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,14 @@ namespace BaseRPG.Model.Game
         private Game() { }
         private static List<World> worlds;
         private World currentWorld;
+        public Hero Hero { get {
+                return currentWorld.Hero;
+            }
+        }
+
+        public void Initialize() { 
+            
+        }
         public static class Singleton
         {
             private static Game instance;

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="BaseRPG.Model.Attribute.Health" Collapsed="true">
-    <Position X="11.5" Y="2.25" Width="1.75" />
+    <Position X="12.25" Y="1" Width="1.75" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAiAEAAAAA=</HashCode>
       <FileName>Model\Attribute\Health.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BaseRPG.Model.Tickable.FightingEntity.Unit" Collapsed="true">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+    <Position X="9" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAgAAgAAAAIAAAAKAACAAAAAAAAAAAAQg=</HashCode>
+      <HashCode>AAAAAEAAAIAAgAAgAAAAIAAAAKAACAAAAAAAAAAAAQg=</HashCode>
       <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -20,11 +20,11 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BaseRPG.Model.Tickable.FightingEntity.Hero.Hero">
-    <Position X="8.25" Y="4" Width="1.5" />
+    <Position X="8" Y="3.5" Width="1.5" />
     <AssociationLine Name="inventory" Type="BaseRPG.Model.Attribute.Inventory" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="8.25" Y="4.167" />
-        <Point X="7.188" Y="4.167" />
+        <Point X="8" Y="3.667" />
+        <Point X="7.188" Y="3.667" />
         <Point X="7.188" Y="2.562" />
       </Path>
     </AssociationLine>
@@ -39,7 +39,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BaseRPG.Model.Tickable.FightingEntity.Enemy.Enemy">
-    <Position X="10.75" Y="4" Width="1.5" />
+    <Position X="10.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Model\Tickable\FightingEntity\Enemy\Enemy.cs</FileName>
@@ -51,7 +51,7 @@
   <Class Name="BaseRPG.Model.Worlds.World">
     <Position X="3" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAIAQAAAAAAAAABAAAAABAAAAAAACAAAAAAAAAAAAEA=</HashCode>
       <FileName>Model\Worlds\World.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -61,19 +61,12 @@
   </Class>
   <Class Name="BaseRPG.Model.Game.Game" Collapsed="true">
     <Position X="0.5" Y="0.75" Width="1.5" />
-    <NestedTypes>
-      <Class Name="BaseRPG.Model.Game.Game.Singleton" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Model\Game\Game.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
     <AssociationLine Name="worlds" Type="BaseRPG.Model.Worlds.World" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="2" Y="0.993" />
         <Point X="2.375" Y="0.993" />
-        <Point X="2.375" Y="1.788" />
-        <Point X="3" Y="1.788" />
+        <Point X="2.375" Y="2.021" />
+        <Point X="3" Y="2.021" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="currentWorld" Type="BaseRPG.Model.Worlds.World" FixedFromPoint="true" FixedToPoint="true">
@@ -84,7 +77,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAQBAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Game\Game.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -119,7 +112,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="BaseRPG.Model.Attribute.PositionManager" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Position X="12" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Attribute\PositionManager.cs</FileName>
@@ -145,13 +138,23 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="BaseRPG.Model.Tickable.Item.Weapon.Attack">
-    <Position X="8.25" Y="8" Width="2.75" />
+    <Position X="12.5" Y="4" Width="2.75" />
+    <AssociationLine Name="position" Type="BaseRPG.Model.Attribute.PositionManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.875" Y="4" />
+        <Point X="13.875" Y="3.625" />
+        <Point X="12.75" Y="3.625" />
+        <Point X="12.75" Y="2.562" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgBAAIAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAABAAAAgBAAIAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Tickable\Item\Weapon\Attack.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="attackStrategy" />
+      <Field Name="position" />
+      <Field Name="attacker" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -163,17 +166,24 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="BaseRPG.Model.Interfaces.IAttackStrategy">
-    <Position X="4.5" Y="8.5" Width="2" />
+    <Position X="11.5" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Interfaces\IAttackStrategy.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="BaseRPG.Model.Interfaces.IAttackFactory">
-    <Position X="7.75" Y="6.25" Width="1.75" />
+    <Position X="7.75" Y="6.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Model\Interfaces\IAttackFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.Model.Interfaces.IAttacking" Collapsed="true">
+    <Position X="16.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IAttacking.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller;
 using BaseRPG.Controller.Input;
+using BaseRPG.Model.Game;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,6 +25,8 @@ namespace BaseRPG
     /// </summary>
     public partial class App : Application
     {
+        private readonly Game game;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -40,10 +43,12 @@ namespace BaseRPG
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            PlayerControl playerControl = new PlayerControl(new Model.Tickable.FightingEntity.Hero.Hero());
+            game.Initialize();
+            PlayerControl playerControl = new PlayerControl(game.Hero);
             InputActionMapper mapper = new InputActionMapper(); 
             InputProcessor inputProcessor = new InputProcessor(mapper.CreateDefaultInputActionMapping(playerControl));
             Controller.Controller controller = new Controller.Controller(inputProcessor, Controller.Controller.DefaultInputMapping);
+            
             m_window = new MainWindow(controller);
             m_window.Activate();
         }

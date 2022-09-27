@@ -13,6 +13,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using BaseRPG.View.WorldView;
+using BaseRPG.Model.Game;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,6 +27,8 @@ namespace BaseRPG
     public sealed partial class MainWindow : Window
     {
         private readonly Controller.Controller controller;
+        private WorldView worldView;
+        public WorldView WorldView { get { return worldView; } set { worldView = value; } }
         public MainWindow(Controller.Controller controller)
         {
             this.controller = controller;
@@ -32,8 +36,8 @@ namespace BaseRPG
             //canvasAnimatedControl.add_Draw( canvas_Draw);
         }
         void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
-        { 
-        
+        {
+            WorldView.Render();
         }
 
         private void PointerPressed(object sender, PointerRoutedEventArgs e)
