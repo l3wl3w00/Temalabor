@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BaseRPG.Model.Attribute.Health" Collapsed="true">
+    <Position X="11.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAiAEAAAAA=</HashCode>
+      <FileName>Model\Attribute\Health.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.FightingEntity.Unit" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAgAAgAAAAIAAAAKAACAAAAAAAAAAAAQg=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="health" />
+      <Field Name="position" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.FightingEntity.Hero.Hero">
+    <Position X="8.25" Y="4" Width="1.5" />
+    <AssociationLine Name="inventory" Type="BaseRPG.Model.Attribute.Inventory" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="4.167" />
+        <Point X="7.188" Y="4.167" />
+        <Point X="7.188" Y="2.562" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAACAAAAAAIAACAACAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Hero\Hero.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="inventory" />
+      <Field Name="experienceManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.FightingEntity.Enemy.Enemy">
+    <Position X="10.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="attackFactory" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BaseRPG.Model.Worlds.World">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Model\Worlds\World.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="tickables" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Model.Game.Game" Collapsed="true">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <NestedTypes>
+      <Class Name="BaseRPG.Model.Game.Game.Singleton" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\Game\Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <AssociationLine Name="worlds" Type="BaseRPG.Model.Worlds.World" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="0.993" />
+        <Point X="2.375" Y="0.993" />
+        <Point X="2.375" Y="1.788" />
+        <Point X="3" Y="1.788" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="currentWorld" Type="BaseRPG.Model.Worlds.World" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="0.831" />
+        <Point X="3.344" Y="0.831" />
+        <Point X="3.344" Y="1.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Game\Game.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="currentWorld" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="worlds" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BaseRPG.Model.Attribute.Inventory" Collapsed="true">
+    <Position X="6.25" Y="2" Width="1.5" />
+    <AssociationLine Name="items" Type="BaseRPG.Model.Tickable.Item.Item" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.625" Y="2.562" />
+        <Point X="6.625" Y="3.784" />
+        <Point X="4.5" Y="3.784" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Attribute\Inventory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BaseRPG.Model.Attribute.ExperienceManager" Collapsed="true">
+    <Position X="5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAJAAEAAAABAAAAAAAAQAA=</HashCode>
+      <FileName>Model\Attribute\ExperienceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.Model.Attribute.PositionManager" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Attribute\PositionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.Item.Item">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\Item\Item.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.Item.Weapon.Weapon">
+    <Position X="2.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAABAACAAAAAAAAAAAAg=</HashCode>
+      <FileName>Model\Tickable\Item\Weapon\Weapon.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="lightAttackFactory" />
+      <Field Name="heavyAttackFactory" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.Item.Weapon.Attack">
+    <Position X="8.25" Y="8" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgBAAIAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\Item\Weapon\Attack.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="attackStrategy" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="BaseRPG.Model.Interfaces.ITickable" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\ITickable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.Model.Interfaces.IAttackStrategy">
+    <Position X="4.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IAttackStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.Model.Interfaces.IAttackFactory">
+    <Position X="7.75" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IAttackFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

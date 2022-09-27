@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BaseRPG.MainWindow" Collapsed="true">
+    <Position X="3.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAgAEAAAAAAAAAAAAQAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>View\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.View.ItemView.InventoryItemView">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>View\ItemView\InventoryItemView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.View.ItemView.BaseItemView">
+    <Position X="10.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>View\ItemView\IItemView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.View.ItemView.EquippedItemView">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAQAAAAAAAAAAAAABABAAAAAAAAA=</HashCode>
+      <FileName>View\ItemView\EquippedItemView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.View.EntityView.UnitView">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>View\EntityView\UnitView.cs</FileName>
+      <NewMemberFileName>View\EntityView\HeroView.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
