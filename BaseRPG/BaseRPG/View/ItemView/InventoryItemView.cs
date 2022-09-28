@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BaseRPG.Model.Tickable.Item;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using System;
+
 
 namespace BaseRPG.View.ItemView
 {
     public class InventoryItemView : BaseItemView
     {
-        public override void Render()
+        public InventoryItemView(Item item) : base(item)
+        {
+        }
+
+        public override void Render(CanvasDrawEventArgs args, Camera camera)
         {
             throw new NotImplementedException();
         }

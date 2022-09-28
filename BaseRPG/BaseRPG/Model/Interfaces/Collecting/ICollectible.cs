@@ -1,4 +1,4 @@
-﻿namespace BaseRPG.Model.Interfaces
+﻿namespace BaseRPG.Model.Interfaces.Collecting
 {
     public interface ICollectible
     {

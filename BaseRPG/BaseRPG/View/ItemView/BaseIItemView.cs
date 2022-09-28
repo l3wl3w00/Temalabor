@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.ItemView
 {
-    public abstract class BaseItemView : TickableView
+    public abstract class BaseItemView : GameObjectView
     {
-        protected BaseItemView(ITickable tickable) : base(tickable)
+        private Item item;
+        protected BaseItemView(Item item)
         {
+            this.item = item;
         }
 
-        public Item Item { get; }
-        public abstract void Render();
+
     }
 }

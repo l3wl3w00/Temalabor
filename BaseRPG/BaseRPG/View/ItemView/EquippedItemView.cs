@@ -1,5 +1,7 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Tickable.Item;
+using BaseRPG.View.Shapes;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,17 @@ namespace BaseRPG.View.ItemView
 {
     public class EquippedItemView : BaseItemView
     {
-        
-        public override void Render()
+        private Shape2D hitbox;
+
+        public EquippedItemView(Item item) : base(item)
+        {
+        }
+
+        public override void Render(CanvasDrawEventArgs args, Camera camera)
         {
             throw new NotImplementedException();
         }
+
         public void StartHeavyAttackChargeAnimation() {
             throw new NotImplementedException();
         }

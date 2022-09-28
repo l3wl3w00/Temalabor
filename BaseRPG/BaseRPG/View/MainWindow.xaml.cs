@@ -15,6 +15,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using BaseRPG.View.WorldView;
 using BaseRPG.Model.Game;
+using BaseRPG.View;
+using System.Timers;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,27 +29,34 @@ namespace BaseRPG
     public sealed partial class MainWindow : Window
     {
         private readonly Controller.Controller controller;
-        private WorldView worldView;
-        public WorldView WorldView { get { return worldView; } set { worldView = value; } }
-        public MainWindow(Controller.Controller controller)
+        private ViewManager viewManager;
+        public MainWindow(Controller.Controller controller, ViewManager viewManager)
         {
+            Timer timer = new Timer();
+            timer.Elapsed += (a,b)=>canvas.Invalidate();
+            timer.Interval = 100;
+            timer.Start();
+
+
             this.controller = controller;
+            this.viewManager = viewManager;
+            
             this.InitializeComponent();
-            //canvasAnimatedControl.add_Draw( canvas_Draw);
         }
         void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            WorldView.Render();
+            viewManager.Draw(args);
+            
         }
 
         private void PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            controller.MouseDown(e.GetCurrentPoint((CanvasControl)sender));
+            controller.MouseDown(e.GetCurrentPoint((Grid)sender));
         }
 
         private void PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            controller.MouseUp(e.GetCurrentPoint((CanvasControl)sender));
+            controller.MouseUp(e.GetCurrentPoint((Grid)sender));
         }
 
         private void KeyDown(object sender, KeyRoutedEventArgs e)

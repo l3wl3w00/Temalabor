@@ -18,21 +18,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="BaseRPG.Controller.PlayerControl">
-    <Position X="3.25" Y="2" Width="1.75" />
+    <Position X="1.75" Y="1.75" Width="3" />
     <Members>
       <Method Name="PlayerControl" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAIAAAAAAAAAAAAAAQAAAAAABAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAIAAIAAAAAAAAAAAAAAQAAAAAABAAAAAgAAAAE=</HashCode>
       <FileName>Controller\PlayerControl.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="BaseRPG.Controller.MoveDirection" Collapsed="true">
-    <Position X="3.5" Y="0.75" Width="1.5" />
+  <Class Name="BaseRPG.Controller.Input.InputActionMapper" Collapsed="true">
+    <Position X="5.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
-      <FileName>Controller\PlayerControl.cs</FileName>
+      <HashCode>AAAAIAAAACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controller\Input\InputActionMapper.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -29,29 +29,29 @@
     <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-09-27T13:32:00.911</Modified>
+      <Modified>2022-09-28T20:28:13.742</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-09-27T13:32:00.531</Modified>
+      <Modified>2022-09-28T20:26:37.476</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
       <PackagePath>BaseRPG.runtimeconfig.json</PackagePath>
-      <Modified>2022-09-24T13:51:02.103</Modified>
+      <Modified>2022-09-28T11:16:51.270</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
       <PackagePath>BaseRPG.dll</PackagePath>
-      <Modified>2022-09-27T13:32:00.173</Modified>
+      <Modified>2022-09-28T20:28:13.415</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
       <PackagePath>BaseRPG.exe</PackagePath>
-      <Modified>2022-09-27T13:32:00.203</Modified>
+      <Modified>2022-09-28T20:28:13.430</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
       <PackagePath>BaseRPG.deps.json</PackagePath>
-      <Modified>2022-09-24T13:51:01.974</Modified>
+      <Modified>2022-09-28T19:32:38.207</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.netcore.app.runtime.win-x86\6.0.5\runtimes\win-x86\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -952,6 +952,14 @@
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.windows.sdk.net.ref\10.0.19041.25\lib\WinRT.Runtime.dll">
       <PackagePath>WinRT.Runtime.dll</PackagePath>
       <Modified>2022-04-13T00:46:32.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\mathnet.numerics\5.0.0\lib\net6.0\MathNet.Numerics.dll">
+      <PackagePath>MathNet.Numerics.dll</PackagePath>
+      <Modified>2022-04-03T14:02:52.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\mathnet.spatial\0.6.0\lib\netstandard2.0\MathNet.Spatial.dll">
+      <PackagePath>MathNet.Spatial.dll</PackagePath>
+      <Modified>2020-05-09T21:33:16.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.graphics.win2d\1.0.3.1\lib\net5.0-windows10.0.18362.0\Microsoft.Graphics.Canvas.Interop.dll">
       <PackagePath>Microsoft.Graphics.Canvas.Interop.dll</PackagePath>

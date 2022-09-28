@@ -11,6 +11,7 @@ namespace BaseRPG.Controller.Input
         public Dictionary<string, Action> InputActionMapping{ get; }
         public void Process(string input)
         {
+            if (!InputActionMapping.ContainsKey(input)) return;
             InputActionMapping[input].Invoke();
         }
         public InputProcessor(Dictionary<string, Action> inputActionMapping)

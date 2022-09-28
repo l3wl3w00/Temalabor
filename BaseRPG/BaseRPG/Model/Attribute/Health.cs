@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Attribute
 {
-    public delegate void HealthReachedZeroEvent();
     public class Health
     {
         
-        public event HealthReachedZeroEvent HealthReachedZeroEvent;
-
+        public event Action HealthReachedZeroEvent;
+        public event Action<int> HealthReachedMaxEvent;
         private int currentValue;
         private int maxValue;
 
@@ -29,6 +28,7 @@ namespace BaseRPG.Model.Attribute
                 }
                 if (currentValue > maxValue){
                     currentValue = maxValue;
+                    HealthReachedMaxEvent(maxValue);
                 }
             }
         }

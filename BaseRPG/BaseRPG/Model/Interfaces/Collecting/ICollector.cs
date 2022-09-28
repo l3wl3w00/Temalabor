@@ -1,11 +1,10 @@
-﻿
-namespace BaseRPG.Model.Interfaces
+﻿namespace BaseRPG.Model.Interfaces.Collecting
 {
     public interface ICollector
     {
         public sealed void Collect(ICollectible collectible)
         {
-            this.OnCollect(collectible);
+            OnCollect(collectible);
             collectible.OnCollect(this);
         }
 

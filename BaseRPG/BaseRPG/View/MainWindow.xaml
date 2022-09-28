@@ -14,7 +14,6 @@
         <canvas:CanvasControl
             x:Name="canvas" 
             Draw="canvas_Draw" 
-            
             />
         
     </Grid>

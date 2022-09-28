@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseRPG.Model.Interfaces
+namespace BaseRPG.Model.Interfaces.Combat
 {
     public interface IAttackStrategy
     {

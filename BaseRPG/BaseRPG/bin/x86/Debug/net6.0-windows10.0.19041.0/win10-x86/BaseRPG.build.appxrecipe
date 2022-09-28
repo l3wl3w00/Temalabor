@@ -715,6 +715,12 @@
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.windows.sdk.net.ref\10.0.19041.25\lib\WinRT.Runtime.dll">
       <PackagePath>WinRT.Runtime.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\mathnet.numerics\5.0.0\lib\net6.0\MathNet.Numerics.dll">
+      <PackagePath>MathNet.Numerics.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\mathnet.spatial\0.6.0\lib\netstandard2.0\MathNet.Spatial.dll">
+      <PackagePath>MathNet.Spatial.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.graphics.win2d\1.0.3.1\lib\net5.0-windows10.0.18362.0\Microsoft.Graphics.Canvas.Interop.dll">
       <PackagePath>Microsoft.Graphics.Canvas.Interop.dll</PackagePath>
     </AppxPackagedFile>

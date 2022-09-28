@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Combat;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Interfaces;
+﻿using BaseRPG.Model.Interfaces.Collecting;
+using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,15 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.FightingEntity.Hero
 {
-    public class Hero : Unit, Interfaces.ICollector
+    public class Hero : Unit, ICollector
     {
+        protected override string Type { get { return "Hero"; } }
         private Model.Attribute.Inventory inventory;
         private Model.Attribute.ExperienceManager experienceManager;
+
+        public Hero(int maxHp, Vector2D initialPosition) : base(maxHp, initialPosition)
+        {
+        }
 
         public override void Attack()
         {

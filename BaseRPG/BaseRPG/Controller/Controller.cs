@@ -23,6 +23,10 @@ namespace BaseRPG.Controller
                     defaultInputMapping.Add("A", "move-left");
                     defaultInputMapping.Add("D", "move-right");
                     defaultInputMapping.Add("S", "move-backward");
+                    defaultInputMapping.Add("Left", "move-left");
+                    defaultInputMapping.Add("Right", "move-right");
+                    defaultInputMapping.Add("Up", "move-forward");
+                    defaultInputMapping.Add("Down", "move-backward");
                     defaultInputMapping.Add("MouseDownLeft", "light-attack");
                     defaultInputMapping.Add("MouseDownRight", "heavy-attack-start");
                     defaultInputMapping.Add("MouseUpRight", "heavy-attack-finish");
@@ -53,7 +57,9 @@ namespace BaseRPG.Controller
 
         public void KeyDown(KeyRoutedEventArgs e)
         {
-            inputProcessor.Process(e.Key.ToString());
+            string key = e.Key.ToString();
+            if (inputMapping.ContainsKey(key))
+                inputProcessor.Process(inputMapping[key]);
         }
     }
 }

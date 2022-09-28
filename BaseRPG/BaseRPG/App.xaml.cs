@@ -1,6 +1,8 @@
 ﻿using BaseRPG.Controller;
 using BaseRPG.Controller.Input;
 using BaseRPG.Model.Game;
+using BaseRPG.View;
+using BaseRPG.View.WorldView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +28,8 @@ namespace BaseRPG
     public partial class App : Application
     {
         private readonly Game game;
+        private readonly ViewManager viewManager;
+        Controller.Controller controller;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -33,6 +37,9 @@ namespace BaseRPG
         /// </summary>
         public App()
         {
+            
+            game = Game.Singleton.Instance;
+            viewManager = new ViewManager(game);
             this.InitializeComponent();
         }
 
@@ -43,13 +50,12 @@ namespace BaseRPG
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            game.Initialize();
             PlayerControl playerControl = new PlayerControl(game.Hero);
             InputActionMapper mapper = new InputActionMapper(); 
             InputProcessor inputProcessor = new InputProcessor(mapper.CreateDefaultInputActionMapping(playerControl));
-            Controller.Controller controller = new Controller.Controller(inputProcessor, Controller.Controller.DefaultInputMapping);
+            controller = new Controller.Controller(inputProcessor, Controller.Controller.DefaultInputMapping);
             
-            m_window = new MainWindow(controller);
+            m_window = new MainWindow(controller, viewManager);
             m_window.Activate();
         }
 

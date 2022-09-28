@@ -1,11 +1,9 @@
 ﻿using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Interfaces;
-using BaseRPG.Model.Tickable.FightingEntity;
+using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BaseRPG.Model.Tickable.Item.Weapon
 {
@@ -15,9 +13,8 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         private PositionManager position;
         private IAttackStrategy attackStrategy;
         public void OnAttackHit(IAttackable attackable) {
-            AttackabilityService attackabilityService = new AttackabilityService();
+            AttackabilityService attackabilityService = AttackabilityService.Builder.CreateByDefaultMapping();
             if (!attackabilityService.CanAttack(attacker, attackable)) return;
-
             attackStrategy.OnAttackHit(attacker,attackable);
             attackable.OnAttacked(attacker);
         }

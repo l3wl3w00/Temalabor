@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Combat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
     public class LightSwordAttackStrategy : IAttackStrategy
     {
-        public void OnAttackHit(IAttackable attackable)
+        public void OnAttackHit(IAttacking attacker, IAttackable attacked)
         {
             throw new NotImplementedException();
         }

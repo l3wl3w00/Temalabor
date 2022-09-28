@@ -14,7 +14,6 @@
         <canvas:CanvasControl x:ConnectionId='3'
             x:Name="canvas" 
                                
-            
             />
         
     </Grid>

@@ -283,3 +283,5 @@ C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug
 C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\Microsoft.Windows.AppNotifications.Projection.dll
 C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\Microsoft.Windows.PushNotifications.Projection.dll
 C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\Microsoft.Windows.System.Projection.dll
+C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\MathNet.Numerics.dll
+C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\MathNet.Spatial.dll
