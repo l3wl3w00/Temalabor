@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.Collecting;
+using BaseRPG.Model.Interfaces.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         private Model.Attribute.Inventory inventory;
         private Model.Attribute.ExperienceManager experienceManager;
 
-        public Hero(int maxHp, Vector2D initialPosition) : base(maxHp, initialPosition)
+        public Hero(int maxHp, IPositionUnit initialPosition) : base(maxHp, initialPosition)
         {
         }
 
@@ -30,7 +31,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
 
         public override void OnTick()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

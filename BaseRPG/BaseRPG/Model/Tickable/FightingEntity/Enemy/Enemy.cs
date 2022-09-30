@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
         protected override string Type { get { return "Enemy"; } }
         private IAttackFactory attackFactory;
 
-        public Enemy(int maxHp, Vector2D initialPosition) : base(maxHp, initialPosition)
+        public Enemy(int maxHp, IPositionUnit initialPosition) : base(maxHp, initialPosition)
         {
         }
 

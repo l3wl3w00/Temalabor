@@ -1,6 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Tickable.Item;
-using BaseRPG.View.Shapes;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;

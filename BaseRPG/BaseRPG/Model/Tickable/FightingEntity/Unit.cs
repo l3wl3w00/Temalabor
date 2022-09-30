@@ -1,6 +1,7 @@
 ﻿using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Services;
 using MathNet.Spatial.Euclidean;
 using System;
@@ -17,7 +18,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         private PositionManager position;
         private Stat damage;
 
-        public Vector2D Position { get { return position.Position; } }
+        public IPositionUnit Position { get { return position.Position; } }
 
         public AttackabilityService.Group Group { get; set; }
 
@@ -30,10 +31,10 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public int CalculateDamage() {
             return damage.Value;
         }
-        public void Move(Vector2D vector2D) {
-            position.Move(vector2D*10);
+        public void Move(IMovementUnit movement) {
+            position.Move(movement.Scaled(10));
         }
-        public Unit(int maxHp, Vector2D initialPosition) {
+        public Unit(int maxHp, IPositionUnit initialPosition) {
             health = new Health(maxHp);
             this.position = new PositionManager(initialPosition);
         }

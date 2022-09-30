@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.View.EntityView;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 
 namespace BaseRPG.View.EntityView
@@ -8,7 +9,7 @@ namespace BaseRPG.View.EntityView
     {
         private Enemy enemy;
 
-        public EnemyView(Enemy enemy)
+        public EnemyView(Enemy enemy, ICanvasImage image = null) : base(image)
         {
             this.enemy = enemy;
         }

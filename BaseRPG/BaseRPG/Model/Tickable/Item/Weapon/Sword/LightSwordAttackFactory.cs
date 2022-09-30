@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
     public class LightSwordAttackFactory : IAttackFactory
     {
-        public Attack CreateAttack(Vector2D position)
+        public Attack CreateAttack(IPositionUnit position)
         {
             throw new NotImplementedException();
         }

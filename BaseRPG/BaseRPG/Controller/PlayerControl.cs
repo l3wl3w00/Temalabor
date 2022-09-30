@@ -1,4 +1,6 @@
-﻿using BaseRPG.Model.Tickable.FightingEntity.Hero;
+﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Physics.TwoDimensional;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -17,14 +19,16 @@ namespace BaseRPG.Controller
     {
 
         private Hero player;
-        private DirectionVectorMapper directionVectorMapper = DirectionVectorMapper.CreateDefault();
-        public PlayerControl(Hero player)
+        private DirectionMovementUnitMapper directionVectorMapper;
+
+        public PlayerControl(Hero player, IPhysicsFactory physicsFactory)
         {
+            directionVectorMapper = DirectionMovementUnitMapper.CreateDefault(physicsFactory);
             this.player = player;
         }
 
         public void Move(MoveDirection moveDirection) {
-            Vector2D vec = directionVectorMapper.FromDirection(moveDirection);
+            IMovementUnit vec = directionVectorMapper.FromDirection(moveDirection);
             player.Move(vec);
         }
         public void LightAttack() {

@@ -1,4 +1,4 @@
-﻿using MathNet.Spatial.Euclidean;
+﻿using BaseRPG.Model.Interfaces.Movement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +9,17 @@ namespace BaseRPG.Model.Attribute
 {
     public class PositionManager
     {
-        private Vector2D position;
+        private IPositionUnit position;
 
-        public PositionManager(Vector2D position)
+        public PositionManager(IPositionUnit position)
         {
             this.position = position;
         }
 
-        public Vector2D Position { get { return position; } }
-        public void Move(Vector2D moveDirection)
+        public IPositionUnit Position { get { return position; } }
+        public void Move(IMovementUnit moveDirection)
         {
-            position += moveDirection;
+            position.MoveBy(moveDirection);
         }
     }
 }

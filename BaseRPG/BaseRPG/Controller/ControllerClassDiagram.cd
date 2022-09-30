@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BaseRPG.Controller.Controller">
+    <Position X="5.75" Y="0.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAEAAAABQAA=</HashCode>
+      <FileName>Controller\Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.Controller.PlayerControl">
+    <Position X="2" Y="2.25" Width="3" />
+    <Members>
+      <Method Name="PlayerControl" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAIAAAAAAAAAAAAAAQAAAAAABAAAAAgAAAAE=</HashCode>
+      <FileName>Controller\PlayerControl.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="player" />
+      <Field Name="directionVectorMapper" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BaseRPG.Controller.DirectionMovementUnitMapper" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAIAAAAAAAAIAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Controller\DirectionMovementUnitMapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.FightingEntity.Hero.Hero" Collapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAACAAAAAAIAACAACAQAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Hero\Hero.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Controller.Input.ProcessedInputActionMapper" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAAAAAAAAAAAICAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controller\Input\ProcessedInputActionMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Controller.Input.RawInputProcessedInputMapper" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAQAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controller\Input\RawInputProcessedInputMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.App">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAEAAgMAAAAAAAAAAAAAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="controller" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="BaseRPG.Controller.Interfaces.IProcessedInputActionMapper">
+    <Position X="8.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controller\Interfaces\IProcessedInputActionMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.Controller.Interfaces.IRawInputProcessedInputMapper">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controller\Interfaces\IRawInputProcessedInputMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

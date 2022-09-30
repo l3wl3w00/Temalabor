@@ -3,11 +3,11 @@ using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Services;
 using System;
-
+using System.Collections.Generic;
 
 namespace BaseRPG.Model.Tickable.Item.Weapon
 {
-    public class Attack:ITickable
+    public class Attack:IGameObject
     {
         private IAttacking attacker;
         private PositionManager position;
@@ -20,6 +20,11 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         }
 
         public void OnTick()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Separate(Dictionary<string, List<IGameObject>> dict)
         {
             throw new NotImplementedException();
         }

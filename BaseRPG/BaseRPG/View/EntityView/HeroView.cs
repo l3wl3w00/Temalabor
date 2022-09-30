@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace BaseRPG.View.EntityView
     {
         private Hero hero;
 
-        public HeroView(Hero hero)
+        public HeroView(Hero hero,ICanvasImage image = null):base(image)
         {
             this.hero = hero;
         }

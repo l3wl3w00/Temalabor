@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Tickable.Item.Weapon;
+﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable.Item.Weapon;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace BaseRPG.Model.Interfaces.Combat
 {
     public interface IAttackFactory
     {
-        public static event Action<Attack> AttackCreatedEvent;
-        public Attack CreateAttack(Vector2D position);
+        
+        public Attack CreateAttack(IPositionUnit position);
     }
 }

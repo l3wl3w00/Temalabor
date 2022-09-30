@@ -12,7 +12,7 @@ namespace BaseRPG.View.ItemView
     public abstract class BaseItemView : GameObjectView
     {
         private Item item;
-        protected BaseItemView(Item item)
+        protected BaseItemView(Item item):base(null)
         {
             this.item = item;
         }

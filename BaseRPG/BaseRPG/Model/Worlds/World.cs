@@ -14,19 +14,19 @@ namespace BaseRPG.Model.Worlds
     public class World : ITickable
     {
         private GameObjectContainer gameObjectContainer = new GameObjectContainer();
-        private IWorldInitializationStrategy initializationStrategy;
+        //private IWorldInitializationStrategy initializationStrategy;
         
         public Hero Hero { get { return gameObjectContainer.Hero; } }
         public GameObjectContainer GameObjectContainer { get { return gameObjectContainer; } }
 
-        public World(IWorldInitializationStrategy initializationStrategy)
+        public World(GameObjectContainer gameObjectContainer)
         {
-            this.initializationStrategy = initializationStrategy;
+            this.gameObjectContainer = gameObjectContainer;
         }
 
-        public void Initialize() {
-            initializationStrategy.Initialize(gameObjectContainer);
-        }
+        //public void Initialize() {
+        //    initializationStrategy.Initialize(gameObjectContainer);
+        //}
 
         public void OnTick()
         {

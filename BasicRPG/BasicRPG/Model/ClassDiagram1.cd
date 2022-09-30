@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BasicRPG.Model.Attribute.Health" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAiAEAAAAA=</HashCode>
+      <FileName>Model\Attribute\Health.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Tickable.FightingEntity.Unit">
+    <Position X="9.25" Y="0.75" Width="1.5" />
+    <AssociationLine Name="health" Type="BasicRPG.Model.Attribute.Health" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.75" Y="2.293" />
+        <Point X="12.562" Y="2.293" />
+        <Point X="12.562" Y="2.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.091" Y="0.141" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAIAAAAKAACAAAAAAAAAAAAQg=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="health" />
+      <Field Name="position" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BasicRPG.Model.Tickable.FightingEntity.Hero.Hero">
+    <Position X="8.25" Y="3.25" Width="1.5" />
+    <AssociationLine Name="inventory" Type="BasicRPG.Model.Attribute.Inventory" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="3.417" />
+        <Point X="6.938" Y="3.417" />
+        <Point X="6.938" Y="2.562" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAACAAAAAAIAACAACAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Hero\Hero.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="inventory" />
+      <Field Name="experienceManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BasicRPG.Model.Tickable.FightingEntity.Enemy.Enemy">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Worlds.World">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Model\Worlds\World.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BasicRPG.Model.Worlds.EmptyWorld" Collapsed="true">
+    <Position X="2" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Worlds\EmptyWorld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Game.Game" Collapsed="true">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Game\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Attribute.Inventory" Collapsed="true">
+    <Position X="6" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Attribute\Inventory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BasicRPG.Model.Attribute.ExperienceManager" Collapsed="true">
+    <Position X="6" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAJAAEAAAABAAAAAAAAQAA=</HashCode>
+      <FileName>Model\Attribute\ExperienceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Attribute.PositionManager" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Attribute\PositionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRPG.Model.Tickable.Item.Item">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Tickable\Item\Item.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BasicRPG.Model.Tickable.Item.Weapon.Weapon">
+    <Position X="3.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAEAAAAAAgAAAAA=</HashCode>
+      <FileName>Model\Tickable\Item\Weapon\Weapon.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="weaponAttackStrategy" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="BasicRPG.Model.Interfaces.ITickable" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\ITickable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BasicRPG.Model.Interfaces.IWeaponAttackStrategy" Collapsed="true">
+    <Position X="0.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IWeaponAttackStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

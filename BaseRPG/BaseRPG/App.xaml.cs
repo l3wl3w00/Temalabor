@@ -1,7 +1,10 @@
 ﻿using BaseRPG.Controller;
 using BaseRPG.Controller.Input;
 using BaseRPG.Model.Game;
+using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.View;
+using BaseRPG.View.Image;
 using BaseRPG.View.WorldView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,9 +30,10 @@ namespace BaseRPG
     /// </summary>
     public partial class App : Application
     {
-        private readonly Game game;
-        private readonly ViewManager viewManager;
+        private Game game;
+        private IPhysicsFactory physicsFactory;
         Controller.Controller controller;
+        private Window m_window;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -38,9 +42,8 @@ namespace BaseRPG
         public App()
         {
             
-            game = Game.Singleton.Instance;
-            viewManager = new ViewManager(game);
             this.InitializeComponent();
+            
         }
 
         /// <summary>
@@ -48,17 +51,18 @@ namespace BaseRPG
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
+        
+        private void wireDependencies() {
+            physicsFactory = new PhysicsFactory2D();
+            game = new Game(physicsFactory);
+            game.Initialize();
+            controller = new Controller.Controller(game);
+        }
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            PlayerControl playerControl = new PlayerControl(game.Hero);
-            InputActionMapper mapper = new InputActionMapper(); 
-            InputProcessor inputProcessor = new InputProcessor(mapper.CreateDefaultInputActionMapping(playerControl));
-            controller = new Controller.Controller(inputProcessor, Controller.Controller.DefaultInputMapping);
-            
-            m_window = new MainWindow(controller, viewManager);
+            wireDependencies();
+            m_window = new MainWindow(controller);
             m_window.Activate();
         }
-
-        private Window m_window;
     }
 }

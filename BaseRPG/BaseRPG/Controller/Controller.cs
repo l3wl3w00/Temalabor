@@ -1,4 +1,6 @@
 ﻿using BaseRPG.Controller.Input;
+using BaseRPG.Controller.Interfaces;
+using BaseRPG.Model.Game;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using System;
@@ -6,60 +8,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Windows.System;
 
 namespace BaseRPG.Controller
 {
     public class Controller
     {
-        private Dictionary<string, string> inputMapping;
-        private static Dictionary<string, string> defaultInputMapping;
-        public static Dictionary<string, string> DefaultInputMapping
+        private PlayerControl playerControl;
+        private InputHandler inputHandler;
+        private Timer timer;
+        public InputHandler InputHandler { get { return inputHandler; } }
+
+        public Game Game { get { return game; } }
+
+        private Game game;
+        public Controller(Game game)
         {
-            get {
-                if (defaultInputMapping == null) {
-                    defaultInputMapping = new Dictionary<string, string>();
-                    defaultInputMapping.Add("W", "move-forward");
-                    defaultInputMapping.Add("A", "move-left");
-                    defaultInputMapping.Add("D", "move-right");
-                    defaultInputMapping.Add("S", "move-backward");
-                    defaultInputMapping.Add("Left", "move-left");
-                    defaultInputMapping.Add("Right", "move-right");
-                    defaultInputMapping.Add("Up", "move-forward");
-                    defaultInputMapping.Add("Down", "move-backward");
-                    defaultInputMapping.Add("MouseDownLeft", "light-attack");
-                    defaultInputMapping.Add("MouseDownRight", "heavy-attack-start");
-                    defaultInputMapping.Add("MouseUpRight", "heavy-attack-finish");
-                }
-                return defaultInputMapping;
-            }
-        }
-        private InputProcessor inputProcessor;
-        public Controller(InputProcessor inputProcessor, Dictionary<string, string> inputMapping)
-        {
-            this.inputProcessor = inputProcessor;
-            this.inputMapping = inputMapping;
+            this.game = game;
+            playerControl = new PlayerControl(game.Hero,game.PhysicsFactory);
+            inputHandler = new InputHandler(
+                RawInputProcessedInputMapper.CreateDefault(),
+                ProcessedInputActionMapper.CreateDefault(playerControl)
+            );
+            timer = new Timer();
+            timer.Interval = 100;
+            timer.Elapsed += (a,b)=>Tick();
+            timer.Start();
         }
 
-        public void MouseDown(PointerPoint point)
-        {
-            if (point.Properties.IsLeftButtonPressed)
-                inputProcessor.Process(inputMapping["MouseDownLeft"]);
-            if (point.Properties.IsRightButtonPressed)
-                inputProcessor.Process(inputMapping["MouseDownRight"]);
-
-        }
-
-        public void MouseUp(PointerPoint point)
-        {
-
-        }
-
-        public void KeyDown(KeyRoutedEventArgs e)
-        {
-            string key = e.Key.ToString();
-            if (inputMapping.ContainsKey(key))
-                inputProcessor.Process(inputMapping[key]);
+        public void Tick() {
+            inputHandler.OnTick();
+            game.CurrentWorld.OnTick();
         }
     }
 }

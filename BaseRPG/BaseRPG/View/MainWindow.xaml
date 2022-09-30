@@ -9,11 +9,13 @@
     mc:Ignorable="d">
 
     <Grid KeyDown="KeyDown"
+          KeyUp="KeyUp"
           PointerPressed="PointerPressed"
           PointerReleased="PointerReleased">
         <canvas:CanvasControl
             x:Name="canvas" 
             Draw="canvas_Draw" 
+            CreateResources="canvas_CreateResources"
             />
         
     </Grid>
