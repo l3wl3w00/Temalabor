@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Physics.TwoDimensional.Movement
 {
-    public class MovementUnit2D : IMovementUnit
+    public struct MovementUnit2D : IMovementUnit
     {
         private Vector2D movement;
 
@@ -25,9 +25,42 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
 
         public double[] Values => new double[] { movement.X, movement.Y};
 
+        public IMovementUnit Add(IMovementUnit otherMovement)
+        {
+            return new MovementUnit2D(new(otherMovement.Values[0] + movement.X, otherMovement.Values[1] + movement.Y));
+        }
+
+        public IMovementUnit UniteWith(List<IMovementUnit> otherMovementUnits)
+        {
+            var avgMovement = movement;
+            var avgLength = movement.Length;
+            foreach(var otherMovementUnit in otherMovementUnits)
+            {
+                Vector2D otherMovementUnit2D = new(otherMovementUnit.Values[0], otherMovementUnit.Values[1]) ;
+                avgMovement += otherMovementUnit2D;
+                avgLength += otherMovementUnit2D.Length;
+            }
+            if (avgMovement.Length < 0.000001) return new MovementUnit2D(avgMovement);
+            avgMovement = avgMovement.Normalize() * (avgLength / (otherMovementUnits.Count + 1));
+            return new MovementUnit2D(avgMovement);
+        }
+
+        public IMovementUnit Clone()
+        {
+            return new MovementUnit2D(movement);
+        }
+
         public IMovementUnit Scaled(double scalar)
         {
             return new MovementUnit2D(movement * scalar);
         }
+
+        //public IMovementUnit Unite(IMovementUnit movementUnit,int weight)
+        //{
+        //    var otherMovement = new Vector2D(movementUnit.Values[0], movementUnit.Values[1])*weight;
+        //    var sum = (movement*otherMovement.Length/Math.Sqrt(2) + otherMovement);
+        //    if (sum.Length<0.0001) return new MovementUnit2D(sum);
+        //    return new MovementUnit2D(sum.Normalize()*((movement.Length+otherMovement.Length)/(weight+1.0)));
+        //}
     }
 }

@@ -13,10 +13,10 @@ namespace BaseRPG.Controller.Input
         public static ProcessedInputActionMapper CreateDefault(PlayerControl playerControl)
         {
             Dictionary<string, Action>  inputActionMap = new Dictionary<string, Action>();
-            inputActionMap.Add("move-forward", () => { playerControl.Move(MoveDirection.Forward); });
-            inputActionMap.Add("move-left", () => { playerControl.Move(MoveDirection.Left); });
-            inputActionMap.Add("move-right", () => { playerControl.Move(MoveDirection.Right); });
-            inputActionMap.Add("move-backward", () => { playerControl.Move(MoveDirection.Backward); });
+            inputActionMap.Add("move-forward", () => { playerControl.OnMove(MoveDirection.Forward); });
+            inputActionMap.Add("move-left", () => { playerControl.OnMove(MoveDirection.Left); });
+            inputActionMap.Add("move-right", () => { playerControl.OnMove(MoveDirection.Right); });
+            inputActionMap.Add("move-backward", () => { playerControl.OnMove(MoveDirection.Backward); });
             inputActionMap.Add("light-attack", () => { playerControl.LightAttack(); });
             inputActionMap.Add("heavy-attack-start", () => { playerControl.HeavyAttack(); });
             inputActionMap.Add("heavy-attack-finish", () => { });

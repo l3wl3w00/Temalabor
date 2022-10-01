@@ -20,16 +20,17 @@ namespace BaseRPG.Controller
 
         private Hero player;
         private DirectionMovementUnitMapper directionVectorMapper;
-
+        private List<IMovementUnit> movements = new List<IMovementUnit>();
         public PlayerControl(Hero player, IPhysicsFactory physicsFactory)
         {
             directionVectorMapper = DirectionMovementUnitMapper.CreateDefault(physicsFactory);
             this.player = player;
         }
 
-        public void Move(MoveDirection moveDirection) {
-            IMovementUnit vec = directionVectorMapper.FromDirection(moveDirection);
-            player.Move(vec);
+        public void OnMove(MoveDirection moveDirection) {
+            IMovementUnit movement = directionVectorMapper.FromDirection(moveDirection);
+            movements.Add(movement);
+            
         }
         public void LightAttack() {
         
@@ -39,6 +40,17 @@ namespace BaseRPG.Controller
         }
         public void UseSpell() {
         
+        }
+        public void OnTick(double delta) {
+            lock (this)
+            {
+                if (movements.Count == 0) return;
+                IMovementUnit movementUnit = IMovementUnit.Unite(movements);
+                player.Move(movementUnit.Scaled(delta*200));
+                movements.Clear();
+            }
+            
+            
         }
     }
 }

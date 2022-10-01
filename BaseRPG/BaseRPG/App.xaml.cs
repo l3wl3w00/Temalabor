@@ -14,7 +14,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
-
+using System.Runtime.InteropServices;
+using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -33,15 +34,17 @@ namespace BaseRPG
         private Game game;
         private IPhysicsFactory physicsFactory;
         Controller.Controller controller;
-        private Window m_window;
-
+        private MainWindow m_window;
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
-            
+            AllocConsole();
             this.InitializeComponent();
             
         }
@@ -63,6 +66,10 @@ namespace BaseRPG
             wireDependencies();
             m_window = new MainWindow(controller);
             m_window.Activate();
+            var t = new Thread(o => controller.MainLoop(m_window.Canvas));
+            t.Start();
+            t.IsBackground = true;
+            //controller.MainLoop(m_window.Canvas);
         }
     }
 }

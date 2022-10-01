@@ -5,16 +5,16 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 
 namespace BaseRPG.View.EntityView
 {
-    public class EnemyView : GameObjectView
+    public class EnemyView : Drawable
     {
         private Enemy enemy;
 
-        public EnemyView(Enemy enemy, ICanvasImage image = null) : base(image)
+        public EnemyView(Enemy enemy, ICanvasImage image = null)
         {
             this.enemy = enemy;
         }
 
-        public override void Render(CanvasDrawEventArgs args,Camera camera)
+        public void Render(CanvasDrawEventArgs args,Camera camera, CanvasControl sender)
         {
             throw new System.NotImplementedException();
         }

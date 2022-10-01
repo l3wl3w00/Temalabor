@@ -10,7 +10,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
     public class Attack:IGameObject
     {
         private IAttacking attacker;
-        private PositionManager position;
+        private MovementManager position;
         private IAttackStrategy attackStrategy;
         public void OnAttackHit(IAttackable attackable) {
             AttackabilityService attackabilityService = AttackabilityService.Builder.CreateByDefaultMapping();

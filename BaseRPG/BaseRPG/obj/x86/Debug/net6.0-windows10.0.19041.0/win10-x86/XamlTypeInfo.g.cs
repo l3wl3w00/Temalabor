@@ -374,6 +374,7 @@ namespace BaseRPG.BaseRPG_XamlTypeInfo
 
             case 11:   //  BaseRPG.MainWindow
                 userType = new global::BaseRPG.BaseRPG_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Window"));
+                userType.AddMemberName("Canvas");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -520,6 +521,11 @@ namespace BaseRPG.BaseRPG_XamlTypeInfo
             var that = (global::Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl)instance;
             that.UseSharedDevice = (global::System.Boolean)Value;
         }
+        private object get_10_MainWindow_Canvas(object instance)
+        {
+            var that = (global::BaseRPG.MainWindow)instance;
+            return that.Canvas;
+        }
 
         private global::Microsoft.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
@@ -588,6 +594,12 @@ namespace BaseRPG.BaseRPG_XamlTypeInfo
                 xamlMember = new global::BaseRPG.BaseRPG_XamlTypeInfo.XamlMember(this, "UseSharedDevice", "Boolean");
                 xamlMember.Getter = get_9_CanvasControl_UseSharedDevice;
                 xamlMember.Setter = set_9_CanvasControl_UseSharedDevice;
+                break;
+            case "BaseRPG.MainWindow.Canvas":
+                userType = (global::BaseRPG.BaseRPG_XamlTypeInfo.XamlUserType)GetXamlTypeByName("BaseRPG.MainWindow");
+                xamlMember = new global::BaseRPG.BaseRPG_XamlTypeInfo.XamlMember(this, "Canvas", "Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl");
+                xamlMember.Getter = get_10_MainWindow_Canvas;
+                xamlMember.SetIsReadOnly();
                 break;
             }
             return xamlMember;

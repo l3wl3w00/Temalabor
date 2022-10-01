@@ -12,21 +12,22 @@ namespace BaseRPG.View.Image
 {
     public class ScalingImageProvider:IImageProvider
     {
-        private ScaleEffect scaleEffect;
+        private float scaleFactor;
         private IImageProvider imageProvider;
-        public double ScaleFactor { get => scaleEffect.Scale.X; }
+        public double ScaleFactor { get => scaleFactor; }
 
         public ScalingImageProvider(float scaleFactor, IImageProvider imageProvider)
         {
             this.imageProvider = imageProvider;
-            this.scaleEffect = new ScaleEffect();
-            scaleEffect.Scale = new(scaleFactor, scaleFactor);
-            scaleEffect.InterpolationMode = CanvasImageInterpolation.NearestNeighbor;
+            this.scaleFactor = scaleFactor; 
         }
         
 
-        public ICanvasImage GetByFilename(string fileName) 
+        public ICanvasImage GetByFilename(string fileName)
         {
+            var scaleEffect = new ScaleEffect();
+            scaleEffect.Scale = new(scaleFactor, scaleFactor);
+            scaleEffect.InterpolationMode = CanvasImageInterpolation.NearestNeighbor;
             scaleEffect.Source = imageProvider.GetByFilename(fileName);
             return scaleEffect;
         }

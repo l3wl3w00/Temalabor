@@ -1,10 +1,12 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Controller.Interfaces;
 using BaseRPG.Model.Game;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +19,8 @@ namespace BaseRPG.Controller
     {
         private PlayerControl playerControl;
         private InputHandler inputHandler;
-        private Timer timer;
         public InputHandler InputHandler { get { return inputHandler; } }
-
+        private bool running = true;
         public Game Game { get { return game; } }
 
         private Game game;
@@ -31,15 +32,30 @@ namespace BaseRPG.Controller
                 RawInputProcessedInputMapper.CreateDefault(),
                 ProcessedInputActionMapper.CreateDefault(playerControl)
             );
-            timer = new Timer();
-            timer.Interval = 100;
-            timer.Elapsed += (a,b)=>Tick();
-            timer.Start();
-        }
 
-        public void Tick() {
+        }
+        public void MainLoop(CanvasControl canvas) {
+            Stopwatch sw = Stopwatch.StartNew();
+            double lastTickTime = 0;
+            while (running) {
+                var currentTime = sw.Elapsed.TotalMilliseconds;
+
+                // 1 delta = 100 ms
+                var delta = (currentTime - lastTickTime)/1000.0;
+                if (delta < 0.000000001) {
+                    Console.WriteLine(delta);
+                }
+                lastTickTime = currentTime;
+                Tick(delta);
+                //canvas.Invalidate();
+            }
+        }
+        public void Tick(double delta) {
+
             inputHandler.OnTick();
+            playerControl.OnTick(delta);
             game.CurrentWorld.OnTick();
         }
+
     }
 }

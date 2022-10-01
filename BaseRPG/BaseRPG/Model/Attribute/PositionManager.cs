@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Attribute
 {
-    public class PositionManager
+    public class MovementManager
     {
         private IPositionUnit position;
+        private IMovementUnit lastMovement;
 
-        public PositionManager(IPositionUnit position)
+        public MovementManager(IPositionUnit position)
         {
             this.position = position;
         }
 
         public IPositionUnit Position { get { return position; } }
-        public void Move(IMovementUnit moveDirection)
+        public void Move(IMovementUnit movement)
         {
-            position.MoveBy(moveDirection);
+            lastMovement = movement;
+            position.MoveBy(lastMovement);
         }
+        public IMovementUnit LastMovement => lastMovement;
     }
 }

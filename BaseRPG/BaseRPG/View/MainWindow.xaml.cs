@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Xaml.Controls;
 using BaseRPG.View.Image;
+using System.Threading;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,20 +27,19 @@ namespace BaseRPG
     {
         private readonly Controller.Controller controller;
         private ViewManager viewManager;
-        private CanvasBitmap canvasBitmap;
         private RawImageProvider rawImageProvider = new RawImageProvider();
+        private bool hasDrawn = false;
+        public CanvasControl Canvas => canvas;
         public MainWindow(Controller.Controller controller)
         {
             this.InitializeComponent();
-            Timer timer = new Timer();
-            timer.Elapsed += (a,b)=>canvas.Invalidate();
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Elapsed += (a, b) => canvas.Invalidate();
             timer.Interval = 10;
             timer.Start();
 
 
             this.controller = controller;
-            
-            
             
         }
         public async Task CreateResourceAsync(CanvasControl sender)
@@ -50,12 +50,19 @@ namespace BaseRPG
         {
             args.TrackAsyncAction(CreateResourceAsync(sender).AsAsyncAction());
             sender.Invalidate();
-            viewManager = new ViewManager(controller.Game,new ScalingImageProvider(5,rawImageProvider));
+            
         }
 
+        private void OnResourcesInitialized() {
+            viewManager = new ViewManager(controller.Game, new ScalingImageProvider(4, rawImageProvider));
+        }
         
         public void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+            if (!hasDrawn) {
+                OnResourcesInitialized();
+                hasDrawn = true;
+            }
             viewManager.Draw(sender, args);
         }
 

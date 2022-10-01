@@ -15,11 +15,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity
     public abstract class Unit : IGameObject, IAttackable
     {
         private Health health;
-        private PositionManager position;
+        private MovementManager movementManager;
         private Stat damage;
 
-        public IPositionUnit Position { get { return position.Position; } }
-
+        public IPositionUnit Position { get { return movementManager.Position; } }
+        public IMovementUnit LastMovement => movementManager.LastMovement;
         public AttackabilityService.Group Group { get; set; }
 
         public abstract void OnTick();
@@ -32,11 +32,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             return damage.Value;
         }
         public void Move(IMovementUnit movement) {
-            position.Move(movement.Scaled(10));
+            movementManager.Move(movement);
         }
         public Unit(int maxHp, IPositionUnit initialPosition) {
             health = new Health(maxHp);
-            this.position = new PositionManager(initialPosition);
+            this.movementManager = new MovementManager(initialPosition);
         }
 
         //TODO ez baj? OCP-t szerintem nem sérti meg, minden osztály a saját tipusával felülírja

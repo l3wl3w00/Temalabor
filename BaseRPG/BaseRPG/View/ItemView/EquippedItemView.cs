@@ -18,7 +18,7 @@ namespace BaseRPG.View.ItemView
         {
         }
 
-        public override void Render(CanvasDrawEventArgs args, Camera camera)
+        public override void Render(CanvasDrawEventArgs args, Camera camera, CanvasControl sender)
         {
             throw new NotImplementedException();
         }

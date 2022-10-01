@@ -14,6 +14,7 @@ namespace BaseRPG.Controller.Input
         private IProcessedInputActionMapper processedInputActionMapper;
         private IRawInputProcessedInputMapper rawInputProcessedInputMapper;
         private List<string> pressedButNotReleasedInput = new List<string>();
+
         public InputHandler(
             IRawInputProcessedInputMapper rawInputProcessedInputMapper,
             IProcessedInputActionMapper processedInputActionMapper)
@@ -24,10 +25,17 @@ namespace BaseRPG.Controller.Input
         }
         internal void OnTick()
         {
-            foreach (string input in pressedButNotReleasedInput)
-            {
-                reactToPressedInput(input);
+            if (pressedButNotReleasedInput.Count == 2) {
+                var x = "";
             }
+
+            lock (pressedButNotReleasedInput) {
+                foreach (string input in pressedButNotReleasedInput)
+                {
+                    reactToPressedInput(input);
+                }
+            }
+            
         }
         public void MouseDown(PointerPoint point)
         {
@@ -64,12 +72,19 @@ namespace BaseRPG.Controller.Input
 
         private void reactToInputDown(string rawInput)
         {
-            if (pressedButNotReleasedInput.Contains(rawInput)) return;
-            pressedButNotReleasedInput.Add(rawInput);
+            lock (pressedButNotReleasedInput) {
+                if (pressedButNotReleasedInput.Contains(rawInput)) return;
+                pressedButNotReleasedInput.Add(rawInput);
+            }
+            
         }
         private void reactToInputUp(string rawInput)
         {
-            pressedButNotReleasedInput.RemoveAll((s) => s == rawInput);
+            lock (pressedButNotReleasedInput)
+            {
+                pressedButNotReleasedInput.RemoveAll((s) => s == rawInput);
+            }
+            
         }
         private void reactToPressedInput(string rawInput) {
             Action action = processedInputActionMapper.ToAction(rawInputProcessedInputMapper.toProcessedInput(rawInput));

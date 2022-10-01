@@ -20,15 +20,16 @@ namespace BaseRPG.View
         {
             this.imageProvider = imageProvider;
             this.game = game;
-            currentWorldView = new WorldView.WorldView(game.CurrentWorld);
+            currentWorldView = new WorldView.WorldView(game.CurrentWorld,imageProvider);
             
         }
 
         public void Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
 
-            args.DrawingSession.DrawImage(imageProvider.GetByFilename(@"C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\characters\character1-outlined.png"), 0, 0);
-            currentWorldView.Render(args);
+            
+            currentWorldView.Render(sender,args);
+            //args.DrawingSession.DrawImage(imageProvider.GetByFilename("character1"), 100, 100);
         }
     }
 }
