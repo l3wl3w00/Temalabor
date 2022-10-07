@@ -8,7 +8,6 @@ namespace BaseRPG.Model.Interfaces.Movement
 {
     public interface IMovementUnit
     {
-        //IMovementUnit Unite(IMovementUnit movementUnit, int weight = 1);
         IMovementUnit Scaled(double scalar);
         double[] Values { get; }
         IMovementUnit Clone();

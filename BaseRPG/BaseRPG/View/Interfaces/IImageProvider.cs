@@ -11,5 +11,6 @@ namespace BaseRPG.View.Interfaces
     {
         /// <exception cref="Exceptions.NoSuchFileException"></exception>
         ICanvasImage GetByFilename(string fileName);
+        Tuple<double, double> GetSizeByFilename(string fileName);
     }
 }

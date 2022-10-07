@@ -1,10 +1,13 @@
 ﻿using BaseRPG.Controller;
+using BaseRPG.Controller.Initialization;
 using BaseRPG.Controller.Input;
+using BaseRPG.Model.Data;
 using BaseRPG.Model.Game;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.View;
 using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces;
 using BaseRPG.View.WorldView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,7 +37,7 @@ namespace BaseRPG
         private Game game;
         private IPhysicsFactory physicsFactory;
         Controller.Controller controller;
-        private MainWindow m_window;
+        private MainWindow window;
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
@@ -55,21 +58,33 @@ namespace BaseRPG
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         
-        private void wireDependencies() {
-            physicsFactory = new PhysicsFactory2D();
-            game = new Game(physicsFactory);
-            game.Initialize();
-            controller = new Controller.Controller(game);
+        private void wireDependencies(ViewManager viewManager) {
+            
         }
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            wireDependencies();
-            m_window = new MainWindow(controller);
-            m_window.Activate();
-            var t = new Thread(o => controller.MainLoop(m_window.Canvas));
-            t.Start();
-            t.IsBackground = true;
-            //controller.MainLoop(m_window.Canvas);
+            game = new Game();
+            window = new MainWindow();
+            window.ViewManager = new(game, new DefaultWorldNameImageMapper(), window.Canvas);
+            controller = new(game, window.ViewManager);
+            window.Controller = controller;
+
+            window.OnResourcesReady += StartGame;
+            window.Activate();
+            
+        }
+        private void StartGame(IImageProvider imageProvider) {
+            controller.Initialize(
+                new DefaultInitializationStrategy(new ScalingImageProvider(4, imageProvider)),
+                new PhysicsFactory2D(),
+                window);
+            StartLogic();
+        }
+        private void StartLogic() {
+            
+            var t1 = new Thread(o => controller.MainLoop(window.Canvas));
+            t1.IsBackground = true;
+            t1.Start();
         }
     }
 }

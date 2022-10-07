@@ -27,5 +27,11 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         {
             position = new Point2D(position.X + movementUnit.Values[0], position.Y + movementUnit.Values[1]);
         }
+
+        public IMovementUnit MovementTo(IPositionUnit positionUnit)
+        {
+            Vector2D pos1 = new(positionUnit.Values[0], positionUnit.Values[1]);
+            return new MovementUnit2D(pos1-position.ToVector2D());
+        }
     }
 }

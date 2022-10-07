@@ -1,5 +1,8 @@
 ﻿using BaseRPG.Controller.Interfaces;
+using BaseRPG.View.Animation;
+using MathNet.Spatial.Euclidean;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
@@ -14,20 +17,14 @@ namespace BaseRPG.Controller.Input
         private IProcessedInputActionMapper processedInputActionMapper;
         private IRawInputProcessedInputMapper rawInputProcessedInputMapper;
         private List<string> pressedButNotReleasedInput = new List<string>();
-
-        public InputHandler(
-            IRawInputProcessedInputMapper rawInputProcessedInputMapper,
-            IProcessedInputActionMapper processedInputActionMapper)
-        {
-            this.rawInputProcessedInputMapper = rawInputProcessedInputMapper;
-            this.processedInputActionMapper = processedInputActionMapper;
-
+        private PositionTracker mousePositionTracker = new PositionTracker();
+        public Point2D MousePosition { set {
+                mousePositionTracker.Position = new(value.X,value.Y);
+            } 
         }
+        public PositionTracker MousePositionTracker => mousePositionTracker;
         internal void OnTick()
         {
-            if (pressedButNotReleasedInput.Count == 2) {
-                var x = "";
-            }
 
             lock (pressedButNotReleasedInput) {
                 foreach (string input in pressedButNotReleasedInput)
@@ -37,37 +34,54 @@ namespace BaseRPG.Controller.Input
             }
             
         }
-        public void MouseDown(PointerPoint point)
+        public void MouseDown(object sender, PointerRoutedEventArgs e)
         {
+            PointerPoint point = e.GetCurrentPoint((Grid)sender);
             string input = "";
-            if (point.Properties.IsLeftButtonPressed)
+            if (point.Properties.IsLeftButtonPressed )
                 input = "MouseDownLeft";
             if (point.Properties.IsRightButtonPressed)
                 input = "MouseDownRight";
-            reactToInputDown(input);
+            reactToPressedInput(input);
+            //reactToInputDown(input);
         }
 
         
 
-        public void MouseUp(PointerPoint point)
+        public void MouseUp(object sender, PointerRoutedEventArgs e)
         {
+            PointerPoint point = e.GetCurrentPoint((Grid)sender);
             string input = "";
             if (point.Properties.IsLeftButtonPressed)
                 input = "MouseDownLeft";
             if (point.Properties.IsRightButtonPressed)
                 input = "MouseDownRight";
-            reactToInputUp(input);
+            //reactToInputUp(input);
         }
 
-        public void KeyDown(KeyRoutedEventArgs e)
+        public void KeyDown(object sender,KeyRoutedEventArgs e)
         {
             string key = e.Key.ToString();
             reactToInputDown(key);
         }
-        public void KeyUp(KeyRoutedEventArgs e)
+
+        internal void Initialize(
+            IRawInputProcessedInputMapper rawInputProcessedInputMapper,
+            IProcessedInputActionMapper processedInputActionMapper)
+        {
+            this.rawInputProcessedInputMapper = rawInputProcessedInputMapper;
+            this.processedInputActionMapper = processedInputActionMapper;
+        }
+
+        public void KeyUp(object sender, KeyRoutedEventArgs e)
         {
             string key = e.Key.ToString();
             reactToInputUp(key);
+        }
+        public void MouseMoved(object sender, PointerRoutedEventArgs args)
+        {
+            Windows.Foundation.Point position = args.GetCurrentPoint((Grid)sender).Position;
+            MousePosition = new(position.X,position.Y);
         }
 
         private void reactToInputDown(string rawInput)
@@ -78,6 +92,9 @@ namespace BaseRPG.Controller.Input
             }
             
         }
+
+        
+
         private void reactToInputUp(string rawInput)
         {
             lock (pressedButNotReleasedInput)

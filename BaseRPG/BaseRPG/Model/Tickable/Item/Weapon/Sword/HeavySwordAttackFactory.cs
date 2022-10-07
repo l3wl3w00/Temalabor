@@ -12,8 +12,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
     public class HeavySwordAttackFactory : IAttackFactory
     {
-        
-        public Attack CreateAttack(IPositionUnit position)
+        public Attack CreateAttack(IAttacking attacker, IPositionUnit position)
         {
             throw new NotImplementedException();
         }

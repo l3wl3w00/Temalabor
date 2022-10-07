@@ -11,6 +11,6 @@ namespace BaseRPG.Model.Interfaces.Combat
     public interface IAttackable
     {
         AttackabilityService.Group Group { get; set; }
-        void OnAttacked(IAttacking attacker);
+        void TakeDamage(double damage);
     }
 }

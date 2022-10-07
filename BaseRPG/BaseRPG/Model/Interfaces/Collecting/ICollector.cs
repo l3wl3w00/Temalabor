@@ -1,13 +1,9 @@
-﻿namespace BaseRPG.Model.Interfaces.Collecting
-{
-    public interface ICollector
-    {
-        public sealed void Collect(ICollectible collectible)
-        {
-            OnCollect(collectible);
-            collectible.OnCollect(this);
-        }
+﻿using System.Collections.Generic;
 
-        public void OnCollect(ICollectible collectible);
+namespace BaseRPG.Model.Interfaces.Collecting
+{
+    public interface ICollector<T> where T : ICollectible
+    {
+        void Collect(T collectible);
     }
 }

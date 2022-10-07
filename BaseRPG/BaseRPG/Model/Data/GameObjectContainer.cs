@@ -30,6 +30,7 @@ namespace BaseRPG.Model.Data
             return dict[name].Select(e => (T)e).ToList();
         }
         public void Add(IGameObject gameObject) {
+            if(gameObjects.Contains(gameObject)) return;
             gameObjects.Add(gameObject);
         }
         public void Remove(IGameObject gameObject){

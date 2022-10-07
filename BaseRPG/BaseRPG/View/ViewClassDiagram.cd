@@ -1,68 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="BaseRPG.MainWindow">
-    <Position X="0.75" Y="2.75" Width="2" />
+    <Position X="0.5" Y="1.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAggEAAAgAAAAAAAAQAAAAAEAAAAAAAAA=</HashCode>
+      <HashCode>ACAQBEACAQyAogEAAAoAAAAAIAIQABAAAEAQAAAAAAA=</HashCode>
       <FileName>View\MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="viewManager" />
+      <Field Name="controller" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="BaseRPG.View.ItemView.InventoryItemView">
-    <Position X="6.75" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
-      <FileName>View\ItemView\InventoryItemView.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="BaseRPG.View.ItemView.BaseItemView">
-    <Position X="8.25" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>View\ItemView\BaseIItemView.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="BaseRPG.View.ItemView.EquippedItemView">
-    <Position X="9.5" Y="6.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAQAAAAABAAAAQAAAAAAAAAAAAABABAAAAAAAAA=</HashCode>
-      <FileName>View\ItemView\EquippedItemView.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="BaseRPG.View.WorldView.WorldView">
-    <Position X="4.75" Y="4.75" Width="1.5" />
+    <Position X="5" Y="3.75" Width="2.25" />
+    <AssociationLine Name="backgroundImageRenderer" Type="BaseRPG.View.Interfaces.IImageRenderer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="4.188" />
+        <Point X="7.625" Y="4.188" />
+        <Point X="7.625" Y="0.781" />
+        <Point X="10.25" Y="0.781" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAgAAAAgAAAAAAAAAAAAAAAAAABAAAIAAAAA=</HashCode>
+      <HashCode>AAAAEAAIAgAAAAgAAAAAAgAAAAAAAAAAABAAAIAAAAA=</HashCode>
       <FileName>View\WorldView\WorldView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Field Name="world" />
+      <Field Name="backgroundImageRenderer" />
       <Field Name="camera" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="drawables" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="BaseRPG.View.EntityView.GameObjectView">
-    <Position X="10.25" Y="0.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAIAAA=</HashCode>
-      <FileName>View\EntityView\GameObjectView.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="BaseRPG.Controller.Controller" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="2.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAQAAAAAQAAAAAAAAAAAAAAAAAIAAEAAAABQAA=</HashCode>
+      <HashCode>AAAAAAASAAAAAwAEAAABgAAQIAgAAAAIAAEAAAABRAA=</HashCode>
       <FileName>Controller\Controller.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BaseRPG.View.ViewManager">
-    <Position X="4.25" Y="2" Width="1.5" />
+  <Class Name="BaseRPG.View.ViewManager" Collapsed="true">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <AssociationLine Name="currentWorldView" Type="BaseRPG.View.WorldView.WorldView" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="2.562" />
+        <Point X="4.25" Y="4.667" />
+        <Point X="5" Y="4.667" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAABAAAAAAAAABAAIAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAIAAAAAgAAAAJAAAACAEAABAAIAAAAAAAAAAA=</HashCode>
       <FileName>View\ViewManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -73,30 +63,109 @@
   <Class Name="BaseRPG.Model.Game.Game" Collapsed="true">
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAgAAAQJAAABAAQAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CAAAAAgAAAAAAABAAAFAAQAAQAEAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Model\Game\Game.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BaseRPG.View.EntityView.HeroView">
-    <Position X="13.75" Y="3.25" Width="1.5" />
+  <Class Name="BaseRPG.View.Camera.Camera2D" Collapsed="true">
+    <Position X="5.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
-      <FileName>View\EntityView\HeroView.cs</FileName>
+      <HashCode>AAAAAAAABAAEAAQAQAAAIEAAAAIAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>View\Camera\Camera2D.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BaseRPG.View.EntityView.EnemyView">
-    <Position X="11.25" Y="3.25" Width="1.5" />
+  <Class Name="BaseRPG.Model.Worlds.World" Collapsed="true">
+    <Position X="2.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAI=</HashCode>
-      <FileName>View\EntityView\EnemyView.cs</FileName>
+      <HashCode>AgIAAAIAAAAAAABAAAAABAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Worlds\World.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.View.ItemView.EquippedItemView">
+    <Position X="10.5" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAASAQAAAhAAAAUAAAAAAAAAAAAABAAAAIAAAQAA=</HashCode>
+      <FileName>View\ItemView\EquippedItemView.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="owner" />
+      <Field Name="imageRenderer" />
+      <Field Name="animator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BaseRPG.View.ItemView.BaseItemView" Collapsed="true">
+    <Position X="12.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAAA=</HashCode>
+      <FileName>View\ItemView\BaseIItemView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Model.Tickable.FightingEntity.Unit" Collapsed="true">
+    <Position X="11" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAECAAIAAgEEgAAAAAAAAAAEACQAACQAAgAlEAQg=</HashCode>
+      <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.View.EntityView.UnitView">
+    <Position X="14.75" Y="3.5" Width="2.5" />
+    <AssociationLine Name="imageRenderer" Type="BaseRPG.View.Interfaces.IImageRenderer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="3.594" />
+        <Point X="14.375" Y="3.594" />
+        <Point X="14.375" Y="0.625" />
+        <Point X="11.75" Y="0.625" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAgAAAAAEAAgAAAAAAAAAAAAAAEIAEAAAA=</HashCode>
+      <FileName>View\EntityView\UnitView.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="imageRenderer" />
+      <Field Name="unit" />
+      <Field Name="directionMovementUnitMapper" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseRPG.Controller.DirectionMovementUnitMapper">
+    <Position X="19.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAACAAAAAA=</HashCode>
+      <FileName>Controller\DirectionMovementMapper2D.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BaseRPG.View.Camera">
-    <Position X="1" Y="5.5" Width="1.5" />
+  <Class Name="BaseRPG.View.Animation.DefaultAnimator">
+    <Position X="13.75" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAQAQAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>View\Camera.cs</FileName>
+      <HashCode>AAEAAAAAACAABAAAAAAAAAQAIAAAAAAAAAIAAAAAACA=</HashCode>
+      <FileName>View\Animation\DefaultAnimator.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
+  <Interface Name="BaseRPG.View.EntityView.IDrawable" Collapsed="true">
+    <Position X="8.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAABAAIAEAAAA=</HashCode>
+      <FileName>View\EntityView\IDrawable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.View.Interfaces.IImageRenderer" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAABAAAAAABAAABAggAAAAAA=</HashCode>
+      <FileName>View\Interfaces\IImageRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BaseRPG.View.Interfaces.IAnimator" Collapsed="true">
+    <Position X="8.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Interfaces\IAnimator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -12,6 +12,6 @@ namespace BaseRPG.Model.Interfaces.Combat
     public interface IAttackFactory
     {
         
-        public Attack CreateAttack(IPositionUnit position);
+        public Attack CreateAttack(IAttacking attacker,IPositionUnit position);
     }
 }

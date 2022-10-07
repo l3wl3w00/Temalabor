@@ -1,6 +1,9 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Worlds;
+using BaseRPG.View.Animation;
+using BaseRPG.View.Camera;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas;
@@ -16,26 +19,33 @@ namespace BaseRPG.View.WorldView
     public class WorldView
     {
         private World world;
-        private IImageProvider imageProvider;
-        private ICanvasImage background;
-        private Camera camera = new Camera(new Vector2D(0,0), 100 );
-        private List<Drawable> drawables = new List<Drawable>();
-        public WorldView(World world,IImageProvider imageProvider)
+        private IImageRenderer backgroundImageRenderer;
+        private Camera2D camera;
+        private List<IDrawable> drawables = new List<IDrawable>();
+        public WorldView(World world, ICanvasImage background, Tuple<double, double> sizeOfImage, Camera2D camera)
         {
             this.world = world;
-            this.imageProvider = imageProvider;
-            foreach (var enemy in world.GameObjectContainer.Enemies) {
-                AddView(new EnemyView(enemy));
+            this.backgroundImageRenderer = new DefaultImageRenderer(background, sizeOfImage);
+            this.camera = camera;
+        }
+
+        public Camera2D CurrentCamera { get { return camera; } set { camera = value; } }
+
+        public void AddView(IDrawable gameObjectView) {
+            lock (drawables) {
+                drawables.Add(gameObjectView);
             }
-            drawables.Add(new HeroView(world.Hero, imageProvider.GetByFilename("character1")));
-            background = imageProvider.GetByFilename("background");
+            
         }
-        public void AddView(Drawable gameObjectView) {
-            drawables.Add(gameObjectView);
-        }
-        public void Render(CanvasControl sender, CanvasDrawEventArgs args) {
-            args.DrawingSession.DrawImage(background);
-            drawables.ForEach(d => d.Render(args,camera,sender));
+        public void Render(DrawingArgs drawingArgs) {
+            var backgoundPos = camera.CalculatePositionOnScreen(new(0,0));
+            drawingArgs.PositionOnScreen = backgoundPos;
+            backgroundImageRenderer.Render(drawingArgs);
+            lock (drawables) {
+                drawables.ForEach(d => d.Render(drawingArgs, camera));
+                drawables.RemoveAll(d => !d.Exists);
+            }
+            
         }
 
     }

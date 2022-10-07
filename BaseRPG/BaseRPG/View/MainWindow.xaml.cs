@@ -14,6 +14,9 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Xaml.Controls;
 using BaseRPG.View.Image;
 using System.Threading;
+using BaseRPG.View.Animation;
+using System.Diagnostics;
+using BaseRPG.Controller.Utility;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,64 +28,76 @@ namespace BaseRPG
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly Controller.Controller controller;
+        public event Action<RawImageProvider> OnResourcesReady;
+        private Controller.Controller controller;
         private ViewManager viewManager;
-        private RawImageProvider rawImageProvider = new RawImageProvider();
-        private bool hasDrawn = false;
+        public ViewManager ViewManager { get { return viewManager; } set { viewManager = value; } }
+        private RawImageProvider rawImageProvider;
+        private DeltaLoopHandler drawLoopHandler;
+
         public CanvasControl Canvas => canvas;
-        public MainWindow(Controller.Controller controller)
+
+        public Controller.Controller Controller { get => controller; set => controller = value; }
+
+        public event Action<object, PointerRoutedEventArgs> OnPointerPressed;
+        public event Action<object, PointerRoutedEventArgs> OnPointerReleased;
+        public event Action<object, PointerRoutedEventArgs> OnPointerMoved;
+        public event Action<object, KeyRoutedEventArgs> OnKeyDown;
+        public event Action<object, KeyRoutedEventArgs> OnKeyUp;
+
+        public MainWindow()
         {
             this.InitializeComponent();
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Elapsed += (a, b) => canvas.Invalidate();
-            timer.Interval = 10;
-            timer.Start();
-
-
-            this.controller = controller;
-            
+            drawLoopHandler = new DeltaLoopHandler();
         }
         public async Task CreateResourceAsync(CanvasControl sender)
         {
+            rawImageProvider = new();
             await rawImageProvider.LoadImages(sender);
         }
         public void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResourceAsync(sender).AsAsyncAction());
             sender.Invalidate();
-            
-        }
-
-        private void OnResourcesInitialized() {
-            viewManager = new ViewManager(controller.Game, new ScalingImageProvider(4, rawImageProvider));
+            drawLoopHandler.FirsTickEvent += () => OnResourcesReady(rawImageProvider);
         }
         
         public void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (!hasDrawn) {
-                OnResourcesInitialized();
-                hasDrawn = true;
-            }
-            viewManager.Draw(sender, args);
+            var delta = drawLoopHandler.Tick();
+            DrawingArgs drawingArgs = new DrawingArgs(sender,args,delta);
+            viewManager.Draw(drawingArgs);
+            canvas.Invalidate();
+        }
+        private void PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+
+            OnPointerMoved?.Invoke(sender, e);
+            //controller.InputHandler.MouseDown(e.GetCurrentPoint((Grid)sender));
         }
 
         private void PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            controller.InputHandler.MouseDown(e.GetCurrentPoint((Grid)sender));
+            
+            OnPointerPressed?.Invoke(sender,e);
+            //controller.InputHandler.MouseDown(e.GetCurrentPoint((Grid)sender));
         }
 
         private void PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            controller.InputHandler.MouseUp(e.GetCurrentPoint((Grid)sender));
+            OnPointerReleased?.Invoke(sender, e);
+            //controller.InputHandler.MouseUp(e.GetCurrentPoint((Grid)sender));
         }
 
         private void KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            controller.InputHandler.KeyDown(e);
+            OnKeyDown?.Invoke(sender, e);
+            //controller.InputHandler.KeyDown(e);
         }
         private void KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            controller.InputHandler.KeyUp(e);
+            OnKeyUp?.Invoke(sender, e);
+            //controller.InputHandler.KeyUp(e);
         }
 
     }

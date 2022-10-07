@@ -16,7 +16,7 @@ namespace BaseRPG.Model.Worlds
         private GameObjectContainer gameObjectContainer = new GameObjectContainer();
         //private IWorldInitializationStrategy initializationStrategy;
         
-        public Hero Hero { get { return gameObjectContainer.Hero; } }
+        public Hero Hero { get { return gameObjectContainer.Hero; } set { gameObjectContainer.Hero = value; } }
         public GameObjectContainer GameObjectContainer { get { return gameObjectContainer; } }
 
         public World(GameObjectContainer gameObjectContainer)
@@ -30,8 +30,16 @@ namespace BaseRPG.Model.Worlds
 
         public void OnTick()
         {
-            foreach (IGameObject t in gameObjectContainer.All) 
-                t.OnTick();
+            List<IGameObject> all = gameObjectContainer.All;
+            lock (all) {
+                for (int i = 0; i < all.Count; i++) {
+                    all[i].OnTick();
+                }
+                all.RemoveAll(g => !g.Exists);
+            }
+           
+            
+                
         }
         public void Add(IGameObject gameObject) {
             gameObjectContainer.Add(gameObject);

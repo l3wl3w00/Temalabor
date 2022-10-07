@@ -12,7 +12,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
     {
         public void OnAttackHit(IAttacking attacker, IAttackable attacked)
         {
-            throw new NotImplementedException();
+            attacked.TakeDamage(attacker.Damage);
         }
     }
 }

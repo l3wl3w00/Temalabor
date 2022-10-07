@@ -13,22 +13,17 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
     public class Enemy : Unit
     {
         protected override string Type { get { return "Enemy"; } }
-        private IAttackFactory attackFactory;
 
-        public Enemy(int maxHp, IPositionUnit initialPosition) : base(maxHp, initialPosition)
+        public Enemy(int maxHp, IMovementManager movementManager, IMovementStrategy movementStrategy,Dictionary<string, IAttackFactory> attacks) 
+            : base(maxHp, movementManager,movementStrategy,attacks)
         {
         }
 
-        public override void Attack()
-        {
-            attackFactory.CreateAttack(Position);
-        }
 
         public override void OnTick()
         {
-            throw new NotImplementedException();
+            //MovementStrategy.Move(MovementManager,1);
         }
 
-        
     }
 }

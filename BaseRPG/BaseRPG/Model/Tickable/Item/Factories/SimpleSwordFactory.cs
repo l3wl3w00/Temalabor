@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.ItemInterfaces;
+using BaseRPG.Model.Tickable.Item.Weapon.Sword;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace BaseRPG.Model.Tickable.Item.Factories
 {
     public class SimpleSwordFactory:IItemFactory
     {
-        public  Item Create()
+        public Item Create()
         {
-            throw new NotImplementedException();
+            return new Weapon.Weapon(new HeavySwordAttackFactory(), new LightSwordAttackFactory());
         }
     }
 }

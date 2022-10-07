@@ -18,10 +18,24 @@ namespace BaseRPG.Physics.TwoDimensional
             return new MovementUnit2D(args[0], args[1]);
         }
 
+        public IMovementManager CreateMovementManager()
+        {
+            return CreateMovementManager(Origin);
+        }
+
+        public IMovementManager CreateMovementManager(IPositionUnit initialPosition)
+        {
+            return new MovementManager2D(initialPosition.Values[0], initialPosition.Values[0]);
+        }
+
         public IPositionUnit CreatePosition(params double[] args)
         {
             FillMissing(0, args);
             return new PositionUnit2D(args[0], args[1]);
+        }
+        public IPositionUnit CreatePosition(MathNet.Spatial.Euclidean.Vector2D vec2D)
+        {
+            return new PositionUnit2D(vec2D.X, vec2D.Y);
         }
         private double[] FillMissing(double defaultValue, double[] args) {
             

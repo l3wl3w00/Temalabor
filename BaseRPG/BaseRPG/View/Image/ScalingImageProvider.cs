@@ -32,5 +32,10 @@ namespace BaseRPG.View.Image
             return scaleEffect;
         }
 
+        public Tuple<double, double> GetSizeByFilename(string fileName)
+        {
+            Tuple<double, double> result = imageProvider.GetSizeByFilename(fileName);
+            return new(result.Item1*ScaleFactor,result.Item2*ScaleFactor);
+        }
     }
 }

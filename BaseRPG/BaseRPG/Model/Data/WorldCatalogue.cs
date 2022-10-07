@@ -13,12 +13,8 @@ namespace BaseRPG.Model.Data
     {
         protected override void FillFactories(Dictionary<string, IWorldFactory> factories)
         {
-            factories.Add("Empty", new EmptyWorldFactory(physicsFactory.Origin));
+            factories.Add("Empty", new EmptyWorldFactory());
         }
-        private IPhysicsFactory physicsFactory;
-        public WorldCatalogue(IPhysicsFactory physicsFactory)
-        {
-            this.physicsFactory = physicsFactory;
-        }
+
     }
 }

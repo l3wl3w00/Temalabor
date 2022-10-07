@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Controller.Interfaces;
+using BaseRPG.Controller.UnitControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace BaseRPG.Controller.Input
     public class ProcessedInputActionMapper: IProcessedInputActionMapper
     {
         private Dictionary<string, Action> inputActionMap;
+        
         public static ProcessedInputActionMapper CreateDefault(PlayerControl playerControl)
         {
             Dictionary<string, Action>  inputActionMap = new Dictionary<string, Action>();

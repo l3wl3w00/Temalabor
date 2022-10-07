@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,28 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
     public class Weapon:Item
     {
         private Unit owner;
-        public event Action<Attack> AttackCreatedEvent;
+        public event Action<Attack> HeavyAttackCreatedEvent;
+        public event Action<Attack> LightAttackCreatedEvent;
         private IAttackFactory lightAttackFactory;
         private IAttackFactory heavyAttackFactory;
 
-        public Weapon(IAttackFactory heavyAttackFactory, IAttackFactory lightAttackFactory)
+        public Unit Owner { get => owner; set => owner = value; }
+
+        public Weapon(IAttackFactory heavyAttackFactory, IAttackFactory lightAttackFactory, Unit owner = null)
         {
             this.heavyAttackFactory = heavyAttackFactory;
             this.lightAttackFactory = lightAttackFactory;
+            this.Owner = owner;
         }
 
-        public void OnLightAttack(IAttackable attackable) {
-            Attack attack = lightAttackFactory.CreateAttack(owner.Position);
-            AttackCreatedEvent(attack);
+        public void CreateLightAttack(IPositionUnit attackPosition) {
+  
+            Attack attack = lightAttackFactory.CreateAttack(Owner, attackPosition);
+            LightAttackCreatedEvent?.Invoke(attack);
         }
-        public void OnHeavyAttack(IAttackable attackable) {
-            Attack attack = heavyAttackFactory.CreateAttack(owner.Position);
-            AttackCreatedEvent(attack);
+        public void CreateHeavyAttack() {
+            Attack attack = heavyAttackFactory.CreateAttack(Owner,Owner.Position);
+            HeavyAttackCreatedEvent?.Invoke(attack);
         }
     }
 }

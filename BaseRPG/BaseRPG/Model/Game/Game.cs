@@ -10,41 +10,30 @@ namespace BaseRPG.Model.Game
 {
     public class Game
     {
-        private WorldCatalogue worldCatalogue;
+        private WorldCatalogue worldCatalogue = new();
         private World currentWorld;
-        private ItemCatalogue itemCatalogue = new ItemCatalogue();
-        private IPhysicsFactory physicsFactory;
-        public Game(IPhysicsFactory physicsFactory) {
-            this.physicsFactory = physicsFactory;
-            worldCatalogue = new WorldCatalogue(physicsFactory);
+        private ItemCatalogue itemCatalogue = new();
+        public event Action<string,World> CurrentWorldChanged;
+        public Game() {
+
         }
 
-        public World CurrentWorld { get { return currentWorld; } }
+        public World CurrentWorld { get { return currentWorld; } set { currentWorld = value; } }
         public Hero Hero { get {
                 return currentWorld.Hero;
             }
+            set {
+                currentWorld.Hero = value;
+            }
         }
 
-        public IPhysicsFactory PhysicsFactory { get { return physicsFactory; } }
-        public void Initialize() {
-            
-            itemCatalogue.Initialize();
-            worldCatalogue.Initialize();
-            currentWorld = worldCatalogue["Empty"].Create(); ;
+        public WorldCatalogue WorldCatalogue { get => worldCatalogue;  }
+        public ItemCatalogue ItemCatalogue { get => itemCatalogue; }
+
+        public void ChangeWorld(string name) {
+            CurrentWorld = worldCatalogue[name].Create();
+            CurrentWorldChanged?.Invoke(name, CurrentWorld);
         }
 
-    //    public static class Singleton
-    //    {
-    //        private static Game instance;
-    //        public static Game Instance { get{
-    //                if (instance == null)
-    //                {
-    //                    instance = new Game();
-    //                    instance.Initialize();
-    //                }
-    //                return instance;
-    //            } 
-    //        }
-    //    }
     }
 }

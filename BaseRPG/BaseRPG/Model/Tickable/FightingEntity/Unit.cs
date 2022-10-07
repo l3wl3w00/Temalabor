@@ -3,6 +3,7 @@ using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Services;
+using BaseRPG.Model.Tickable.Item.Weapon;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -12,36 +13,55 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.FightingEntity
 {
-    public abstract class Unit : IGameObject, IAttackable
+    public abstract class Unit : IGameObject, IAttackable, IAttacking
     {
-        private Health health;
-        private MovementManager movementManager;
-        private Stat damage;
 
+        private Health health;
+        private IMovementManager movementManager;
+        private IMovementStrategy movementStrategy;
+        private Dictionary<string,IAttackFactory> attacks;
+        private Stat damage;
+        private double speed = 100;
+        public int Damage => throw new NotImplementedException();
+        public IMovementUnit NextMovement { get => movementStrategy.CalculateNextMovement(MovementManager, speed); }
         public IPositionUnit Position { get { return movementManager.Position; } }
-        public IMovementUnit LastMovement => movementManager.LastMovement;
+        public IMovementUnit LastMovement
+        {
+            get
+            {
+                return movementManager.LastMovement;
+            }
+        }
+        public IMovementManager MovementManager => movementManager;
         public AttackabilityService.Group Group { get; set; }
 
         public abstract void OnTick();
 
-        public abstract void Attack();
+        //public virtual void Attack(string attackName) {
+        //    attacks[attackName.ToLower()]?.CreateAttack(this,movementManager.Position);
+        //}
 
-        public void OnAttacked(IAttacking attacker) { }
 
         public int CalculateDamage() {
             return damage.Value;
         }
+
         public void Move(IMovementUnit movement) {
             movementManager.Move(movement);
         }
-        public Unit(int maxHp, IPositionUnit initialPosition) {
+
+        public Unit(int maxHp, IMovementManager movementManager, 
+            IMovementStrategy movementStrategy, Dictionary<string, IAttackFactory> attacks ) {
             health = new Health(maxHp);
-            this.movementManager = new MovementManager(initialPosition);
+            this.movementManager = movementManager;
+            this.movementStrategy = movementStrategy;
+            this.attacks = attacks;
         }
 
-        //TODO ez baj? OCP-t szerintem nem sérti meg, minden osztály a saját tipusával felülírja
-        // SRP-t egy kicsit lehet, de valahogy szét kell választanom a heterogén kollekciót a World-ben
         protected abstract string Type { get; }
+
+        public bool Exists => true;
+
         public void Separate(Dictionary<string, List<IGameObject>> dict)
         {
             string key = Type;
@@ -51,6 +71,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity
                 return;
             }
             dict.Add(key, new List<IGameObject> { this });
+        }
+
+        public void TakeDamage(double damage)
+        {
+            health.CurrentValue -= damage;
         }
     }
 }

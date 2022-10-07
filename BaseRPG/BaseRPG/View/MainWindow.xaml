@@ -12,7 +12,8 @@
     <Grid KeyDown="KeyDown"
           KeyUp="KeyUp"
           PointerPressed="PointerPressed"
-          PointerReleased="PointerReleased">
+          PointerReleased="PointerReleased"
+          PointerMoved="PointerMoved">
         <canvas:CanvasControl
             x:Name="canvas" 
             Draw="canvas_Draw" 

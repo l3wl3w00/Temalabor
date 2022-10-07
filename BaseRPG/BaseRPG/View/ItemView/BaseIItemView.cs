@@ -1,6 +1,8 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Tickable.Item;
+using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
+using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.ItemView
 {
-    public abstract class BaseItemView : Drawable
+    public abstract class BaseItemView : IDrawable
     {
-        private Item item;
-        protected BaseItemView(Item item)
-        {
-            this.item = item;
-        }
+        protected abstract Item ObservedItem { get; }
 
-        public virtual void Render(CanvasDrawEventArgs args, Camera camera, CanvasControl sender)
+        public abstract Vector2D ObservedPosition { get; }
+
+        public bool Exists => ObservedItem.Exists;
+
+        public virtual void OnRender(DrawingArgs drawingArgs)
         {
             throw new NotImplementedException();
         }

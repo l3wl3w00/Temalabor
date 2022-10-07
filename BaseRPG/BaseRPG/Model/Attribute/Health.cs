@@ -10,16 +10,16 @@ namespace BaseRPG.Model.Attribute
     {
         
         public event Action HealthReachedZeroEvent;
-        public event Action<int> HealthReachedMaxEvent;
-        private int currentValue;
-        private int maxValue;
+        public event Action<double> HealthReachedMaxEvent;
+        private double currentValue;
+        private double maxValue;
 
         public Health(int maxValue)
         {
             this.maxValue = maxValue;
         }
 
-        public int CurrentValue{
+        public double CurrentValue{
             get { return currentValue; }
             set { 
                 currentValue = value;
@@ -32,7 +32,7 @@ namespace BaseRPG.Model.Attribute
                 }
             }
         }
-        public int MaxValue {
+        public double MaxValue {
             get { return maxValue; } 
             set {
                 var delta = (value - maxValue);
