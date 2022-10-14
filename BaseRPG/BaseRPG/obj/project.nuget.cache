@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RGnDDqR2zEWm9hxJ5vSgZKeMtDrFV756l/6np4Cftdyxyo98YsVfyjGAEQ1+dn7H/3/xoW2GfiG5IfstkTrsXw==",
+  "dgSpecHash": "X7BrqmNHp4WF/66YNfrjcqELUqmcKbBOCwC8jCb5HeCSbm2I1TYOlRp40WnkWLZQP036vzjAEP4SF6ZUf+N8jg==",
   "success": true,
-  "projectFilePath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
+  "projectFilePath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Levi\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512",
     "C:\\Users\\Levi\\.nuget\\packages\\mathnet.spatial\\0.6.0\\mathnet.spatial.0.6.0.nupkg.sha512",

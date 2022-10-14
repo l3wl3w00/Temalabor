@@ -10,14 +10,14 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>1caf0fac-e1e5-4df8-9f68-533b4d507fd7</PackageIdentityName>
     <PackageIdentityPublisher>CN=Levi</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\</IntermediateOutputPath>
     <RemoteDeploymentType>CopyToDevice</RemoteDeploymentType>
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppX</LayoutDir>
+    <LayoutDir>C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppX</LayoutDir>
     <RegisteredManifestChecksum>F94CBD4DE80B4446CFA0774492FF98BE125FCC924F9A9A933AD61CB1234452DE</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>1caf0fac-e1e5-4df8-9f68-533b4d507fd7_1.0.0.0_x86__ss1xkkzr395j0</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>1caf0fac-e1e5-4df8-9f68-533b4d507fd7_ss1xkkzr395j0!App</RegisteredUserModeAppID>
@@ -26,32 +26,32 @@
     <RegisteredVersion>1.0.0.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
+    <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-10-07T14:28:22.771</Modified>
+      <Modified>2022-10-14T15:22:23.144</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-10-07T13:58:07.525</Modified>
+      <Modified>2022-10-14T15:22:22.756</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
       <PackagePath>BaseRPG.runtimeconfig.json</PackagePath>
-      <Modified>2022-09-28T11:16:51.270</Modified>
+      <Modified>2022-10-14T15:22:22.535</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
       <PackagePath>BaseRPG.dll</PackagePath>
-      <Modified>2022-10-07T14:28:22.424</Modified>
+      <Modified>2022-10-14T15:22:21.893</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
       <PackagePath>BaseRPG.exe</PackagePath>
-      <Modified>2022-10-07T14:28:22.445</Modified>
+      <Modified>2022-10-14T15:22:21.929</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
       <PackagePath>BaseRPG.deps.json</PackagePath>
-      <Modified>2022-10-07T11:48:56.245</Modified>
+      <Modified>2022-10-14T15:22:22.406</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.netcore.app.runtime.win-x86\6.0.5\runtimes\win-x86\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -1017,97 +1017,97 @@
       <PackagePath>Microsoft.Graphics.Canvas.dll</PackagePath>
       <Modified>2022-04-28T15:55:28.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
       <PackagePath>Assets\image\attacks\sword-attack-effect.png</PackagePath>
-      <Modified>2022-10-07T13:25:32.247</Modified>
+      <Modified>2022-10-14T15:21:34.307</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\background.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\background.png">
       <PackagePath>Assets\image\bacground\background.png</PackagePath>
-      <Modified>2022-09-16T17:06:19.533</Modified>
+      <Modified>2022-10-14T15:21:34.308</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\big-background-mozaic.jpg">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\big-background-mozaic.jpg">
       <PackagePath>Assets\image\bacground\big-background-mozaic.jpg</PackagePath>
-      <Modified>2022-09-20T13:42:37.410</Modified>
+      <Modified>2022-10-14T15:21:34.309</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\big-background.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\big-background.png">
       <PackagePath>Assets\image\bacground\big-background.png</PackagePath>
-      <Modified>2022-09-16T17:09:08.980</Modified>
+      <Modified>2022-10-14T15:21:34.310</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\characters\character1-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\characters\character1-outlined.png">
       <PackagePath>Assets\image\characters\character1-outlined.png</PackagePath>
-      <Modified>2022-10-01T12:51:19.020</Modified>
+      <Modified>2022-10-14T15:21:34.310</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\characters\character1.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\characters\character1.png">
       <PackagePath>Assets\image\characters\character1.png</PackagePath>
-      <Modified>2022-09-16T21:15:17.468</Modified>
+      <Modified>2022-10-14T15:21:34.311</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\enemies\slime-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\slime-outlined.png">
       <PackagePath>Assets\image\enemies\slime-outlined.png</PackagePath>
-      <Modified>2022-09-20T14:12:14.264</Modified>
+      <Modified>2022-10-14T15:21:34.311</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\enemies\slime.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\slime.png">
       <PackagePath>Assets\image\enemies\slime.png</PackagePath>
-      <Modified>2022-09-20T14:11:50.139</Modified>
+      <Modified>2022-10-14T15:21:34.311</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\image-outliner.py">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\image-outliner.py">
       <PackagePath>Assets\image\image-outliner.py</PackagePath>
-      <Modified>2022-09-20T13:30:15.383</Modified>
+      <Modified>2022-10-14T15:21:34.312</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword-outlined.png">
       <PackagePath>Assets\image\weapons\normal-sword-outlined.png</PackagePath>
-      <Modified>2022-09-16T17:31:31.205</Modified>
+      <Modified>2022-10-14T15:21:34.312</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword.png">
       <PackagePath>Assets\image\weapons\normal-sword.png</PackagePath>
-      <Modified>2022-09-16T17:30:47.450</Modified>
+      <Modified>2022-10-14T15:21:34.313</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.560</Modified>
+      <Modified>2022-10-14T15:21:34.304</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\attacks\sword-attack-effect.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\attacks\sword-attack-effect.piskel">
       <PackagePath>Assets\piskel\attacks\sword-attack-effect.piskel</PackagePath>
-      <Modified>2022-10-06T12:14:11.277</Modified>
+      <Modified>2022-10-14T15:21:34.313</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\bacground\background.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\bacground\background.piskel">
       <PackagePath>Assets\piskel\bacground\background.piskel</PackagePath>
-      <Modified>2022-09-16T17:06:01.665</Modified>
+      <Modified>2022-10-14T15:21:34.314</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\characters\character1.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\characters\character1.piskel">
       <PackagePath>Assets\piskel\characters\character1.piskel</PackagePath>
-      <Modified>2022-09-16T21:15:02.828</Modified>
+      <Modified>2022-10-14T15:21:34.314</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\enemies\slime.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\enemies\slime.piskel">
       <PackagePath>Assets\piskel\enemies\slime.piskel</PackagePath>
-      <Modified>2022-09-20T14:11:34.696</Modified>
+      <Modified>2022-10-14T15:21:34.315</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\weapons\normal-sword.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\weapons\normal-sword.piskel">
       <PackagePath>Assets\piskel\weapons\normal-sword.piskel</PackagePath>
-      <Modified>2022-09-16T17:30:32.246</Modified>
+      <Modified>2022-10-14T15:21:34.315</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.561</Modified>
+      <Modified>2022-10-14T15:21:34.305</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.562</Modified>
+      <Modified>2022-10-14T15:21:34.305</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.563</Modified>
+      <Modified>2022-10-14T15:21:34.306</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.563</Modified>
+      <Modified>2022-10-14T15:21:34.306</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.564</Modified>
+      <Modified>2022-10-14T15:21:34.306</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
-      <Modified>2022-09-16T10:08:12.565</Modified>
+      <Modified>2022-10-14T15:21:34.307</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

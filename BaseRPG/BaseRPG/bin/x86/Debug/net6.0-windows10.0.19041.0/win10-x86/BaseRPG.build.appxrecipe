@@ -10,34 +10,34 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>1caf0fac-e1e5-4df8-9f68-533b4d507fd7</PackageIdentityName>
     <PackageIdentityPublisher>CN=Levi</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\</IntermediateOutputPath>
     <RemoteDeploymentType>CopyToDevice</RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppX</LayoutDir>
+    <LayoutDir>C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppX</LayoutDir>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
+    <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
       <PackagePath>BaseRPG.runtimeconfig.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
       <PackagePath>BaseRPG.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
       <PackagePath>BaseRPG.exe</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
       <PackagePath>BaseRPG.deps.json</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.netcore.app.runtime.win-x86\6.0.5\runtimes\win-x86\lib\net6.0\Microsoft.CSharp.dll">
@@ -763,73 +763,73 @@
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.graphics.win2d\1.0.3.1\runtimes\win10-x86\native\Microsoft.Graphics.Canvas.dll">
       <PackagePath>Microsoft.Graphics.Canvas.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
       <PackagePath>Assets\image\attacks\sword-attack-effect.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\background.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\background.png">
       <PackagePath>Assets\image\bacground\background.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\big-background-mozaic.jpg">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\big-background-mozaic.jpg">
       <PackagePath>Assets\image\bacground\big-background-mozaic.jpg</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\bacground\big-background.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\big-background.png">
       <PackagePath>Assets\image\bacground\big-background.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\characters\character1-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\characters\character1-outlined.png">
       <PackagePath>Assets\image\characters\character1-outlined.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\characters\character1.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\characters\character1.png">
       <PackagePath>Assets\image\characters\character1.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\enemies\slime-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\slime-outlined.png">
       <PackagePath>Assets\image\enemies\slime-outlined.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\enemies\slime.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\slime.png">
       <PackagePath>Assets\image\enemies\slime.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\image-outliner.py">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\image-outliner.py">
       <PackagePath>Assets\image\image-outliner.py</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword-outlined.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword-outlined.png">
       <PackagePath>Assets\image\weapons\normal-sword-outlined.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\weapons\normal-sword.png">
       <PackagePath>Assets\image\weapons\normal-sword.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\attacks\sword-attack-effect.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\attacks\sword-attack-effect.piskel">
       <PackagePath>Assets\piskel\attacks\sword-attack-effect.piskel</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\bacground\background.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\bacground\background.piskel">
       <PackagePath>Assets\piskel\bacground\background.piskel</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\characters\character1.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\characters\character1.piskel">
       <PackagePath>Assets\piskel\characters\character1.piskel</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\enemies\slime.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\enemies\slime.piskel">
       <PackagePath>Assets\piskel\enemies\slime.piskel</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\piskel\weapons\normal-sword.piskel">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\weapons\normal-sword.piskel">
       <PackagePath>Assets\piskel\weapons\normal-sword.piskel</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>

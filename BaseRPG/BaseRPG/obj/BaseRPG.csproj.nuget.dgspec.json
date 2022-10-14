@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\BaseRPG.csproj": {}
+    "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\BaseRPG.csproj": {}
   },
   "projects": {
-    "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\BaseRPG.csproj": {
+    "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\BaseRPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
+        "projectUniqueName": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
         "projectName": "BaseRPG",
-        "projectPath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
+        "projectPath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\BaseRPG.csproj",
         "packagesPath": "C:\\Users\\Levi\\.nuget\\packages\\",
-        "outputPath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\temalab\\BaseRPG\\BaseRPG\\obj\\",
+        "outputPath": "C:\\main\\Munka_Suli\\Egyetem\\targyak\\5.felev\\Temalabor\\BaseRPG\\BaseRPG\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

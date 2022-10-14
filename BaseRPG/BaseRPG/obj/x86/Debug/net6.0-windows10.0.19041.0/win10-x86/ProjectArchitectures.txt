@@ -1,1 +1,1 @@
-C:\main\Munka_Suli\Egyetem\targyak\5.felev\temalab\BaseRPG\BaseRPG\BaseRPG.csproj;x86
+C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\BaseRPG.csproj;x86
