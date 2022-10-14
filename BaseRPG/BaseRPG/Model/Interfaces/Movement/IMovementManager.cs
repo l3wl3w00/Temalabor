@@ -9,5 +9,6 @@ namespace BaseRPG.Model.Interfaces.Movement
         IPositionUnit Position { get; }
 
         void Move(IMovementUnit movement);
+        IMovementManager Copy();
     }
 }

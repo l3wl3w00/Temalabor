@@ -10,6 +10,7 @@ namespace BaseRPG.Model.Interfaces.Movement
     {
         void MoveBy(IMovementUnit movementUnit);
         IMovementUnit MovementTo(IPositionUnit positionUnit);
+        IPositionUnit Copy();
         double[] Values { get; }
     }
 }

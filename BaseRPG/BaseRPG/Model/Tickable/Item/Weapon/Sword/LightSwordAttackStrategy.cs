@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
-    public class LightSwordAttackStrategy : IAttackStrategy
+    public class DamagingAttackStrategy : IAttackStrategy
     {
         public void OnAttackHit(IAttacking attacker, IAttackable attacked)
         {
-            attacked.TakeDamage(attacker.Damage);
+            attacked.TakeDamage(40);
         }
     }
 }

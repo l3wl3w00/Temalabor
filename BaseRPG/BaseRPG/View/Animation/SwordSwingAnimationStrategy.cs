@@ -2,10 +2,12 @@
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,70 +15,69 @@ namespace BaseRPG.View.Animation
 {
     public class SwordSwingAnimationStrategy : IAnimationStrategy
     {
-        public event Action<SwordSwingAnimationStrategy> OnAnimationAlmostEnding;
-        private bool hasInvokedAnimationAlmostEnding = false;
-
-        private readonly Angle angleRange;
-        private readonly Angle startingAngle;
-        private Angle currentAngle;
-        public Angle GetAngle() { return currentAngle; }
-        private FacingPointAnimationStrategy facingPointAnimationStrategy;
-        private PositionTracker positionTracker;
 
         private bool isOver = false;
-        
+        private bool hasInvokedAnimationAlmostEnding = false;
+        private readonly Angle angleRange;
+        private Angle startingAngle;
+        private Angle currentAngle;
+        private FacingPointAnimationStrategy facingPointAnimationStrategy;
         private AnimationTimer timer;
 
-        private List<IImageRenderer> imageRenderers = new();
+        public Angle CurrentAngle { get { return currentAngle; } }
+
+        public Angle StartingAngle => startingAngle;
+
+        public event Action<SwordSwingAnimationStrategy> OnAnimationAlmostEnding;
+        public event Action<IAnimationStrategy> OnAnimationCompleted;
+
+
 
         public SwordSwingAnimationStrategy(
-            IImageRenderer imageRenderer,
             Angle angleRange,
-            Angle startingAngle,
             double seconds)
         {
-
             this.angleRange = angleRange;
-            this.startingAngle = startingAngle;
-            this.currentAngle = startingAngle;
             initTimers(seconds, seconds/4);
 
-
-            positionTracker = new(Vector2D.FromPolar(100, startingAngle));
-            facingPointAnimationStrategy = new FacingPointAnimationStrategy(positionTracker,imageRenderer,100);
-            positionTracker.Position = Vector2D.FromPolar(200, startingAngle);
+            facingPointAnimationStrategy = new FacingPointAnimationStrategy(new(),100);
             OnAnimationAlmostEnding += a => hasInvokedAnimationAlmostEnding = true;
         }
 
         public Angle GetCurrentAngle() { 
             return currentAngle;
         }
-        public event Action<IAnimationStrategy> OnAnimationCompleted;
-
-        public void Animate(DrawingArgs animationArgs)
+        
+        public Transform2DEffect GetImage(DrawingArgs animationArgs, Matrix3x2 initialMatrix)
         {
+            if (startingAngle.Degrees <= double.Epsilon)
+                startingAngle = (animationArgs.PositionOnScreen - animationArgs.MousePositionOnScreen).SignedAngleTo(new(-1, 0), true);
 
             if (!isOver)
             {
-                positionTracker.Position = nextPosition(animationArgs.PositionOnScreen);
+                facingPointAnimationStrategy.PointPosition = nextPosition(animationArgs.PositionOnScreen);
                 setStateForAnimation();
-                
+
             }
-            facingPointAnimationStrategy.Animate(animationArgs);
+
+            Transform2DEffect animatedImage = facingPointAnimationStrategy.GetImage(animationArgs, initialMatrix);
+
             timer.Tick(animationArgs.Delta);
-            if (timer.SecondsSinceStarted / timer.MaxSeconds >= 0.1)
+            if (timer.SecondsSinceStarted / timer.MaxSeconds >= 0.85)
                 if (!hasInvokedAnimationAlmostEnding)
                     OnAnimationAlmostEnding?.Invoke(this);
-
+            return animatedImage;
         }
+
         private void setStateForAnimation() {
             
             facingPointAnimationStrategy.FirstPointOffset = Vector2D.FromPolar(
                 (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 30,
                 startingAngle);
-            facingPointAnimationStrategy.DistanceOffsetTowardsPointer = 100 - (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 20;
+            facingPointAnimationStrategy.DistanceOffsetTowardsPointer = 130 - (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 20;
         }
         private Vector2D nextPosition(Vector2D positionOnScreen) {
+     
             currentAngle = startingAngle - Angle.FromRadians(CalculateMovementAngle(timer.SecondsSinceStarted));
             return Vector2D.FromPolar(200, currentAngle) + positionOnScreen;
         }
@@ -84,10 +85,15 @@ namespace BaseRPG.View.Animation
         {
             timer = new(seconds);
             timer.Elapsed += () => {
+                if (!hasInvokedAnimationAlmostEnding)
+                    OnAnimationAlmostEnding?.Invoke(this);
+                
                 isOver = true;
                 timer = new(secondsAfterOver);
                 timer.Elapsed += () =>
-                OnAnimationCompleted?.Invoke(this);
+                {
+                    OnAnimationCompleted?.Invoke(this);
+                };
             };
         }
         // Summary:
@@ -130,9 +136,6 @@ namespace BaseRPG.View.Animation
             return 1/(timer.MaxSeconds/ firstMinimumX);
         }
 
-        public IImageRenderer GetConfiguredImageRenderer(DrawingArgs animationArgs)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

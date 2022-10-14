@@ -1,5 +1,7 @@
 ﻿using BaseRPG.View.Interfaces;
+using Microsoft.Graphics.Canvas.Effects;
 using System;
+using System.Numerics;
 
 namespace BaseRPG.View.Animation
 {
@@ -8,18 +10,31 @@ namespace BaseRPG.View.Animation
 
         private IAnimationStrategy currentStrategy;
         private IAnimationStrategy defaultStrategy;
+        private readonly IImageProvider imageProvider;
+        private readonly string imageName;
         private readonly bool cancelAnimations;
         private bool resetQueued;
-        public DefaultAnimator(IAnimationStrategy defaultStrategy, bool cancelAnimations = false)
+        public DefaultAnimator(IAnimationStrategy defaultStrategy, IImageProvider imageProvider,
+            string imageName, bool cancelAnimations = false)
         {
             this.defaultStrategy = defaultStrategy;
+            this.imageProvider = imageProvider;
+            this.imageName = imageName;
             this.cancelAnimations = cancelAnimations;
             Start(defaultStrategy);
         }
         public void Animate(DrawingArgs animationArgs)
         {
             if (resetQueued) Reset();
-            currentStrategy.Animate(animationArgs);
+            Tuple<double, double> imageSize = imageProvider.GetSizeByFilename(imageName);
+            Matrix3x2 initialMatrix = Matrix3x2.CreateTranslation(-(float)imageSize.Item1/2,-(float)imageSize.Item2/2); 
+            Transform2DEffect transform2DEffect = currentStrategy.GetImage(animationArgs, initialMatrix);
+
+            transform2DEffect.Source = imageProvider.GetByFilename(imageName);
+            animationArgs.Args.DrawingSession.DrawImage(transform2DEffect
+                , (float)(animationArgs.PositionOnScreen.X)
+                , (float)(animationArgs.PositionOnScreen.Y));
+            //currentStrategy.Animate(animationArgs);
         }
 
         public void Start(IAnimationStrategy newStrategy)

@@ -1,5 +1,6 @@
 ﻿using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -16,60 +17,35 @@ namespace BaseRPG.View.Animation
     public class FacingPointAnimationStrategy : IAnimationStrategy
     {
         private PositionTracker facingPositionTracker;
-        private IImageRenderer imageRenderer;
         private double distanceOffsetTowardsPointer;
         public FacingPointAnimationStrategy(
             PositionTracker facingPositionTracker,
-            IImageRenderer imageRenderer,
             double distanceOffsetTowardsPointer = 0)
         {
             this.facingPositionTracker = facingPositionTracker;
-            this.imageRenderer = imageRenderer;
             this.DistanceOffsetTowardsPointer = distanceOffsetTowardsPointer;
             FirstPointOffset = new(0, 0);
-        }
-        public FacingPointAnimationStrategy(
-            IImageRenderer imageRenderer,
-            double distanceOffsetTowardsPointer = 0):this(new(),imageRenderer,distanceOffsetTowardsPointer)
-        {
-
         }
 
         public event Action<IAnimationStrategy> OnAnimationCompleted;
 
         public Vector2D FirstPointOffset { private get; set; }
-        public bool Debug { private get; set; }
         public double DistanceOffsetTowardsPointer { private get => distanceOffsetTowardsPointer; set => distanceOffsetTowardsPointer = value; }
         public Vector2D PointPosition { set { facingPositionTracker.Position = value; } }
-        public void Animate(DrawingArgs animationArgs)
+
+        public Transform2DEffect GetImage(DrawingArgs animationArgs,Matrix3x2 initialMatrix = new())
         {
             Vector2D firstPoint = animationArgs.PositionOnScreen + FirstPointOffset;
             Vector2D secondpoint = facingPositionTracker.Position;
-            var offset = (secondpoint - firstPoint).Normalize() * DistanceOffsetTowardsPointer;
+            var distanceVector = (secondpoint - firstPoint);
+            float angle = MathF.Atan2((float)distanceVector.Y, (float)distanceVector.X) + MathF.PI / 2;
 
-            imageRenderer.SetImageRotation((float)Math.Atan2(offset.Y, offset.X) + MathF.PI / 2);
-            imageRenderer.Render( new(
-                animationArgs.Sender,
-                animationArgs.Args,
-                animationArgs.Delta,
-                new((float)(firstPoint.X + offset.X),
-                    (float)(firstPoint.Y + offset.Y)
-                    )));
-            //Debug = true;
-            if (Debug)
-            {
-                Vector2 firstPointVec = new((float)firstPoint.X, (float)firstPoint.Y);
-                Vector2 secondPointVec = new((float)secondpoint.X, (float)secondpoint.Y);
-                animationArgs.Args.DrawingSession.FillCircle(
-                    firstPointVec,
-                    10, Windows.UI.Color.FromArgb(255, 255, 0, 0));
-                animationArgs.Args.DrawingSession.FillCircle(
-                    secondPointVec,
-                    10, Windows.UI.Color.FromArgb(255, 255, 0, 0));
-                animationArgs.Args.DrawingSession.DrawLine(firstPointVec, secondPointVec, Windows.UI.Color.FromArgb(255, 255, 0, 0), 2);
-            }
+            Transform2DEffect transform2DEffect = new Transform2DEffect();
+            transform2DEffect.TransformMatrix =
+                initialMatrix *
+                Matrix3x2.CreateTranslation(0,(float)-distanceOffsetTowardsPointer)*
+                Matrix3x2.CreateRotation(angle);
+            return transform2DEffect;
         }
-
-
     }
 }

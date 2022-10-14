@@ -65,7 +65,7 @@ namespace BaseRPG
         public void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             var delta = drawLoopHandler.Tick();
-            DrawingArgs drawingArgs = new DrawingArgs(sender,args,delta);
+            DrawingArgs drawingArgs = new DrawingArgs(sender,args,delta,controller.InputHandler.MousePosition);
             viewManager.Draw(drawingArgs);
             canvas.Invalidate();
         }
@@ -73,31 +73,26 @@ namespace BaseRPG
         {
 
             OnPointerMoved?.Invoke(sender, e);
-            //controller.InputHandler.MouseDown(e.GetCurrentPoint((Grid)sender));
         }
 
         private void PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             
             OnPointerPressed?.Invoke(sender,e);
-            //controller.InputHandler.MouseDown(e.GetCurrentPoint((Grid)sender));
         }
 
         private void PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             OnPointerReleased?.Invoke(sender, e);
-            //controller.InputHandler.MouseUp(e.GetCurrentPoint((Grid)sender));
         }
 
         private void KeyDown(object sender, KeyRoutedEventArgs e)
         {
             OnKeyDown?.Invoke(sender, e);
-            //controller.InputHandler.KeyDown(e);
         }
         private void KeyUp(object sender, KeyRoutedEventArgs e)
         {
             OnKeyUp?.Invoke(sender, e);
-            //controller.InputHandler.KeyUp(e);
         }
 
     }

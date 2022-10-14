@@ -1,4 +1,6 @@
-﻿using BaseRPG.Model.Interfaces.Movement;
+﻿
+
+using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
 using System;
 using System.Collections.Generic;
@@ -8,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Controller.UnitControl
 {
+
     public class AutomaticUnitControl:UnitControlBase
     {
 
         public AutomaticUnitControl(Unit unit):base(unit)
         {
         }
-
+        
         public void Attack()
         {
 

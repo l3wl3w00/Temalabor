@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Services
 {
-    //TODO ez nagyon rossz? Jobb ötletem nem volt annak az eldöntésére, hogy ki támadhat meg kit
     public class AttackabilityService
     {
         public enum Group {
@@ -25,24 +24,26 @@ namespace BaseRPG.Model.Services
 
         public bool CanAttack(IAttacking attacker, IAttackable attacked)
         {
-            return canAttackMapping[attacker.Group].Contains(attacked.Group);
+            return canAttackMapping[attacker.OffensiveGroup].Contains(attacked.DefensiveGroup);
         }
 
         public static class Builder{
-            public static Dictionary<Group, List<Group>> defaultCanAttackMapping = null;
+            public static Dictionary<Group, List<Group>> staticDefaultCanAttackMapping = null;
             public static Dictionary<Group, List<Group>> DefaultCanAttackMapping
             {
                 get
                 {
-                    if (defaultCanAttackMapping == null)
+                    if (staticDefaultCanAttackMapping == null)
                     {
                         Dictionary<Group, List<Group>> defaultCanAttackMapping = new Dictionary<Group, List<Group>>();
                         defaultCanAttackMapping.Add(Group.Friendly, new List<Group> { Group.Enemy, Group.Neutral, Group.Harmless });
                         defaultCanAttackMapping.Add(Group.Enemy, new List<Group> { Group.Friendly, Group.Neutral, Group.Harmless });
                         defaultCanAttackMapping.Add(Group.Neutral, new List<Group> { Group.Friendly, Group.Enemy, Group.Harmless });
                         defaultCanAttackMapping.Add(Group.Harmless, new List<Group>());
+                        staticDefaultCanAttackMapping = defaultCanAttackMapping;
+
                     }
-                    return defaultCanAttackMapping;
+                    return staticDefaultCanAttackMapping;
                 }
             }
             public static Dictionary<Group, List<Group>> ReverseMappingOf(Dictionary<Group, List<Group>> canAttackMapping)

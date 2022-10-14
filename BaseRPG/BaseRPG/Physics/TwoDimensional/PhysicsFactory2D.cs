@@ -12,6 +12,7 @@ namespace BaseRPG.Physics.TwoDimensional
     {
         public IPositionUnit Origin => new PositionUnit2D(0,0);
 
+
         public IMovementUnit CreateMovement(params double[] args)
         {
             FillMissing(0, args);
@@ -25,7 +26,7 @@ namespace BaseRPG.Physics.TwoDimensional
 
         public IMovementManager CreateMovementManager(IPositionUnit initialPosition)
         {
-            return new MovementManager2D(initialPosition.Values[0], initialPosition.Values[0]);
+            return new MovementManager2D(initialPosition.Values[0], initialPosition.Values[1]);
         }
 
         public IPositionUnit CreatePosition(params double[] args)

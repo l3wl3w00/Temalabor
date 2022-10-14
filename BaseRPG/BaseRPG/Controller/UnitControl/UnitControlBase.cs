@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Controller.UnitControl
 {
-
     public abstract class UnitControlBase
     {
         private Unit controlledUnit;

@@ -1,4 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable.FightingEntity;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
 using System;
@@ -9,13 +11,19 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Physics.TwoDimensional.Collision
 {
-    public class Polygon : Shape2D
+    public class Polygon : IShape2D
     {
 
         private Polygon2D polygon;
-        public Polygon(List<Point2D> vertices)
+        private double angle;
+        private readonly IGameObject owner;
+        private readonly IMovementManager movementManager;
+
+        public Polygon(IGameObject owner, IMovementManager movementManager,List<Point2D> vertices)
         {
             polygon = new Polygon2D(vertices);
+            this.owner = owner;
+            this.movementManager = movementManager;
         }
 
         public Vector2D Middle
@@ -31,31 +39,32 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
                 }
                 return sum / polygon.VertexCount;
             }
+
         }
 
-        public IGameObject Owner => throw new NotImplementedException();
+        public IGameObject Owner => owner;
 
-        public void RotateAround(double angle, Point2D axis)
+        public IMovementManager MovementManager => movementManager;
+
+        public Vector2D GlobalPosition => new(movementManager.Position.Values[0], movementManager.Position.Values[1]);
+
+        public void Rotate(double angle)
         {
-            polygon.RotateAround(Angle.FromRadians(angle), axis);
+            this.angle += angle;
+            polygon = polygon.RotateAround(Angle.FromRadians(angle), new(0,0));
         }
 
         public bool CollidesWith(Vector2D point)
         {
             throw new NotImplementedException();
         }
-        public Collision CollisionWith(Shape2D s2)
+        public bool IsColliding(IShape2D s2)
         {
-            Polygon2D s2Polygon = s2.ToPolygon();
-            
-
-            if (Polygon2D.ArePolygonVerticesColliding(s2Polygon, polygon))
-                return new Collision(this,s2,true);
-            return new Collision(this, s2, false);
+            return IsColliding(s2.ToPolygon());
         }
         private bool IsColliding(Polygon2D polygon2) {
-            if(Polygon2D.ArePolygonVerticesColliding(polygon, polygon2)) return true;
-            if(AreEgesColliding(polygon)) return true;
+            if(Polygon2D.ArePolygonVerticesColliding(this.ToPolygon(), polygon2)) return true;
+            if(AreEgesColliding(polygon2)) return true;
             return false;
         }
         private bool AreEgesColliding(Polygon2D polygon2) {
@@ -73,6 +82,25 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         public Polygon2D ToPolygon()
         {
             return polygon;
+        }
+
+        public IShape2D Shifted(Vector2D shift)
+        {
+            return Shifted(shift.X,shift.Y);
+        }
+        public IShape2D Shifted(params double[] values)
+        {
+            //List<Point2D> vertices = new List<Point2D>();
+            //polygon.Vertices.ToList().ForEach(v => vertices.Add(v));
+            //var newPolygon = new Polygon2D(vertices);
+            return new Polygon(Owner, movementManager.Copy(), polygon.TranslateBy(new(values[0], values[1])).Vertices.ToList());
+        }
+
+        public void SetRotation(double newAngle)
+        {
+            var deltaAngle = newAngle - angle;
+            angle = newAngle;
+            polygon = polygon.RotateAround(Angle.FromRadians(deltaAngle), new(0,0));
         }
     }
 }

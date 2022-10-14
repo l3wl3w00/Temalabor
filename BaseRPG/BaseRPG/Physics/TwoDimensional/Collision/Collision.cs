@@ -8,9 +8,9 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 {
     public class Collision
     {
-        private Shape2D shape1;
-        private Shape2D shape2;
-        public Collision(Shape2D shape1,Shape2D shape2,bool isColliding)
+        private IShape2D shape1;
+        private IShape2D shape2;
+        public Collision(IShape2D shape1,IShape2D shape2,bool isColliding)
         {
             IsColliding = isColliding;
             this.shape1 = shape1;
@@ -19,10 +19,10 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         public bool IsColliding { get; private set; }
         public event Action<Collision> CollisionOver;
         public void OnTick() {
-            if (!shape1.CollisionWith(shape2).IsColliding) {
-                IsColliding = false;
-                CollisionOver(this);
-            } 
+            //if (!shape1.IsColliding(shape2).IsColliding) {
+            //    IsColliding = false;
+            //    CollisionOver(this);
+            //} 
         }
     }
 }

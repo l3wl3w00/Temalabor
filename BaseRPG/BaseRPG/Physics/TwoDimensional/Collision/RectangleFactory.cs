@@ -23,7 +23,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             this.rotation = rotation;
         }
 
-        public Shape2D Create()
+        public IShape2D Create()
         {
             throw new NotImplementedException();
         }

@@ -14,7 +14,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
     {
         public Attack CreateAttack(IAttacking attacker, IPositionUnit position)
         {
-            return new Attack(attacker, position,new LightSwordAttackStrategy());
+            return new Attack(attacker, position,new DamagingAttackStrategy());
         }
     }
 }

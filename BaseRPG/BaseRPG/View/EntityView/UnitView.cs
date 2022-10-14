@@ -1,9 +1,11 @@
 ﻿using BaseRPG.Controller;
 using BaseRPG.Controller.UnitControl;
+using BaseRPG.Model.Services;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.View.Animation;
+using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
@@ -13,6 +15,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI;
 using System;
 using System.Numerics;
+using Windows.UI;
 
 namespace BaseRPG.View.EntityView
 {
@@ -22,11 +25,19 @@ namespace BaseRPG.View.EntityView
         private Unit unit;
         private const MoveDirection defaultFacing = MoveDirection.Forward;
         private DirectionMovementUnitMapper directionMovementUnitMapper = DirectionMovementUnitMapper.CreateDefault2D();
-        
+        private HealthView healthView;
+
+
         public UnitView(Unit unit, IImageRenderer imageRenderer)
         {
             this.unit = unit;
             this.imageRenderer = imageRenderer;
+            Color healthColor = new();
+            if (unit.OffensiveGroup == AttackabilityService.Group.Enemy)
+                healthColor = Color.FromArgb(255, 200, 0, 0);
+            else if (unit.OffensiveGroup == AttackabilityService.Group.Friendly)
+                healthColor = Color.FromArgb(255, 0, 150, 200);
+            healthView = new(unit.Health, (float)imageRenderer.ImageSize.Item1, healthColor);
         }
 
         public Vector2D ObservedPosition => new(unit.Position.Values[0], unit.Position.Values[1]);
@@ -44,6 +55,11 @@ namespace BaseRPG.View.EntityView
             double angle = Math.Atan2(values[1], values[0]) + Math.PI / 2;
             imageRenderer.SetImageRotation(angle);
             imageRenderer.Render(drawingArgs);
+            drawingArgs.PositionOnScreen -= 
+                new Vector2D(
+                    imageRenderer.ImageSize.Item1 / 2,
+                    imageRenderer.ImageSize.Item2 / 1.2);
+            healthView.Render(drawingArgs);
         }
 
 

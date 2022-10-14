@@ -16,6 +16,7 @@ namespace BaseRPG.Model.Attribute
 
         public Health(int maxValue)
         {
+            currentValue = maxValue;
             this.maxValue = maxValue;
         }
 
@@ -24,11 +25,12 @@ namespace BaseRPG.Model.Attribute
             set { 
                 currentValue = value;
                 if (currentValue <= 0) {
-                    HealthReachedZeroEvent();
+                    currentValue = 0;
+                    HealthReachedZeroEvent?.Invoke();
                 }
                 if (currentValue > maxValue){
                     currentValue = maxValue;
-                    HealthReachedMaxEvent(maxValue);
+                    HealthReachedMaxEvent?.Invoke(maxValue);
                 }
             }
         }
@@ -40,6 +42,7 @@ namespace BaseRPG.Model.Attribute
                 CurrentValue += delta;
             }
         }
+
         
 
     }

@@ -35,7 +35,6 @@ namespace BaseRPG
     public partial class App : Application
     {
         private Game game;
-        private IPhysicsFactory physicsFactory;
         Controller.Controller controller;
         private MainWindow window;
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -58,15 +57,13 @@ namespace BaseRPG
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         
-        private void wireDependencies(ViewManager viewManager) {
-            
-        }
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            game = new Game();
+            game = Game.Instance;
+            game.PhysicsFactory = new PhysicsFactory2D();
             window = new MainWindow();
             window.ViewManager = new(game, new DefaultWorldNameImageMapper(), window.Canvas);
-            controller = new(game, window.ViewManager);
+            controller = new Controller.Controller(window.ViewManager, new CollisionNotifier2D());
             window.Controller = controller;
 
             window.OnResourcesReady += StartGame;
@@ -75,8 +72,7 @@ namespace BaseRPG
         }
         private void StartGame(IImageProvider imageProvider) {
             controller.Initialize(
-                new DefaultInitializationStrategy(new ScalingImageProvider(4, imageProvider)),
-                new PhysicsFactory2D(),
+                new DefaultGameConfigurer(new ScalingImageProvider(4, imageProvider)),
                 window);
             StartLogic();
         }

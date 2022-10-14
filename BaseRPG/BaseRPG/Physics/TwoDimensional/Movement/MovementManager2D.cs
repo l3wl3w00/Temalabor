@@ -21,6 +21,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         }
         
         public IPositionUnit Position { get { return position; } }
+        public Vector2D PositionAsVector { get { return new(position.Values[0], position.Values[1]); } }
         public void Move(IMovementUnit movement)
         {
             lastMovement = movement;
@@ -47,6 +48,17 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         {
             double[] values = positionUnit.Values;
             return new(values[0], values[1]);
+        }
+
+        private MovementManager2D(IPositionUnit position, IMovementUnit lastMovement)
+        {
+            this.position = new(position.Values[0], position.Values[1]);
+            this.lastMovement = lastMovement;
+        }
+
+        public IMovementManager Copy()
+        {
+            return new MovementManager2D(position.Copy(),LastMovement.Clone());
         }
     }
 }

@@ -3,12 +3,14 @@ using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using System;
 
 namespace BaseRPG.View.Interfaces
 {
     public interface IImageRenderer
     {
-        ICanvasImage Image { set; }
+        ICanvasImage Image { get; }
+        Tuple<double, double> ImageSize {get;}
         Vector2D MiddleOffset { get; }
         public Angle ImageRotation { get; }
         public void Render(DrawingArgs drawingArgs);

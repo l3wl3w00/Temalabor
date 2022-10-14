@@ -16,7 +16,6 @@ namespace BaseRPG.View.Image
     public class RawImageProvider : IImageProvider
     {
         private Dictionary<string, ICanvasImage> images = new Dictionary<string, ICanvasImage>();
-        private List<IAsyncOperation<CanvasBitmap>> unfinishedTasks = new();
         private bool initialized = false;
         public async Task LoadImages(ICanvasResourceCreator canvasResourceCreator)
         {

@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controller\NewFolder\" />
+    <Folder Include="Model\Interfaces\Collision\" />
     <Folder Include="Model\Interfaces\NewFolder1\" />
     <Folder Include="Model\Interfaces\NewFolder\" />
     <Folder Include="Model\Interfaces\WorldInterfaces\NewFolder\" />
@@ -46,6 +47,7 @@
     <Folder Include="Model\Exceptions\" />
     <Folder Include="Model\Tickable\Collectible\" />
     <Folder Include="Physics\NewFolder\" />
+    <Folder Include="View\Animation\NewFolder\" />
     <Folder Include="View\Shapes\" />
   </ItemGroup>
 </Project>

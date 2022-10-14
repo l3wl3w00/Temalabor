@@ -18,6 +18,8 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         private IAttackFactory lightAttackFactory;
         private IAttackFactory heavyAttackFactory;
 
+        
+
         public Unit Owner { get => owner; set => owner = value; }
 
         public Weapon(IAttackFactory heavyAttackFactory, IAttackFactory lightAttackFactory, Unit owner = null)
@@ -28,7 +30,7 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         }
 
         public void CreateLightAttack(IPositionUnit attackPosition) {
-  
+            
             Attack attack = lightAttackFactory.CreateAttack(Owner, attackPosition);
             LightAttackCreatedEvent?.Invoke(attack);
         }

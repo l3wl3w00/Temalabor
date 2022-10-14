@@ -22,6 +22,10 @@ namespace BaseRPG.Model.Tickable.Item
             //throw new NotImplementedException();
         }
 
+        public void OnCollision(IGameObject gameObject)
+        {
+        }
+
         public void OnTick()
         {
             //throw new NotImplementedException();

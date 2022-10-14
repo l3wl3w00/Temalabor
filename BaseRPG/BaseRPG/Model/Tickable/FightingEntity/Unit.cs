@@ -2,6 +2,7 @@
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Interfaces.Skill;
 using BaseRPG.Model.Services;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using MathNet.Spatial.Euclidean;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.FightingEntity
 {
-    public abstract class Unit : IGameObject, IAttackable, IAttacking
+    public abstract class Unit : IGameObject, IAttackable, IAttacking, ISkillCaster
     {
 
         private Health health;
@@ -22,6 +23,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         private Dictionary<string,IAttackFactory> attacks;
         private Stat damage;
         private double speed = 100;
+
+        public Health Health { get { return health; } }
         public int Damage => throw new NotImplementedException();
         public IMovementUnit NextMovement { get => movementStrategy.CalculateNextMovement(MovementManager, speed); }
         public IPositionUnit Position { get { return movementManager.Position; } }
@@ -33,10 +36,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             }
         }
         public IMovementManager MovementManager => movementManager;
-        public AttackabilityService.Group Group { get; set; }
 
         public abstract void OnTick();
-
         //public virtual void Attack(string attackName) {
         //    attacks[attackName.ToLower()]?.CreateAttack(this,movementManager.Position);
         //}
@@ -60,7 +61,10 @@ namespace BaseRPG.Model.Tickable.FightingEntity
 
         protected abstract string Type { get; }
 
-        public bool Exists => true;
+        public bool Exists => health.CurrentValue > 0;
+
+        public abstract AttackabilityService.Group OffensiveGroup { get; }
+        public abstract AttackabilityService.Group DefensiveGroup { get; }
 
         public void Separate(Dictionary<string, List<IGameObject>> dict)
         {
@@ -76,6 +80,16 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public void TakeDamage(double damage)
         {
             health.CurrentValue -= damage;
+        }
+
+        public virtual void OnCollision(IGameObject gameObject)
+        {
+            
+        }
+
+        public void Cast(ISkill skill)
+        {
+            skill.OnCast(this);
         }
     }
 }

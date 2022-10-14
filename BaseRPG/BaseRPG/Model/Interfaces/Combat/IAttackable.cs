@@ -10,7 +10,7 @@ namespace BaseRPG.Model.Interfaces.Combat
 {
     public interface IAttackable
     {
-        AttackabilityService.Group Group { get; set; }
+        AttackabilityService.Group DefensiveGroup { get; }
         void TakeDamage(double damage);
     }
 }

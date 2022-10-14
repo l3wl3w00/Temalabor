@@ -23,6 +23,11 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
 
         public double[] Values => new double[]{position.X,position.Y};
 
+        public IPositionUnit Copy()
+        {
+            return new PositionUnit2D(position);
+        }
+
         public void MoveBy(IMovementUnit movementUnit)
         {
             position = new Point2D(position.X + movementUnit.Values[0], position.Y + movementUnit.Values[1]);
@@ -33,5 +38,6 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             Vector2D pos1 = new(positionUnit.Values[0], positionUnit.Values[1]);
             return new MovementUnit2D(pos1-position.ToVector2D());
         }
+       
     }
 }

@@ -37,9 +37,6 @@ namespace BaseRPG.Model.Worlds
                 }
                 all.RemoveAll(g => !g.Exists);
             }
-           
-            
-                
         }
         public void Add(IGameObject gameObject) {
             gameObjectContainer.Add(gameObject);

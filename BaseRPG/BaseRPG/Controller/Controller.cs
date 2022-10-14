@@ -2,30 +2,22 @@
 using BaseRPG.Controller.Interfaces;
 using BaseRPG.Controller.UnitControl;
 using BaseRPG.Controller.Utility;
-using BaseRPG.Model.Data;
 using BaseRPG.Model.Game;
-using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Movement;
-using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Model.Worlds;
+using BaseRPG.Physics.TwoDimensional;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using BaseRPG.View.WorldView;
 using Microsoft.Graphics.Canvas.UI.Xaml;
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml.Input;
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using Windows.System;
+
 
 namespace BaseRPG.Controller
 {
@@ -36,23 +28,21 @@ namespace BaseRPG.Controller
         private List<AutomaticUnitControl> unitControls = new List<AutomaticUnitControl>();
         private InputHandler inputHandler;
         private ViewManager viewManager;
+        private CollisionNotifier2D collisionNotifier;
+        private bool running = true;
+
+        
 
         public InputHandler InputHandler { get { return inputHandler; } }
-        private bool running = true;
-        public Game Game { get { return game; } }
-
         public ViewManager ViewManager { get => viewManager; }
         public bool Running { get => running; }
         public PlayerControl PlayerControl { set { playerControl = value; } get => playerControl; }
-
-        private Game game;
         private GameObjectCollectionControl gameObjectCollectionControl = new();
 
-        public Controller(Game game, ViewManager view)
+        public Controller(ViewManager view, CollisionNotifier2D collisionNotifier)
         {
-            this.game = game;
             this.viewManager = view;
-
+            this.collisionNotifier = collisionNotifier;
         }
         public void MainLoop(CanvasControl canvas) {
             DeltaLoopHandler loopHandler = new();
@@ -62,21 +52,22 @@ namespace BaseRPG.Controller
             }
         }
         public void Tick(double delta) {
+
             gameObjectCollectionControl.AddQueued();
             inputHandler.OnTick();
             playerControl.OnTick(delta);
             unitControls.ForEach(u => u.OnTick(delta));
-            game.CurrentWorld.OnTick();
+            Game.Instance.OnTick();
+            collisionNotifier.CheckCollisions();
 
         }
         public void Initialize(
-            IInitializationStrategy initializationStrategy,
-            IPhysicsFactory physicsFactory,
+            IGameConfigurer gameConfigurer,
             MainWindow window) {
 
             inputHandler = new();
 
-            initializationStrategy.Initialize(this, physicsFactory);
+            gameConfigurer.Configure(this);
 
 
             inputHandler.Initialize(
@@ -89,24 +80,32 @@ namespace BaseRPG.Controller
             window.OnPointerReleased += inputHandler.MouseUp;
             window.OnPointerMoved += inputHandler.MouseMoved;
         }
-
-        public void CreateAttackView(Attack a, IPositionUnit ownerPosition, string attackImage, IImageProvider imageProvider) {
+        public void CreateAttackView(Attack attack, IPositionUnit ownerPosition, string attackImage, IImageProvider imageProvider,IShape2D shape) {
+            
             DefaultImageRenderer attackImageRenderer = new DefaultImageRenderer(
                 imageProvider.GetByFilename(attackImage),
                 imageProvider.GetSizeByFilename(attackImage)
                 );
-            double[] values = ownerPosition.MovementTo(a.Position).Values;
+            double[] values = ownerPosition.MovementTo(attack.Position).Values;
             double initialRotation = Math.Atan2(values[1],values[0]);
-            AddVisible(a, new AttackView(a, attackImageRenderer, initialRotation));
+            shape.Rotate(initialRotation - Math.PI / 2);
+            FullGameObject2D fullAttackObject = 
+                new FullGameObject2D(
+                    attack, 
+                    shape, 
+                    new AttackView(attack, attackImageRenderer, initialRotation));
+            AddVisible(fullAttackObject);
 
         }
         // The only way to add a game object that is visible
-        public void AddVisible(IGameObject gameObject, IDrawable view) {
-            AddVisibleToWorld(game.CurrentWorld, ViewManager.CurrentWorldView, gameObject, view);
+        public void AddVisible(FullGameObject2D fullGameObject) {
+            
+            AddVisibleToWorld(Game.Instance.CurrentWorld, ViewManager.CurrentWorldView,collisionNotifier, fullGameObject);
         }
-        public void AddVisibleToWorld(World world,WorldView worldView,IGameObject gameObject, IDrawable view)
+        public void AddVisibleToWorld(World world,WorldView worldView,CollisionNotifier2D collisionNotifier, FullGameObject2D fullGameObject)
         {
-            gameObjectCollectionControl.QueueForAdd(world,worldView,gameObject, view);
+            
+            gameObjectCollectionControl.QueueForAdd(world,worldView, collisionNotifier, fullGameObject);
         }
         public void AddControl(AutomaticUnitControl unitControl) { unitControls.Add(unitControl); }
     }

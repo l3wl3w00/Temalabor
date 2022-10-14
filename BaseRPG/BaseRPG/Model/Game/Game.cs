@@ -10,14 +10,27 @@ namespace BaseRPG.Model.Game
 {
     public class Game
     {
+        private Game()
+        {
+
+        }
+        private static Game instance;
+        public static Game Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new Game();
+                return instance;
+            }
+        }
+
         private WorldCatalogue worldCatalogue = new();
         private World currentWorld;
         private ItemCatalogue itemCatalogue = new();
-        public event Action<string,World> CurrentWorldChanged;
-        public Game() {
-
-        }
-
+        public event Action<string, World> CurrentWorldChanged;
+        
+        public IPhysicsFactory PhysicsFactory { get; set; }
         public World CurrentWorld { get { return currentWorld; } set { currentWorld = value; } }
         public Hero Hero { get {
                 return currentWorld.Hero;
@@ -35,5 +48,9 @@ namespace BaseRPG.Model.Game
             CurrentWorldChanged?.Invoke(name, CurrentWorld);
         }
 
+        public void OnTick()
+        {
+            CurrentWorld.OnTick();
+        }
     }
 }

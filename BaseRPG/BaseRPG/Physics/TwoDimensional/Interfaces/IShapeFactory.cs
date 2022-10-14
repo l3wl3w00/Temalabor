@@ -9,6 +9,6 @@ namespace BaseRPG.Physics.TwoDimensional.Interfaces
 {
     public interface IShapeFactory
     {
-        Shape2D Create();
+        IShape2D Create();
     }
 }

@@ -2,6 +2,7 @@
 using BaseRPG.Model.Interfaces.Collecting;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Services;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
@@ -19,10 +20,15 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         private Model.Attribute.Inventory inventory;
         private Model.Attribute.ExperienceManager experienceManager;
 
+
+        public override AttackabilityService.Group OffensiveGroup => AttackabilityService.Group.Friendly;
+        public override AttackabilityService.Group DefensiveGroup => OffensiveGroup;
+
         public Hero(int maxHp, IMovementManager movementManager,Dictionary<string,IAttackFactory> attacks ) :
             base(maxHp, movementManager, new EmptyMovementStrategy(), attacks)
         {
             inventory = new();
+            
         }
 
         //public void Collect(ICollectible collectible)

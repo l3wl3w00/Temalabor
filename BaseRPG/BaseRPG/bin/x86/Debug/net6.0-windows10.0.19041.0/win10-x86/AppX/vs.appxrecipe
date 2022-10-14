@@ -29,29 +29,29 @@
     <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-10-14T15:22:23.144</Modified>
+      <Modified>2022-10-14T15:23:41.865</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-10-14T15:22:22.756</Modified>
+      <Modified>2022-10-14T15:23:41.612</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
       <PackagePath>BaseRPG.runtimeconfig.json</PackagePath>
-      <Modified>2022-10-14T15:22:22.535</Modified>
+      <Modified>2022-10-14T15:23:41.560</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
       <PackagePath>BaseRPG.dll</PackagePath>
-      <Modified>2022-10-14T15:22:21.893</Modified>
+      <Modified>2022-10-14T15:23:41.394</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
       <PackagePath>BaseRPG.exe</PackagePath>
-      <Modified>2022-10-14T15:22:21.929</Modified>
+      <Modified>2022-10-14T15:23:41.413</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
       <PackagePath>BaseRPG.deps.json</PackagePath>
-      <Modified>2022-10-14T15:22:22.406</Modified>
+      <Modified>2022-10-14T15:23:41.558</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.netcore.app.runtime.win-x86\6.0.5\runtimes\win-x86\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -1019,7 +1019,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
       <PackagePath>Assets\image\attacks\sword-attack-effect.png</PackagePath>
-      <Modified>2022-10-14T15:21:34.307</Modified>
+      <Modified>2022-10-14T15:23:32.484</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\bacground\background.png">
       <PackagePath>Assets\image\bacground\background.png</PackagePath>
@@ -1067,7 +1067,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\attacks\sword-attack-effect.piskel">
       <PackagePath>Assets\piskel\attacks\sword-attack-effect.piskel</PackagePath>
-      <Modified>2022-10-14T15:21:34.313</Modified>
+      <Modified>2022-10-14T15:23:32.485</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\piskel\bacground\background.piskel">
       <PackagePath>Assets\piskel\bacground\background.piskel</PackagePath>

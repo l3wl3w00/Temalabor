@@ -23,19 +23,20 @@ namespace BaseRPG.View.ItemView
 {
     public class EquippedItemView : BaseItemView
     {
-        private Shape2D hitbox;
         private Unit owner;
-        private IImageRenderer imageRenderer;
+        private IImageProvider imageProvider;
+        private readonly PositionTracker mousePositionTracker;
         private IAnimator animator;
         private Weapon observedWeapon;
 
         protected override Item ObservedItem { get { return observedWeapon; } }
-        public EquippedItemView(Weapon item, Unit owner, IAnimator animator, IImageRenderer imageRenderer)
+        public EquippedItemView(Weapon item, Unit owner, IAnimator animator, IImageProvider imageProvider, PositionTracker mousePositionTracker)
         {
             this.observedWeapon = item;
             this.Owner = owner;
             this.animator = animator;
-            this.imageRenderer = imageRenderer;
+            this.imageProvider = imageProvider;
+            this.mousePositionTracker = mousePositionTracker;
         }
 
         public override Vector2D ObservedPosition => new(Owner.Position.Values[0], Owner.Position.Values[1]);
@@ -57,16 +58,15 @@ namespace BaseRPG.View.ItemView
         {
             throw new NotImplementedException();
         }
-
+        private Vector2D OwnerPos { get => new(owner.Position.Values[0], owner.Position.Values[1]); }
         public void StartLightAttackAnimation() {
             SwordSwingAnimationStrategy swordSwingAnimation = new SwordSwingAnimationStrategy(
-                    imageRenderer, Angle.FromDegrees(120),
-                    imageRenderer.ImageRotation - Angle.FromRadians(Math.PI / 2),
+                     Angle.FromDegrees(120),
                     0.3);
             swordSwingAnimation.OnAnimationAlmostEnding +=
                 a => observedWeapon.CreateLightAttack(
                     new PhysicsFactory2D().CreatePosition(
-                        Vector2D.FromPolar(100,swordSwingAnimation.GetAngle()) 
+                        Vector2D.FromPolar(100,swordSwingAnimation.StartingAngle) 
                         + new Vector2D(owner.Position.Values[0],owner.Position.Values[1])
                         )
                 ) ;

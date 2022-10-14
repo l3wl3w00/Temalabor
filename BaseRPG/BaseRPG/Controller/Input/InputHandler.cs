@@ -18,7 +18,9 @@ namespace BaseRPG.Controller.Input
         private IRawInputProcessedInputMapper rawInputProcessedInputMapper;
         private List<string> pressedButNotReleasedInput = new List<string>();
         private PositionTracker mousePositionTracker = new PositionTracker();
-        public Point2D MousePosition { set {
+        public Vector2D MousePosition {
+            get { return mousePositionTracker.Position; }
+            set {
                 mousePositionTracker.Position = new(value.X,value.Y);
             } 
         }
