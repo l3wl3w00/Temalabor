@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.Item
 {
-    public class Item : ICollectible,IGameObject
+    public class Item : ICollectible, IGameObject
     {
         public bool Exists => true;
 
@@ -26,12 +26,12 @@ namespace BaseRPG.Model.Tickable.Item
         {
         }
 
-        public void OnTick()
+        public void OnTick(double delta)
         {
             //throw new NotImplementedException();
         }
 
-        public void Separate(Dictionary<string, List<IGameObject>> dict)
+        public void Separate(Dictionary<string, List<ISeparable>> dict)
         {
             throw new NotImplementedException();
         }

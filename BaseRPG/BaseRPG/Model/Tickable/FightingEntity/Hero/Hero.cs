@@ -24,8 +24,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public override AttackabilityService.Group OffensiveGroup => AttackabilityService.Group.Friendly;
         public override AttackabilityService.Group DefensiveGroup => OffensiveGroup;
 
-        public Hero(int maxHp, IMovementManager movementManager,Dictionary<string,IAttackFactory> attacks ) :
-            base(maxHp, movementManager, new EmptyMovementStrategy(), attacks)
+        public Hero(int maxHp, IMovementManager movementManager ) :
+            base(maxHp, movementManager, new EmptyMovementStrategy())
         {
             inventory = new();
             
@@ -35,16 +35,20 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         //{
         //    inventory.Collect(collectible);
         //}
-        public void Attack(string attackName)
+        public override IAttackFactory AttackFactory(string attackName)
         {
-            if (attackName == "light") { LigtAttack(); return;  }
+            if (attackName == "light")
+                return inventory.EquippedWeapon.LightAttackFactory;
+            return null;
         }
-        private void LigtAttack()
+        private void LightAttack()
         {
             //inventory.EquippedWeapon.OnLightAttack();
         }
-        public override void OnTick()
+        public override void OnTick(double delta)
+        
         {
+            base.OnTick(delta);
             //throw new NotImplementedException();
         }
 

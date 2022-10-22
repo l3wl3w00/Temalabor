@@ -1,10 +1,12 @@
-﻿using BaseRPG.Model.Attribute;
+﻿using BaseRPG.Controller.Utility;
+using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.Skill;
 using BaseRPG.Model.Services;
 using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,20 @@ namespace BaseRPG.Model.Tickable.FightingEntity
 
         private Health health;
         private IMovementManager movementManager;
-        private IMovementStrategy movementStrategy;
-        private Dictionary<string,IAttackFactory> attacks;
+
+        // This field describes how this unit moves.
+        // This is NOT the only way a unit can move,
+        // for example the player can move their own unit as they like
+        private Default<IMovementStrategy> movementStrategy;
+
         private Stat damage;
         private double speed = 100;
+        private bool exists = true;
+
 
         public Health Health { get { return health; } }
         public int Damage => throw new NotImplementedException();
-        public IMovementUnit NextMovement { get => movementStrategy.CalculateNextMovement(MovementManager, speed); }
+        public IMovementUnit NextMovement { get => movementStrategy.CurrentValue.CalculateNextMovement(MovementManager, speed); }
         public IPositionUnit Position { get { return movementManager.Position; } }
         public IMovementUnit LastMovement
         {
@@ -35,12 +43,23 @@ namespace BaseRPG.Model.Tickable.FightingEntity
                 return movementManager.LastMovement;
             }
         }
+
+        public abstract IAttackFactory AttackFactory(string v);
+
         public IMovementManager MovementManager => movementManager;
 
-        public abstract void OnTick();
+        public virtual void OnTick(double delta) {
+            MovementManager.Move(NextMovement?.Scaled(delta));
+        }
+        public void StopMoving() {
+            movementStrategy.CurrentValue = new EmptyMovementStrategy();
+        }
+        public void StartMoving()
+        {
+            movementStrategy.Reset();
+        }
         //public virtual void Attack(string attackName) {
         //    attacks[attackName.ToLower()]?.CreateAttack(this,movementManager.Position);
-        //}
 
 
         public int CalculateDamage() {
@@ -52,21 +71,32 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         }
 
         public Unit(int maxHp, IMovementManager movementManager, 
-            IMovementStrategy movementStrategy, Dictionary<string, IAttackFactory> attacks ) {
+            IMovementStrategy movementStrategy ) {
             health = new Health(maxHp);
+            health.HealthReachedZeroEvent += () => Exists = false;
             this.movementManager = movementManager;
-            this.movementStrategy = movementStrategy;
-            this.attacks = attacks;
+            this.movementStrategy = new(movementStrategy);
         }
 
         protected abstract string Type { get; }
 
-        public bool Exists => health.CurrentValue > 0;
+        protected virtual void OnExistsSet(bool value) { }
+        public bool Exists { 
+            get 
+            {
+                return exists;
+            }
+            set 
+            {
+                OnExistsSet(value);
+                exists = value;
+            } 
+        }
 
         public abstract AttackabilityService.Group OffensiveGroup { get; }
         public abstract AttackabilityService.Group DefensiveGroup { get; }
 
-        public void Separate(Dictionary<string, List<IGameObject>> dict)
+        public void Separate(Dictionary<string, List<ISeparable>> dict)
         {
             string key = Type;
             if (dict.ContainsKey(key))
@@ -74,7 +104,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
                 dict[key].Add(this);
                 return;
             }
-            dict.Add(key, new List<IGameObject> { this });
+            dict.Add(key, new List<ISeparable> { this });
         }
 
         public void TakeDamage(double damage)

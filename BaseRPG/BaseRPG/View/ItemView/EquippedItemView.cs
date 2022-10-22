@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Tickable.Item;
@@ -24,19 +25,19 @@ namespace BaseRPG.View.ItemView
     public class EquippedItemView : BaseItemView
     {
         private Unit owner;
-        private IImageProvider imageProvider;
-        private readonly PositionTracker mousePositionTracker;
+
         private IAnimator animator;
-        private Weapon observedWeapon;
+        private Item observedWeapon;
+        Func<IAttackFactory, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation;
 
         protected override Item ObservedItem { get { return observedWeapon; } }
-        public EquippedItemView(Weapon item, Unit owner, IAnimator animator, IImageProvider imageProvider, PositionTracker mousePositionTracker)
+        public EquippedItemView(Item item, Unit owner, IAnimator animator,
+            Func<IAttackFactory, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation)
         {
             this.observedWeapon = item;
             this.Owner = owner;
             this.animator = animator;
-            this.imageProvider = imageProvider;
-            this.mousePositionTracker = mousePositionTracker;
+            this.lightAttackAnimationCreation = lightAttackAnimationCreation;
         }
 
         public override Vector2D ObservedPosition => new(Owner.Position.Values[0], Owner.Position.Values[1]);
@@ -46,7 +47,6 @@ namespace BaseRPG.View.ItemView
         public override void OnRender(DrawingArgs drawingArgs)
         {
             animator.Animate(drawingArgs);
-
         }
 
         public void StartHeavyAttackChargeAnimation() {
@@ -59,18 +59,8 @@ namespace BaseRPG.View.ItemView
             throw new NotImplementedException();
         }
         private Vector2D OwnerPos { get => new(owner.Position.Values[0], owner.Position.Values[1]); }
-        public void StartLightAttackAnimation() {
-            SwordSwingAnimationStrategy swordSwingAnimation = new SwordSwingAnimationStrategy(
-                     Angle.FromDegrees(120),
-                    0.3);
-            swordSwingAnimation.OnAnimationAlmostEnding +=
-                a => observedWeapon.CreateLightAttack(
-                    new PhysicsFactory2D().CreatePosition(
-                        Vector2D.FromPolar(100,swordSwingAnimation.StartingAngle) 
-                        + new Vector2D(owner.Position.Values[0],owner.Position.Values[1])
-                        )
-                ) ;
-            animator.Start(swordSwingAnimation);
+        public void StartLightAttackAnimation(IAttackFactory attackFactory) {
+            animator.Start(lightAttackAnimationCreation.Invoke(attackFactory));
         }
     }
 }

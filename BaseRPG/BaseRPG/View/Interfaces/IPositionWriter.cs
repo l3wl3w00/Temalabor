@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Interfaces
 {
-    public interface IPositionTracker
+    public interface IPositionWriter
     {
-        Vector2D Position { get; }
+        public Vector2D Position { set; }
     }
 }

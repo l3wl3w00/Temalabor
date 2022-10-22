@@ -24,6 +24,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         public Vector2D PositionAsVector { get { return new(position.Values[0], position.Values[1]); } }
         public void Move(IMovementUnit movement)
         {
+            if (movement == null) return;
             lastMovement = movement;
             position.MoveBy(lastMovement);
             Moved?.Invoke();

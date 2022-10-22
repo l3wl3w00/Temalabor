@@ -25,16 +25,12 @@ namespace BaseRPG.Controller
     {
 
         private PlayerControl playerControl;
-        private List<AutomaticUnitControl> unitControls = new List<AutomaticUnitControl>();
         private InputHandler inputHandler;
         private ViewManager viewManager;
         private CollisionNotifier2D collisionNotifier;
         private bool running = true;
 
-        
-
         public InputHandler InputHandler { get { return inputHandler; } }
-        public ViewManager ViewManager { get => viewManager; }
         public bool Running { get => running; }
         public PlayerControl PlayerControl { set { playerControl = value; } get => playerControl; }
         private GameObjectCollectionControl gameObjectCollectionControl = new();
@@ -56,8 +52,7 @@ namespace BaseRPG.Controller
             gameObjectCollectionControl.AddQueued();
             inputHandler.OnTick();
             playerControl.OnTick(delta);
-            unitControls.ForEach(u => u.OnTick(delta));
-            Game.Instance.OnTick();
+            Game.Instance.OnTick(delta);
             collisionNotifier.CheckCollisions();
 
         }
@@ -67,7 +62,7 @@ namespace BaseRPG.Controller
 
             inputHandler = new();
 
-            gameConfigurer.Configure(this);
+            gameConfigurer.Configure(this, viewManager);
 
 
             inputHandler.Initialize(
@@ -83,8 +78,7 @@ namespace BaseRPG.Controller
         public void CreateAttackView(Attack attack, IPositionUnit ownerPosition, string attackImage, IImageProvider imageProvider,IShape2D shape) {
             
             DefaultImageRenderer attackImageRenderer = new DefaultImageRenderer(
-                imageProvider.GetByFilename(attackImage),
-                imageProvider.GetSizeByFilename(attackImage)
+                attackImage,imageProvider
                 );
             double[] values = ownerPosition.MovementTo(attack.Position).Values;
             double initialRotation = Math.Atan2(values[1],values[0]);
@@ -100,13 +94,12 @@ namespace BaseRPG.Controller
         // The only way to add a game object that is visible
         public void AddVisible(FullGameObject2D fullGameObject) {
             
-            AddVisibleToWorld(Game.Instance.CurrentWorld, ViewManager.CurrentWorldView,collisionNotifier, fullGameObject);
+            AddVisibleToWorld(Game.Instance.CurrentWorld, viewManager.CurrentWorldView,collisionNotifier, fullGameObject);
         }
         public void AddVisibleToWorld(World world,WorldView worldView,CollisionNotifier2D collisionNotifier, FullGameObject2D fullGameObject)
         {
             
             gameObjectCollectionControl.QueueForAdd(world,worldView, collisionNotifier, fullGameObject);
         }
-        public void AddControl(AutomaticUnitControl unitControl) { unitControls.Add(unitControl); }
     }
 }

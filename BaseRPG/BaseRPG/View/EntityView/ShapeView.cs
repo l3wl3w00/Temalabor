@@ -1,5 +1,7 @@
-﻿using BaseRPG.Physics.TwoDimensional.Collision;
+﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View.Animation;
+using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.Geometry;
 using System;
@@ -15,21 +17,21 @@ namespace BaseRPG.View.EntityView
     public class ShapeView:IDrawable
     {
         private IShape2D shape;
-        private IDrawable drawable;
+        private IPositionProvider positionProvider;
 
-        public ShapeView(IShape2D shape, IDrawable drawable)
+        public ShapeView(IShape2D shape, IPositionProvider positionProvider)
         {
             this.shape = shape;
-            this.drawable = drawable;
+            this.positionProvider = positionProvider;
         }
 
-        public bool Exists => drawable.Exists;
+        public bool Exists => shape.Owner.Exists;
 
-        public Vector2D ObservedPosition => drawable.ObservedPosition;
+        public Vector2D ObservedPosition => positionProvider.Position;
 
         public void OnRender(DrawingArgs drawingArgs)
         {
-            IEnumerable<Point2D> vertices = shape.ToPolygon().Vertices;
+            IEnumerable<Point2D> vertices = shape.ToPolygon2D().Vertices;
             Vector2[] verticesArray = vertices.Select(v => new Vector2((float)v.X, (float)v.Y)).ToArray();
             
             drawingArgs.Args.DrawingSession.FillGeometry(

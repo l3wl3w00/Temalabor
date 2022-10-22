@@ -1,4 +1,5 @@
 ﻿using BaseRPG.View.Animation;
+using BaseRPG.View.Animation.ImageSequence;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
@@ -9,12 +10,24 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Interfaces
 {
-    public interface IAnimator
+    public abstract class IAnimator
     {
-        
-        void Start(IAnimationStrategy animationStrategy);
-        void Reset();
-        void Animate(DrawingArgs animationArgs);
+        public abstract Tuple<double, double> Size { get; }
+        void Start(TransformationAnimation2D transformationAnimation, ImageSequenceAnimation imageSequenceAnimation)
+        {
+            Start(transformationAnimation);
+            Start(imageSequenceAnimation);
+        }
+        public abstract void Start(TransformationAnimation2D animation);
+        public abstract void Start(ImageSequenceAnimation animation);
+
+        public void ResetAll() {
+            ResetImageSequence();
+            ResetTransformation();
+        }
+        public abstract void ResetTransformation();
+        public abstract void ResetImageSequence();
+        public abstract void Animate(DrawingArgs animationArgs);
 
     }
 }

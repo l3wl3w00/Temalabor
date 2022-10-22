@@ -9,9 +9,20 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Interfaces.Combat
 {
-    public interface IAttackFactory
+    public abstract class IAttackFactory
     {
-        
-        public Attack CreateAttack(IAttacking attacker,IPositionUnit position);
+        public Action<Attack> CreatedEvent;
+        private IAttacking attacker;
+        public IAttacking Attacker {
+            set 
+            { 
+                attacker = value;
+            }
+        }
+        public abstract Attack CreateAttack(IAttacking attacker, IPositionUnit position);
+        public Attack CreateAttack(IPositionUnit position) {
+            if (attacker == null) throw new RequiredParameterNull("attacker was null");
+            return CreateAttack(attacker, position);
+        }
     }
 }

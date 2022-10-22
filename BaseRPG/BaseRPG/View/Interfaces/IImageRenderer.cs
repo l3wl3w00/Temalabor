@@ -11,7 +11,6 @@ namespace BaseRPG.View.Interfaces
     {
         ICanvasImage Image { get; }
         Tuple<double, double> ImageSize {get;}
-        Vector2D MiddleOffset { get; }
         public Angle ImageRotation { get; }
         public void Render(DrawingArgs drawingArgs);
         void SetImageRotation(double angle);

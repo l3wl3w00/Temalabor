@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Animation
 {
-    public class PositionObserver : IPositionTracker
+    public class PositionObserver : IPositionProvider
     {
         private Func<Vector2D> positionGetterMethod;
         public PositionObserver( Func<Vector2D> positionGetterMethod)

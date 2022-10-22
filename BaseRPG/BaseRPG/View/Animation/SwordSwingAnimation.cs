@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.View.Animation.FacingPoint;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
@@ -13,72 +14,66 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Animation
 {
-    public class SwordSwingAnimationStrategy : IAnimationStrategy
+    public class SwordSwingAnimation : Interfaces.TransformationAnimation2D
     {
 
         private bool isOver = false;
         private bool hasInvokedAnimationAlmostEnding = false;
         private readonly Angle angleRange;
-        private Angle startingAngle;
+        private Angle? startingAngle = null;
         private Angle currentAngle;
-        private FacingPointAnimationStrategy facingPointAnimationStrategy;
+        private FacingPointAnimation facingPointAnimationStrategy;
         private AnimationTimer timer;
 
         public Angle CurrentAngle { get { return currentAngle; } }
 
-        public Angle StartingAngle => startingAngle;
+        public Angle StartingAngle => startingAngle.Value;
 
-        public event Action<SwordSwingAnimationStrategy> OnAnimationAlmostEnding;
-        public event Action<IAnimationStrategy> OnAnimationCompleted;
+        public event Action<SwordSwingAnimation> OnAnimationAlmostEnding;
+        public override event Action<Interfaces.TransformationAnimation2D> OnAnimationCompleted;
 
-
-
-        public SwordSwingAnimationStrategy(
+        public SwordSwingAnimation(
             Angle angleRange,
             double seconds)
         {
             this.angleRange = angleRange;
             initTimers(seconds, seconds/4);
 
-            facingPointAnimationStrategy = new FacingPointAnimationStrategy(new(),100);
+            facingPointAnimationStrategy = new FacingPointAnimation(100);
             OnAnimationAlmostEnding += a => hasInvokedAnimationAlmostEnding = true;
         }
 
         public Angle GetCurrentAngle() { 
             return currentAngle;
         }
-        
-        public Transform2DEffect GetImage(DrawingArgs animationArgs, Matrix3x2 initialMatrix)
+
+        protected override Matrix3x2 OnGetImage(DrawingArgs animationArgs)
         {
-            if (startingAngle.Degrees <= double.Epsilon)
+            if (startingAngle == null)
                 startingAngle = (animationArgs.PositionOnScreen - animationArgs.MousePositionOnScreen).SignedAngleTo(new(-1, 0), true);
 
             if (!isOver)
             {
-                facingPointAnimationStrategy.PointPosition = nextPosition(animationArgs.PositionOnScreen);
+                facingPointAnimationStrategy.Point = nextPosition(animationArgs.PositionOnScreen);
                 setStateForAnimation();
-
             }
-
-            Transform2DEffect animatedImage = facingPointAnimationStrategy.GetImage(animationArgs, initialMatrix);
-
             timer.Tick(animationArgs.Delta);
             if (timer.SecondsSinceStarted / timer.MaxSeconds >= 0.85)
                 if (!hasInvokedAnimationAlmostEnding)
                     OnAnimationAlmostEnding?.Invoke(this);
-            return animatedImage;
+            return facingPointAnimationStrategy.GetImage(animationArgs);
         }
 
         private void setStateForAnimation() {
             
             facingPointAnimationStrategy.FirstPointOffset = Vector2D.FromPolar(
                 (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 30,
-                startingAngle);
+                StartingAngle);
             facingPointAnimationStrategy.DistanceOffsetTowardsPointer = 130 - (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 20;
         }
         private Vector2D nextPosition(Vector2D positionOnScreen) {
      
-            currentAngle = startingAngle - Angle.FromRadians(CalculateMovementAngle(timer.SecondsSinceStarted));
+            currentAngle = StartingAngle - Angle.FromRadians(CalculateMovementAngle(timer.SecondsSinceStarted));
             return Vector2D.FromPolar(200, currentAngle) + positionOnScreen;
         }
         private void initTimers(double seconds, double secondsAfterOver)

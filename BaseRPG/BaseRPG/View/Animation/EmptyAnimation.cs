@@ -11,24 +11,17 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Animation
 {
-    internal class EmptyAnimationStrategy : IAnimationStrategy
+    internal class EmptyAnimation : Interfaces.TransformationAnimation2D
     {
         private Vector2D relativePosition;
 
-        public EmptyAnimationStrategy(Vector2D relativePosition)
+        public EmptyAnimation(Vector2D relativePosition)
         {
             this.relativePosition = relativePosition;
         }
 
-        public event Action<IAnimationStrategy> OnAnimationCompleted;
 
-
-        public Transform2DEffect GetImage(DrawingArgs animationArgs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Transform2DEffect GetImage(DrawingArgs animationArgs, Matrix3x2 initialMatrix = default)
+        protected override Matrix3x2 OnGetImage(DrawingArgs animationArgs)
         {
             throw new NotImplementedException();
         }

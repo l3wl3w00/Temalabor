@@ -30,16 +30,8 @@ namespace BaseRPG.Controller.UnitControl
             }
             public void Add()
             {
-                world.Add(fullGameObject.GameObject);
-                worldView.AddView(fullGameObject.View);
-                if (fullGameObject.Shape == null) return;
+                fullGameObject.AddTo(worldView,world,collisionNotifier);
 
-                if (System.Diagnostics.Debugger.IsAttached)
-                {
-                    worldView.AddView(new ShapeView(fullGameObject.Shape, fullGameObject.View));
-                }
-                
-                collisionNotifier.AddToObservedShapes(fullGameObject.Shape);
             }
 
         }

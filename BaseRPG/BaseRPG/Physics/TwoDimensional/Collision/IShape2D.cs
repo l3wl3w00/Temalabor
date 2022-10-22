@@ -16,14 +16,16 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 {
     public interface IShape2D
     {
-        
+        IMovementManager MovementManager { get; set; }
+
         public Vector2D GlobalPosition { get; }
-        public IMovementManager MovementManager { get; }
-        public IGameObject Owner { get; }
+        public IGameObject Owner { get; set; }
         public Vector2D Middle { get; }
         void Rotate(double angle);
-        Polygon2D ToPolygon();
+        Polygon2D ToPolygon2D();
+        Polygon ToPolygon();
         bool IsColliding(IShape2D s2);
+        bool IsCollidingCircle(Circle circleSector);
         IShape2D Shifted(Vector2D shift);
         IShape2D Shifted(params double[] values);
     }

@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace BaseRPG.Controller.Interfaces
 {
     public interface IGameConfigurer
     {
-        void Configure(Controller controller);
+        void Configure(Controller controller, ViewManager viewManager);
     }
 }

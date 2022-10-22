@@ -17,7 +17,6 @@ namespace BaseRPG.Model.Worlds
         //private IWorldInitializationStrategy initializationStrategy;
         
         public Hero Hero { get { return gameObjectContainer.Hero; } set { gameObjectContainer.Hero = value; } }
-        public GameObjectContainer GameObjectContainer { get { return gameObjectContainer; } }
 
         public World(GameObjectContainer gameObjectContainer)
         {
@@ -28,12 +27,12 @@ namespace BaseRPG.Model.Worlds
         //    initializationStrategy.Initialize(gameObjectContainer);
         //}
 
-        public void OnTick()
+        public void OnTick(double delta)
         {
             List<IGameObject> all = gameObjectContainer.All;
             lock (all) {
                 for (int i = 0; i < all.Count; i++) {
-                    all[i].OnTick();
+                    all[i].OnTick(delta);
                 }
                 all.RemoveAll(g => !g.Exists);
             }

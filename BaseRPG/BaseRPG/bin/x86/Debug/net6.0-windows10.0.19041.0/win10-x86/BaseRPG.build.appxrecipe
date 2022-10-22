@@ -781,6 +781,33 @@
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\characters\character1.png">
       <PackagePath>Assets\image\characters\character1.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation.zip">
+      <PackagePath>Assets\image\enemies\attack-animation.zip</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-0-outlined.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-0-outlined.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-0.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-0.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-1-outlined.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-1-outlined.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-1.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-1.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-2-outlined.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-2-outlined.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-2.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-2.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-3-outlined.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-3-outlined.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\attack-animation\slime-attack-3.png">
+      <PackagePath>Assets\image\enemies\attack-animation\slime-attack-3.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\enemies\slime-outlined.png">
       <PackagePath>Assets\image\enemies\slime-outlined.png</PackagePath>
     </AppxPackagedFile>

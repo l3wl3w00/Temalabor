@@ -16,14 +16,20 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         private Polygon2D polygon;
         private double angle;
-        private readonly IGameObject owner;
-        private readonly IMovementManager movementManager;
+        private IGameObject owner;
+        private IMovementManager movementManager;
 
-        public Polygon(IGameObject owner, IMovementManager movementManager,List<Point2D> vertices)
+        public Polygon(IGameObject owner, IMovementManager movementManager, IEnumerable<Point2D> vertices)
         {
             polygon = new Polygon2D(vertices);
             this.owner = owner;
-            this.movementManager = movementManager;
+            this.MovementManager = movementManager;
+            if (movementManager != null)
+                movementManager.Moved += () =>
+                {
+                    Angle angle = new Vector2D(movementManager.LastMovement.Values[0], movementManager.LastMovement.Values[1]).SignedAngleTo(new(0, 1), true);
+                    SetRotation(angle.Radians);
+                };
         }
 
         public Vector2D Middle
@@ -42,11 +48,16 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         }
 
-        public IGameObject Owner => owner;
+        public IGameObject Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
 
-        public IMovementManager MovementManager => movementManager;
 
-        public Vector2D GlobalPosition => new(movementManager.Position.Values[0], movementManager.Position.Values[1]);
+        public Vector2D GlobalPosition => new(MovementManager.Position.Values[0], MovementManager.Position.Values[1]);
+
+        public IMovementManager MovementManager { get => movementManager; set => movementManager = value; }
 
         public void Rotate(double angle)
         {
@@ -60,10 +71,10 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         }
         public bool IsColliding(IShape2D s2)
         {
-            return IsColliding(s2.ToPolygon());
+            return IsColliding(s2.ToPolygon2D());
         }
         private bool IsColliding(Polygon2D polygon2) {
-            if(Polygon2D.ArePolygonVerticesColliding(this.ToPolygon(), polygon2)) return true;
+            if(Polygon2D.ArePolygonVerticesColliding(this.ToPolygon2D(), polygon2)) return true;
             if(AreEgesColliding(polygon2)) return true;
             return false;
         }
@@ -79,7 +90,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             }
             return false;
         }
-        public Polygon2D ToPolygon()
+        public Polygon2D ToPolygon2D()
         {
             return polygon;
         }
@@ -93,7 +104,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             //List<Point2D> vertices = new List<Point2D>();
             //polygon.Vertices.ToList().ForEach(v => vertices.Add(v));
             //var newPolygon = new Polygon2D(vertices);
-            return new Polygon(Owner, movementManager.Copy(), polygon.TranslateBy(new(values[0], values[1])).Vertices.ToList());
+            return new Polygon(Owner, MovementManager.Copy(), polygon.TranslateBy(new(values[0], values[1])).Vertices.ToList());
         }
 
         public void SetRotation(double newAngle)
@@ -101,6 +112,19 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             var deltaAngle = newAngle - angle;
             angle = newAngle;
             polygon = polygon.RotateAround(Angle.FromRadians(deltaAngle), new(0,0));
+        }
+
+        public Polygon ToPolygon()
+        {
+            return this;
+        }
+
+        public bool IsCollidingCircle(Circle circleSector)
+        {
+            throw new NotImplementedException();
+        }
+        public static Polygon Circle(IGameObject owner, IMovementManager movementManager, Vector2D center, double radius) {
+            return new Circle(owner, movementManager,center, radius).ToPolygon();
         }
     }
 }

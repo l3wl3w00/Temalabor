@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseRPG.View.Image
+namespace BaseRPG.Model.Interfaces
 {
-    internal class RotatingImageProvider
+    public interface ISeparable
     {
-        
+        void Separate(Dictionary<string, List<ISeparable>> dict);
     }
 }

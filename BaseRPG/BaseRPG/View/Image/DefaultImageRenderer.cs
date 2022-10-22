@@ -19,7 +19,6 @@ namespace BaseRPG.View.Image
     {
         private Transform2DEffect image = new();
 
-        private Vector2D middleOffset;
         private double rotation;
         private Tuple<double, double> imageSize;
 
@@ -27,7 +26,6 @@ namespace BaseRPG.View.Image
         {
             image.Source = imageProvider.GetByFilename(imageName);
             imageSize = imageProvider.GetSizeByFilename(imageName);
-            middleOffset = new(ImageSize.Item1 / 2.0, ImageSize.Item2 / 2.0);
         }
 
 
@@ -35,10 +33,8 @@ namespace BaseRPG.View.Image
         {
             this.image.Source = image;
             imageSize = sizeOfImage;
-            middleOffset = new(ImageSize.Item1 / 2.0, ImageSize.Item2 / 2.0);
         }
 
-        public Vector2D MiddleOffset { get => middleOffset; }
         public ICanvasImage Image { get => image; }
 
         public Angle ImageRotation => Angle.FromRadians(rotation);
@@ -47,8 +43,8 @@ namespace BaseRPG.View.Image
 
         public Vector2 PositionOnScreen(DrawingArgs drawingArgs) {
             return new(
-                    (float)(drawingArgs.PositionOnScreen.X - MiddleOffset.X),
-                    (float)(drawingArgs.PositionOnScreen.Y - MiddleOffset.Y)
+                    (float)(drawingArgs.PositionOnScreen.X),
+                    (float)(drawingArgs.PositionOnScreen.Y)
                     );
         }
         public void Render(DrawingArgs drawingArgs)
@@ -60,8 +56,7 @@ namespace BaseRPG.View.Image
         {
             rotation = angle;
             image.TransformMatrix = Matrix3x2.CreateRotation(
-                        (float)(angle),
-                        new((float)MiddleOffset.X, (float)MiddleOffset.Y));
+                        (float)(angle));
         }
 
         public void SetImageScale(double xScale, double yScale)

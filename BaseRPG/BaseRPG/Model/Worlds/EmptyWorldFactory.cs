@@ -22,7 +22,6 @@ namespace BaseRPG.Model.Worlds
         public World Create()
         {
             GameObjectContainer gameObjectContainer = new GameObjectContainer();
-            //gameObjectContainer.Hero = new Hero(100, initialHeroPosition);
             return new World(gameObjectContainer);
         }
     }

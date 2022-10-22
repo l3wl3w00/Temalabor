@@ -20,32 +20,27 @@ namespace BaseRPG.View.Image
         public async Task LoadImages(ICanvasResourceCreator canvasResourceCreator)
         {
             string projectPath =  AppDomain.CurrentDomain.BaseDirectory;
-            var attackEffectImagePath = @"Assets\image\attacks\sword-attack-effect.png";
-            var attackEffectImage = CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, attackEffectImagePath));
 
+            List<string> pics = new List<string> 
+            {
+                @"Assets\image\enemies\attack-animation\slime-attack-0-outlined.png",
+                @"Assets\image\enemies\attack-animation\slime-attack-1-outlined.png",
+                @"Assets\image\enemies\attack-animation\slime-attack-2-outlined.png",
+                @"Assets\image\enemies\attack-animation\slime-attack-3-outlined.png",
+                @"Assets\image\attacks\sword-attack-effect.png",
+                @"Assets\image\enemies\slime-outlined.png",
+                @"Assets\image\characters\character1-outlined.png",
+                @"Assets\image\bacground\big-background-mozaic.jpg",
+                @"Assets\image\weapons\normal-sword-outlined.png"
+            };
 
-            var slimeEnemyImagePath = @"Assets\image\enemies\slime-outlined.png";
-            var loadSlimeEnemyImage = CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, slimeEnemyImagePath));
-
-            var characteImageOutlinedPath = @"Assets\image\characters\character1-outlined.png";
-            var loadCharacterOutlinedImage = CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, characteImageOutlinedPath));
-
-
-            var backgroundImagePath = @"Assets\image\bacground\big-background-mozaic.jpg";
-            var loadBackgroundImage = CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, backgroundImagePath));
-
-            var normalSwordImagePath = @"Assets\image\weapons\normal-sword-outlined.png";
-            var loadNormalSwordImage = CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, normalSwordImagePath));
-            images.Add(attackEffectImagePath, await attackEffectImage);
-            images.Add(slimeEnemyImagePath, await loadSlimeEnemyImage);
-            images.Add(characteImageOutlinedPath, await loadCharacterOutlinedImage);
-            images.Add(backgroundImagePath, await loadBackgroundImage);
-            images.Add(normalSwordImagePath, await loadNormalSwordImage);
+            foreach (string p in pics)
+                images.Add(p, await CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, p)));
             initialized = true;
         }
-
         public ICanvasImage GetByFilename(string fileName)
         {
+            if (fileName == null) return null;
             if (!initialized)
             {
                 //This exception is also thrown if an image couldn't be loaded
@@ -60,6 +55,7 @@ namespace BaseRPG.View.Image
 
         public Tuple<double, double> GetSizeByFilename(string fileName)
         {
+            if (fileName == null) return null;
             var bitmap = GetByFilename(fileName) as CanvasBitmap;
             return new(bitmap.Size.Width, bitmap.Size.Height);
         }

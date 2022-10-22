@@ -24,7 +24,7 @@ namespace BaseRPG.Model.Data
 
         public List<T> GetGameObjects<T>(string name)
         {
-            Dictionary<string, List<IGameObject>> dict = new Dictionary<string, List<IGameObject>>();
+            Dictionary<string, List<ISeparable>> dict = new Dictionary<string, List<ISeparable>>();
             All.ForEach(g => g.Separate(dict));
             if (!dict.ContainsKey(name)) return new List<T>();
             return dict[name].Select(e => (T)e).ToList();

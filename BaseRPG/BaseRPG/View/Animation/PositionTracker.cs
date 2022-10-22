@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Animation
 {
-    public class PositionTracker:IPositionTracker
+    public class PositionTracker:IPositionProvider,IPositionWriter
     {
         public Vector2D Position { get; set; }
         public PositionTracker()

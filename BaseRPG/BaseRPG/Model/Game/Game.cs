@@ -48,9 +48,9 @@ namespace BaseRPG.Model.Game
             CurrentWorldChanged?.Invoke(name, CurrentWorld);
         }
 
-        public void OnTick()
+        public void OnTick(double delta)
         {
-            CurrentWorld.OnTick();
+            CurrentWorld.OnTick(delta);
         }
     }
 }

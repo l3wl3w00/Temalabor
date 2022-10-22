@@ -8,6 +8,6 @@ namespace BaseRPG.Model.Interfaces
 {
     public interface ITickable
     {
-        void OnTick();
+        void OnTick(double delta);
     }
 }

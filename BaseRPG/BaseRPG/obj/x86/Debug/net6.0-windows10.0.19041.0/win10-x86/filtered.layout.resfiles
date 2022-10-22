@@ -4,6 +4,15 @@ Assets\image\bacground\big-background.png
 Assets\image\bacground\big-background-mozaic.jpg
 Assets\image\characters\character1.png
 Assets\image\characters\character1-outlined.png
+Assets\image\enemies\attack-animation.zip
+Assets\image\enemies\attack-animation\slime-attack-0.png
+Assets\image\enemies\attack-animation\slime-attack-0-outlined.png
+Assets\image\enemies\attack-animation\slime-attack-1.png
+Assets\image\enemies\attack-animation\slime-attack-1-outlined.png
+Assets\image\enemies\attack-animation\slime-attack-2.png
+Assets\image\enemies\attack-animation\slime-attack-2-outlined.png
+Assets\image\enemies\attack-animation\slime-attack-3.png
+Assets\image\enemies\attack-animation\slime-attack-3-outlined.png
 Assets\image\enemies\slime.png
 Assets\image\enemies\slime-outlined.png
 Assets\image\image-outliner.py

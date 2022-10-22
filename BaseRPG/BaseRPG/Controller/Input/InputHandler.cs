@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller.Interfaces;
 using BaseRPG.View.Animation;
+using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;

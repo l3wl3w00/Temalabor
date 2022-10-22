@@ -1,6 +1,9 @@
-﻿using BaseRPG.View.Interfaces;
+﻿using BaseRPG.Controller.Utility;
+using BaseRPG.View.Animation.ImageSequence;
+using BaseRPG.View.Interfaces;
 using Microsoft.Graphics.Canvas.Effects;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace BaseRPG.View.Animation
@@ -8,51 +11,56 @@ namespace BaseRPG.View.Animation
     public class DefaultAnimator : IAnimator
     {
 
-        private IAnimationStrategy currentStrategy;
-        private IAnimationStrategy defaultStrategy;
-        private readonly IImageProvider imageProvider;
-        private readonly string imageName;
+        private AnimationLifeCycle<TransformationAnimation2D> transformationAnimation;
+        private AnimationLifeCycle<ImageSequenceAnimation> sequenceAnimation;
         private readonly bool cancelAnimations;
-        private bool resetQueued;
-        public DefaultAnimator(IAnimationStrategy defaultStrategy, IImageProvider imageProvider,
-            string imageName, bool cancelAnimations = false)
-        {
-            this.defaultStrategy = defaultStrategy;
-            this.imageProvider = imageProvider;
-            this.imageName = imageName;
-            this.cancelAnimations = cancelAnimations;
-            Start(defaultStrategy);
-        }
-        public void Animate(DrawingArgs animationArgs)
-        {
-            if (resetQueued) Reset();
-            Tuple<double, double> imageSize = imageProvider.GetSizeByFilename(imageName);
-            Matrix3x2 initialMatrix = Matrix3x2.CreateTranslation(-(float)imageSize.Item1/2,-(float)imageSize.Item2/2); 
-            Transform2DEffect transform2DEffect = currentStrategy.GetImage(animationArgs, initialMatrix);
 
-            transform2DEffect.Source = imageProvider.GetByFilename(imageName);
+        public DefaultAnimator(
+            TransformationAnimation2D defaultTransformAnimation,
+            ImageSequenceAnimation defaultImageSequenceAnimation,
+            bool cancelAnimations = false)
+        {
+            transformationAnimation = new(defaultTransformAnimation);
+            sequenceAnimation = new(defaultImageSequenceAnimation);
+            this.cancelAnimations = cancelAnimations;
+            Start(defaultTransformAnimation);
+            Start(defaultImageSequenceAnimation);
+        }
+        public override void Animate(DrawingArgs animationArgs)
+        {
+            transformationAnimation.ResetIfQueued();
+            sequenceAnimation.ResetIfQueued();
+
+            Transform2DEffect transform2DEffect = new Transform2DEffect 
+            {
+                Source = sequenceAnimation.CurrentAnimation.CalculateImage(animationArgs.Delta),
+                TransformMatrix = transformationAnimation.CurrentAnimation.GetImage(animationArgs) 
+            };
+
             animationArgs.Args.DrawingSession.DrawImage(transform2DEffect
                 , (float)(animationArgs.PositionOnScreen.X)
                 , (float)(animationArgs.PositionOnScreen.Y));
-            //currentStrategy.Animate(animationArgs);
         }
-
-        public void Start(IAnimationStrategy newStrategy)
+        public override Tuple<double, double> Size
         {
-           
-            if (!cancelAnimations)
-                //only change the animation if current = default OR new = default
-                if (!(currentStrategy == defaultStrategy || newStrategy == defaultStrategy))
-                    return;
-            
-            currentStrategy = newStrategy;
+            get
+            {
+                var scaleFactor = transformationAnimation.CurrentAnimation.LastTransformation.GetDeterminant();
+                return new(
+                    sequenceAnimation.CurrentAnimation.CurrentImageSize.Item1* scaleFactor,
+                    sequenceAnimation.CurrentAnimation.CurrentImageSize.Item2* scaleFactor);
+            }
+        }
+        public override void Start(TransformationAnimation2D animation) =>
+            transformationAnimation.Start(animation, cancelAnimations);
 
-            currentStrategy.OnAnimationCompleted += (a) => { resetQueued = true; };
-        }
-        public void Reset()
-        {
-            currentStrategy = defaultStrategy;
-            resetQueued = false;
-        }
+        public override void ResetTransformation() =>
+            transformationAnimation.Reset();
+
+        public override void Start(ImageSequenceAnimation animation) =>
+            sequenceAnimation.Start(animation, cancelAnimations);
+
+        public override void ResetImageSequence() =>
+            sequenceAnimation.Reset();
     }
 }

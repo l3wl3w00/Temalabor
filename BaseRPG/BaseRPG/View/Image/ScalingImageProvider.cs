@@ -12,30 +12,36 @@ namespace BaseRPG.View.Image
 {
     public class ScalingImageProvider:IImageProvider
     {
-        private float scaleFactor;
+        private float xScaleFactor;
+        private float yScaleFactor;
         private IImageProvider imageProvider;
-        public double ScaleFactor { get => scaleFactor; }
-
+        public float XScaleFactor { get => xScaleFactor; }
+        public float YScaleFactor { get => yScaleFactor; }
         public ScalingImageProvider(float scaleFactor, IImageProvider imageProvider)
         {
             this.imageProvider = imageProvider;
-            this.scaleFactor = scaleFactor; 
+            this.xScaleFactor = scaleFactor;
+            this.yScaleFactor = scaleFactor;
         }
         
 
         public ICanvasImage GetByFilename(string fileName)
         {
             var scaleEffect = new ScaleEffect();
-            scaleEffect.Scale = new(scaleFactor, scaleFactor);
+            scaleEffect.Scale = new(XScaleFactor, YScaleFactor);
             scaleEffect.InterpolationMode = CanvasImageInterpolation.NearestNeighbor;
+            if (fileName.EndsWith("3-outlined.png"))
+            {
+            }
             scaleEffect.Source = imageProvider.GetByFilename(fileName);
             return scaleEffect;
         }
 
         public Tuple<double, double> GetSizeByFilename(string fileName)
         {
+            if (fileName == null) return null;
             Tuple<double, double> result = imageProvider.GetSizeByFilename(fileName);
-            return new(result.Item1*ScaleFactor,result.Item2*ScaleFactor);
+            return new(result.Item1* XScaleFactor, result.Item2* YScaleFactor);
         }
     }
 }

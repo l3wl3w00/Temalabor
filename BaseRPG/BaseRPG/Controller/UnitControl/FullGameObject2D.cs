@@ -1,6 +1,11 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Worlds;
+using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.Interfaces;
+using BaseRPG.View.WorldView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +19,36 @@ namespace BaseRPG.Controller.UnitControl
         private IGameObject gameObject;
         private IShape2D shape;
         private IDrawable view;
+        private readonly IPositionProvider positionProvider;
 
-        public FullGameObject2D(IGameObject gameObject, IShape2D shape, IDrawable view)
+        public FullGameObject2D(IGameObject gameObject, IShape2D shape, IDrawable view, IPositionProvider positionProvider)
         {
-            this.GameObject = gameObject;
-            this.Shape = shape;
-            this.View = view;
-            
+            this.gameObject = gameObject;
+            this.shape = shape;
+            this.view = view;
+            this.positionProvider = positionProvider;
         }
 
-        public IDrawable View { get => view; set => view = value; }
-        public IShape2D Shape { get => shape; set => shape = value; }
-        public IGameObject GameObject { get => gameObject; set => gameObject = value; }
+        
+        public FullGameObject2D(IGameObject gameObject, IShape2D shape, IDrawable view):
+            this(gameObject,  shape,  view, new PositionObserver(() => view.ObservedPosition))
+        {
+
+        }
+
+        internal void AddTo(WorldView worldView, World world, CollisionNotifier2D collisionNotifier)
+        {
+            world.Add(gameObject);
+            if (view != null)
+                worldView.AddView(view);
+            if (shape == null) return;
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                worldView.AddView(new ShapeView(shape, positionProvider));
+            }
+
+            collisionNotifier.AddToObservedShapes(shape);
+        }
     }
 }

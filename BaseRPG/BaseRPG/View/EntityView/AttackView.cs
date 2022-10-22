@@ -1,5 +1,8 @@
-﻿using BaseRPG.Model.Tickable.Item.Weapon;
+﻿using BaseRPG.Controller.UnitControl;
+using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.View.Animation;
+using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
@@ -24,8 +27,6 @@ namespace BaseRPG.View.EntityView
             this.attack = attack;
             this.imageRenderer = imageRenderer;
             imageRenderer.SetImageRotation(initialRotation + Math.PI/2);
-            
-            
         }
 
         public Vector2D ObservedPosition => new(attack.Position.Values[0], attack.Position.Values[1]);

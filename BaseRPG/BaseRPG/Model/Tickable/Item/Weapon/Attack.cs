@@ -36,21 +36,25 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
 
         public void OnCollision(IGameObject gameObject)
         {
+            if (gameObject == attacker) return;
             if(hasTakenEffect) return;
-            if (gameObject is IAttackable)
+            if (gameObject is IAttackable) {
                 OnAttackHit(gameObject as IAttackable);
+                hasTakenEffect = true;
+            }
+                
             //throw new NotImplementedException();
             
-            hasTakenEffect = true;
+            
         }
 
-        public void OnTick()
+        public void OnTick(double delta)
         {
             exists = false;
             //throw new NotImplementedException();
         }
 
-        public void Separate(Dictionary<string, List<IGameObject>> dict)
+        public void Separate(Dictionary<string, List<ISeparable>> dict)
         {
             throw new NotImplementedException();
         }

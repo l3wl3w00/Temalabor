@@ -72,7 +72,7 @@ namespace BaseRPG
         }
         private void StartGame(IImageProvider imageProvider) {
             controller.Initialize(
-                new DefaultGameConfigurer(new ScalingImageProvider(4, imageProvider)),
+                new DefaultGameConfigurer(new CenteredImageProvider(new ScalingImageProvider(4, imageProvider))),
                 window);
             StartLogic();
         }

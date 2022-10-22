@@ -12,9 +12,12 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
     public class LightSwordAttackFactory : IAttackFactory
     {
-        public Attack CreateAttack(IAttacking attacker, IPositionUnit position)
+        public override Attack CreateAttack(IAttacking attacker, IPositionUnit position)
         {
-            return new Attack(attacker, position,new DamagingAttackStrategy());
+            Attack attack = new Attack(attacker, position, new DamagingAttackStrategy());
+            CreatedEvent?.Invoke(attack);
+            return attack;
         }
+
     }
 }
