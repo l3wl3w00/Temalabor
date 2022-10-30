@@ -24,12 +24,13 @@ namespace BaseRPG.Controller.Initialization
 {
     public class Weapon2DBuilder
     {
+        private string image;
         private Hero owner;
         private Weapon weapon;
         private PlayerControl playerControl;
 
-        private IAttackFactory lightAttackFactory;
-        private IAttackFactory heavyAttackFactory;
+        private AttackBuilder lightAttackFactory;
+        private AttackBuilder heavyAttackFactory;
 
         private Attack2DBuilder lightAttackBuilder;
         private Attack2DBuilder heavyAttackBuilder;
@@ -39,11 +40,11 @@ namespace BaseRPG.Controller.Initialization
         public Weapon2DBuilder(IImageProvider imageProvider)
         {
             this.imageProvider = imageProvider;
-            lightAttackFactory = new LightSwordAttackFactory();
-            heavyAttackFactory = new HeavySwordAttackFactory();
+            lightAttackFactory = new AttackBuilder(new DamagingAttackStrategy(20));
+            heavyAttackFactory = new AttackBuilder(new DamagingAttackStrategy(40));
         }
 
-        private Func<IAttackFactory, SwordSwingAnimation> SwordSwingAnimationCreation(Weapon weapon)
+        private Func<AttackBuilder, SwordSwingAnimation> SwordSwingAnimationCreation(Weapon weapon)
         {
             return (factory) =>
             {
@@ -86,6 +87,10 @@ namespace BaseRPG.Controller.Initialization
             heavyAttackBuilder = attackBuilder;
             return this;
         }
+        public Weapon2DBuilder Image(string image) {
+            this.image = image;
+            return this;
+        }
         public FullGameObject2D CreateSword()
         {
             
@@ -93,7 +98,6 @@ namespace BaseRPG.Controller.Initialization
             owner.Collect(weapon); 
             owner.Equip(weapon);
 
-            var swordImage = @"Assets\image\weapons\normal-sword-outlined.png";
             EquippedItemView equippedItemView =
                 new EquippedItemView(
                     item: weapon,
@@ -101,7 +105,7 @@ namespace BaseRPG.Controller.Initialization
                     animator:
                     new DefaultAnimator(
                         new FacingMouseAnimation(distanceOffsetTowardsPointer: 100),
-                        ImageSequenceAnimation.SingleImage(imageProvider,swordImage)
+                        ImageSequenceAnimation.SingleImage(imageProvider,image)
                         ),
                     SwordSwingAnimationCreation(weapon)
                     );

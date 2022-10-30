@@ -20,6 +20,7 @@ namespace BaseRPG.View.Image
         }
         public ICanvasImage GetByFilename(string fileName)
         {
+            if (fileName == null) return null;
             var transform = new Transform2DEffect();
             Tuple<double, double> size = imageProvider.GetSizeByFilename(fileName);
             transform.TransformMatrix = Matrix3x2.CreateTranslation(-(float)size.Item1/2, -(float)size.Item2/2);
@@ -29,6 +30,7 @@ namespace BaseRPG.View.Image
 
         public Tuple<double, double> GetSizeByFilename(string fileName)
         {
+            if (fileName == null) return null;
             return imageProvider.GetSizeByFilename(fileName);
         }
     }

@@ -37,6 +37,8 @@ namespace BaseRPG
         private Game game;
         Controller.Controller controller;
         private MainWindow window;
+        private static Thread logicThread;
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
@@ -50,7 +52,7 @@ namespace BaseRPG
             this.InitializeComponent();
             
         }
-
+        public static Thread LogicThread => logicThread;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -78,9 +80,9 @@ namespace BaseRPG
         }
         private void StartLogic() {
             
-            var t1 = new Thread(o => controller.MainLoop(window.Canvas));
-            t1.IsBackground = true;
-            t1.Start();
+            logicThread = new Thread(o => controller.MainLoop());
+            logicThread.IsBackground = true;
+            logicThread.Start();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace BaseRPG.Controller.Initialization
     
     internal class DefaultGameConfigurer : IGameConfigurer
     {
+
         private static List<string> enemyAttackAnimation = new List<string>{
             
             @"Assets\image\enemies\attack-animation\slime-attack-0-outlined.png",
@@ -62,7 +63,10 @@ namespace BaseRPG.Controller.Initialization
             Game.Instance.ChangeWorld("Empty");
 
             Hero hero = CreateHero(controller);
-            Enemy enemy1 = CreateEnemy(controller, hero, 200,200);
+            CreateEnemy(controller, hero, 200,200);
+            CreateEnemy(controller, hero, -200, 200);
+            CreateEnemy(controller, hero, -200, -200);
+            CreateEnemy(controller, hero, 200, -200);
             controller.PlayerControl = new PlayerControl(hero);
 
             controller.AddVisible(CreateWeapon(hero,controller));
@@ -75,18 +79,18 @@ namespace BaseRPG.Controller.Initialization
         private FullGameObject2D CreateWeapon(Hero hero, Controller controller) {
 
             return new Weapon2DBuilder(imageProvider)
+                .Image(@"Assets\image\weapons\normal-sword-outlined.png")
                 .EquippedBy(hero, controller.PlayerControl)
                 .LightAttackBuilder( 
-                    new Attack2DBuilder(
-                        @"Assets\image\attacks\sword-attack-effect.png").
-                        ImageProvider(imageProvider).
-                        PolygonShape(new List<Point2D> {
-                                new(0,-50),
-                                new(-100,30),
-                                new(0,70),
-                                new(100,30)
-                            }
-                        ))
+                    new Attack2DBuilder(@"Assets\image\attacks\sword-attack-effect.png")
+                    .ImageProvider(imageProvider)
+                    .PolygonShape(new List<Point2D> {
+                            new(0,-50),
+                            new(-100,30),
+                            new(0,70),
+                            new(100,30)
+                        }
+                    ))
                 .LightAttackCreatedCallback(g => controller.AddVisible(g))
                 .CreateSword();
         }
@@ -101,75 +105,57 @@ namespace BaseRPG.Controller.Initialization
             var shape = new Polygon(
                        hero,
                        hero.MovementManager,
-                       new List<Point2D> {
-                            new(-60,-60),
-                            new(-60,60),
-                            new(60,60),
-                            new(60,-60)
-                       });
+                       Polygon.Rectangle(new(0, 0), 120, 120)
+                       );
             controller.AddVisible(new(hero, shape, heroView));
             return hero;
         }
         
 
-        private Enemy CreateEnemy(Controller controller, Hero hero, double x, double y) {
-            Dictionary<string, IAttackFactory> attacks = new Dictionary<string, IAttackFactory>();
-
-            attacks.Add("normal", new LightSwordAttackFactory());
-            InRangeDetector inRangeDetector = new InRangeDetector();
-            Enemy enemy = new Enemy(
+        private void CreateEnemy(Controller controller, Hero hero, double x, double y) {
+            Enemy enemy = new Enemy.Builder(
                 100, Game.Instance.PhysicsFactory.CreateMovementManager(
                     Game.Instance.PhysicsFactory.CreatePosition(x,y)),
-                new FollowingMovementStrategy(hero.MovementManager),
-                attacks, inRangeDetector
-                ) ;
-            var rangeShape = Polygon.Circle(
-                    inRangeDetector,
-                    enemy.MovementManager,
-                    new(0, 0), 100
-                    );
-            var fullInRangeDetectorObject = new FullGameObject2D(
-                    inRangeDetector,
-                    rangeShape,
-                    null,
-                    new PositionObserver(() => new(enemy.Position.Values[0], enemy.Position.Values[1]))
-                );
+                hero, new InRangeDetector()).
+                Attack("normal", new DamagingAttackStrategy(1))
+                .Build();
+            
             var enemyImage = @"Assets\image\enemies\slime-outlined.png";
-            //var shape = new Polygon(
-            //            enemy,
-            //            enemy.MovementManager,
-            //            new List<Point2D> {
-            //                new(-50,-50),
-            //                new(-50,50),
-            //                new(50,50),
-            //                new(50,-50)
-            //            });
-            var shape = Polygon.Circle(
-                enemy,
-                enemy.MovementManager,
-                new(0,0),50);
-            //var animator = new DefaultAnimator(
-            //    new FacingPointAnimation(100),
-            //    imageProvider, new LoopingEnumerator<string>(enemyAttackAnimation));
+
             List<string>.Enumerator enumerator = enemyAttackAnimation.GetEnumerator();
             enumerator.MoveNext();
             UnitView unitView = new UnitView.Builder(imageProvider, enemyImage, enemy)
-                .IdleAnimation(ImageSequenceAnimation.SingleImage(imageProvider,enemyImage))
-                .Animation("attack", new ImageSequenceAnimation(imageProvider, enumerator))
-                .WithFacingPointAnimation().Build();
-            enemy.AttackableInRange += (a)=>
-                unitView.StartAnimation("attack");
-            var fullEnemyObject =
-                new FullGameObject2D(
-                    enemy,
-                    shape,
-                    unitView
-                    );
+                .IdleAnimation(ImageSequenceAnimation.SingleImage(imageProvider, enemyImage))
+                .Animation(
+                    "attack", 
+                    new ImageSequenceAnimation(
+                        imageProvider,
+                        enumerator,
+                        a => controller.AddVisible(
+                            new Attack2DBuilder(@"Assets\image\attacks\enemy-attack.png")
+                            .ImageProvider(imageProvider)
+                            .Attack(
+                                enemy.AttackFactory("normal").Attacker(enemy).CreateTargeted(hero)
+                                ).OwnerPosition(enemy.Position)
+                                .PolygonShape(Polygon.Rectangle(new(0, 0), 120, 80))
+                                .CreateAttack()
+                            )
+                        )
+                )
+                .WithFacingPointAnimation()
+                .Build();
 
-            controller.AddVisible(fullEnemyObject);
-            controller.AddVisible(fullInRangeDetectorObject);
+            var enemyBuilder = new Enemy2DBuilder(enemy,
+                    Polygon.Circle(
+                        enemy,
+                        enemy.MovementManager,
+                        new(0, 0), 50)
+                    )
+                .WithUnitView(unitView)
+                .Range(70);
+            controller.AddVisible(enemyBuilder.Create());
+            controller.AddVisible(enemyBuilder.FullInRangeDetectorObject);
 
-            return enemy;
         }
     }
 }

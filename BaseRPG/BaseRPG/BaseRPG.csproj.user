@@ -5,11 +5,17 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <None Update="View\MainWindow.xaml">
+    <None Update="View\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
     </None>
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="View\Windows\MyGrid.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Windows\InventoryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

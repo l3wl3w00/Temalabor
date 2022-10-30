@@ -1,6 +1,7 @@
 ﻿using BaseRPG.Controller.Utility;
 using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.Skill;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.FightingEntity
 {
-    public abstract class Unit : IGameObject, IAttackable, IAttacking, ISkillCaster
+    public abstract class Unit : IGameObject, IAttackable, IAttacking, ISkillCaster, ICollisionDetector<IGameObject>
     {
 
         private Health health;
@@ -31,10 +32,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         private double speed = 100;
         private bool exists = true;
 
+        public event Action OnCeaseToExist;
 
         public Health Health { get { return health; } }
         public int Damage => throw new NotImplementedException();
-        public IMovementUnit NextMovement { get => movementStrategy.CurrentValue.CalculateNextMovement(MovementManager, speed); }
+        public IMovementUnit NextMovement { get => MovementStrategy.CalculateNextMovement(MovementManager, speed); }
         public IPositionUnit Position { get { return movementManager.Position; } }
         public IMovementUnit LastMovement
         {
@@ -44,7 +46,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             }
         }
 
-        public abstract IAttackFactory AttackFactory(string v);
+        public abstract AttackBuilder AttackFactory(string v);
 
         public IMovementManager MovementManager => movementManager;
 
@@ -52,7 +54,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             MovementManager.Move(NextMovement?.Scaled(delta));
         }
         public void StopMoving() {
-            movementStrategy.CurrentValue = new EmptyMovementStrategy();
+            MovementStrategy = new EmptyMovementStrategy();
         }
         public void StartMoving()
         {
@@ -88,6 +90,9 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             }
             set 
             {
+                if (!value) {
+                    OnCeaseToExist?.Invoke();
+                }
                 OnExistsSet(value);
                 exists = value;
             } 
@@ -95,6 +100,15 @@ namespace BaseRPG.Model.Tickable.FightingEntity
 
         public abstract AttackabilityService.Group OffensiveGroup { get; }
         public abstract AttackabilityService.Group DefensiveGroup { get; }
+        public IMovementStrategy MovementStrategy {
+            get => movementStrategy.CurrentValue;
+            set => movementStrategy.CurrentValue = value;
+        }
+        public IMovementStrategy DefaultMovementStrategy
+        {
+            get => movementStrategy.DefaultValue;
+            set => movementStrategy.DefaultValue = value;
+        }
 
         public void Separate(Dictionary<string, List<ISeparable>> dict)
         {
@@ -112,14 +126,14 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             health.CurrentValue -= damage;
         }
 
-        public virtual void OnCollision(IGameObject gameObject)
-        {
-            
-        }
-
         public void Cast(ISkill skill)
         {
             skill.OnCast(this);
+        }
+
+        public virtual void OnCollision(ICollisionDetector<IGameObject> other)
+        {
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
 using MathNet.Spatial.Euclidean;
@@ -16,10 +17,10 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         private Polygon2D polygon;
         private double angle;
-        private IGameObject owner;
+        private ICollisionDetector<IGameObject> owner;
         private IMovementManager movementManager;
 
-        public Polygon(IGameObject owner, IMovementManager movementManager, IEnumerable<Point2D> vertices)
+        public Polygon(ICollisionDetector<IGameObject> owner, IMovementManager movementManager, IEnumerable<Point2D> vertices)
         {
             polygon = new Polygon2D(vertices);
             this.owner = owner;
@@ -48,7 +49,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         }
 
-        public IGameObject Owner
+        public ICollisionDetector<IGameObject> Owner
         {
             get { return owner; }
             set { owner = value; }
@@ -123,8 +124,20 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         {
             throw new NotImplementedException();
         }
-        public static Polygon Circle(IGameObject owner, IMovementManager movementManager, Vector2D center, double radius) {
-            return new Circle(owner, movementManager,center, radius).ToPolygon();
+        public static Polygon Circle(
+            ICollisionDetector<IGameObject> owner, 
+            IMovementManager movementManager,
+            Vector2D center,
+            double radius,
+            int numberOfVertices = 20) {
+            return new Circle(owner, movementManager,center, radius).ToPolygon(numberOfVertices);
+        }
+        public static List<Point2D> Rectangle(Vector2D center, double width, double height) {
+            return new List<Point2D> { 
+                new(center.X-width/2,center.Y-height/2),
+                new(center.X-width/2,center.Y+height/2),
+                new(center.X+width/2,center.Y+height/2),
+                new(center.X+width/2,center.Y-height/2)};
         }
     }
 }

@@ -10,9 +10,17 @@ namespace BaseRPG.Model.Tickable.Item.Weapon.Sword
 {
     public class DamagingAttackStrategy : IAttackStrategy
     {
+        private double damage;
+
+
+        public DamagingAttackStrategy(double damage)
+        {
+            this.damage = damage;
+        }
+
         public void OnAttackHit(IAttacking attacker, IAttackable attacked)
         {
-            attacked.TakeDamage(40);
+            attacked.TakeDamage(damage);
         }
     }
 }

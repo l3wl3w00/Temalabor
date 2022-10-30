@@ -20,18 +20,28 @@ namespace BaseRPG.View.Animation.ImageSequence
         public Tuple<double, double> CurrentImageSize { get => imageProvider.GetSizeByFilename(imageNames.Current); }
 
         public event Action<ImageSequenceAnimation> OnAnimationCompleted;
-        public ImageSequenceAnimation(IImageProvider imageProvider, IEnumerator<string> imageNames, double timeBetween = 0.1)
+        public ImageSequenceAnimation(
+            IImageProvider imageProvider, 
+            IEnumerator<string> imageNames,
+            Action<ImageSequenceAnimation> actionOnAnimationCompleted = null,
+            double timeBetween = 0.1)
         {
             
             this.imageProvider = imageProvider;
             this.imageNames = imageNames;
+            OnAnimationCompleted += actionOnAnimationCompleted;
             animationTimer = new AnimationTimer(timeBetween,true);
             animationTimer.Elapsed += 
             ()=>
             {
                 bool moved = imageNames.MoveNext();
-                if (moved) lastValidImage = imageNames.Current;
-                else { imageNames.Reset(); imageNames.MoveNext(); OnAnimationCompleted?.Invoke(this); }
+                if (moved) 
+                    lastValidImage = imageNames.Current;
+                else { 
+                    imageNames.Reset();
+                    imageNames.MoveNext();
+                    OnAnimationCompleted?.Invoke(this); 
+                }
             };
         }
 
@@ -45,7 +55,7 @@ namespace BaseRPG.View.Animation.ImageSequence
 
         public static ImageSequenceAnimation SingleImage(IImageProvider imageProvider, string image, double timeBetween = 0.1) {
 
-            return new ImageSequenceAnimation(imageProvider, new LoopingEnumerator<string>(new List<string> { image }), timeBetween);
+            return new ImageSequenceAnimation(imageProvider, new LoopingEnumerator<string>(new List<string> { image }),null, timeBetween);
         }
 
     }

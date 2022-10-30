@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Interfaces.Collision
 {
-    public interface ICollisionDetector<T>
+    public interface ICollisionDetector<T>:IExisting
     {
-        void OnCollision(T other);
+        void OnCollision(ICollisionDetector<T> other);
+        virtual void OnCollisionExit(ICollisionDetector<T> gameObject) { }
+        
     }
 }

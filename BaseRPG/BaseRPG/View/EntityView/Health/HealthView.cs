@@ -33,21 +33,21 @@ namespace BaseRPG.View.EntityView.Health
         public void Render(DrawingArgs drawingArgs)
         {
            
-            drawingArgs.Args.DrawingSession.FillRectangle(
+            drawingArgs.DrawingSession.FillRectangle(
                 (float)drawingArgs.PositionOnScreen.X,
                 (float)drawingArgs.PositionOnScreen.Y,
                 (float)(width * (health.CurrentValue/health.MaxValue)),
                 height,
                 color);
             
-            drawingArgs.Args.DrawingSession.FillRectangle(
+            drawingArgs.DrawingSession.FillRectangle(
                 (float)drawingArgs.PositionOnScreen.X + width/20,
                 (float)drawingArgs.PositionOnScreen.Y + height / 2,
                 (float)(width * (health.CurrentValue / health.MaxValue))- width / 10,
                 height / 2,
                 Brighten(color,50));
 
-            drawingArgs.Args.DrawingSession.DrawRectangle(
+            drawingArgs.DrawingSession.DrawRectangle(
                 (float)drawingArgs.PositionOnScreen.X,
                 (float)drawingArgs.PositionOnScreen.Y,
                 (float)width,

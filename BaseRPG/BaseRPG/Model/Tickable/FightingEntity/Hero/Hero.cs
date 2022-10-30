@@ -35,7 +35,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         //{
         //    inventory.Collect(collectible);
         //}
-        public override IAttackFactory AttackFactory(string attackName)
+        public override AttackBuilder AttackFactory(string attackName)
         {
             if (attackName == "light")
                 return inventory.EquippedWeapon.LightAttackFactory;

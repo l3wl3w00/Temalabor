@@ -49,7 +49,7 @@ namespace BaseRPG.View.Image
         }
         public void Render(DrawingArgs drawingArgs)
         {
-            drawingArgs.Args.DrawingSession.DrawImage(image, PositionOnScreen(drawingArgs));
+            drawingArgs.DrawingSession.DrawImage(image, PositionOnScreen(drawingArgs));
         }
 
         public void SetImageRotation(double angle)

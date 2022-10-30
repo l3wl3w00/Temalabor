@@ -1,4 +1,7 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Tickable;
+using BaseRPG.Model.Tickable.FightingEntity;
+using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Worlds;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
@@ -11,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace BaseRPG.Controller.UnitControl
 {
@@ -44,9 +48,7 @@ namespace BaseRPG.Controller.UnitControl
             if (shape == null) return;
 
             if (System.Diagnostics.Debugger.IsAttached)
-            {
                 worldView.AddView(new ShapeView(shape, positionProvider));
-            }
 
             collisionNotifier.AddToObservedShapes(shape);
         }

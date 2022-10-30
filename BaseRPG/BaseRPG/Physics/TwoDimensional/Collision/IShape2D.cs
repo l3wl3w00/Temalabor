@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -19,7 +20,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         IMovementManager MovementManager { get; set; }
 
         public Vector2D GlobalPosition { get; }
-        public IGameObject Owner { get; set; }
+        public ICollisionDetector<IGameObject> Owner { get; set; }
         public Vector2D Middle { get; }
         void Rotate(double angle);
         Polygon2D ToPolygon2D();

@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using BaseRPG.Model.Interfaces.Collision;
+using System;
+using System.Collections.Generic;
 
 
 namespace BaseRPG.Model.Interfaces
 {
-    public interface IGameObject : ITickable, ISeparable
+    public interface IGameObject : ITickable, ISeparable,IExisting
     {
-        bool Exists { get; }
-        void OnCollision(IGameObject gameObject);
-        virtual void OnCollisionExit(IGameObject gameObject) {
-        }
+        
     }
 }

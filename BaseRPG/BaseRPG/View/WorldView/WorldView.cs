@@ -6,10 +6,13 @@ using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +25,7 @@ namespace BaseRPG.View.WorldView
         private IImageRenderer backgroundImageRenderer;
         private Camera2D camera;
         private List<IDrawable> drawables = new List<IDrawable>();
+        private object _lock = new object();
         public WorldView(World world, ICanvasImage background, Tuple<double, double> sizeOfImage, Camera2D camera)
         {
             this.world = world;
@@ -31,22 +35,49 @@ namespace BaseRPG.View.WorldView
 
         public Camera2D CurrentCamera { get { return camera; } set { camera = value; } }
 
-        public void AddView(IDrawable gameObjectView) {
-            lock (drawables) {
-                drawables.Add(gameObjectView);
-            }
-            
-        }
-        public void Render(DrawingArgs drawingArgs) {
-            var backgoundPos = camera.CalculatePositionOnScreen(new(0,0));
-            drawingArgs.PositionOnScreen = backgoundPos;
-            backgroundImageRenderer.Render(drawingArgs);
-            lock (drawables) {
-                drawables.ForEach(d => d.Render(drawingArgs, camera));
-                drawables.RemoveAll(d => !d.Exists);
-            }
-            
+        public void AddView(IDrawable gameObjectView)
+        {
+            drawables.Add(gameObjectView);
         }
 
+        // this function will always draw all of the drawables,
+        // even if a new one was added mid-way, BUT this makes it much slower,
+        // therefore the sometimes (very rarely) inaccurate
+        // (as in sometimes it doesn't draw an image for a frame),
+        // but much less costly  simple for loop is used for now
+        public void alwaysDraw(DrawingArgs drawingArgs) {
+            try
+            {
+                drawables.ForEach(d => d.Render(drawingArgs, camera));
+            }
+            catch (InvalidOperationException e) { 
+                alwaysDraw(drawingArgs);
+            }
+        }
+        public void Render(DrawingArgs drawingArgs)
+        {
+            var backgoundPos = camera.CalculatePositionOnScreen(new(0, 0));
+            drawingArgs.PositionOnScreen = backgoundPos;
+            backgroundImageRenderer.Render(drawingArgs);
+            lock (_lock)
+            {
+                // uncomment this code (and comment out the for loop) for the slower but surer way of drawing
+                // alwaysDraw(drawingArgs);
+
+                // Because of multiple threads, the list can change during the process of drawing,
+                // so normal foreach couldn't be used (locking the adding operation causes deadlock
+                // in the current state of the code, so don't do that)
+                for (int i = 0; i < drawables.Count; i++)
+                {
+                    if (drawables.Count > i)
+                    {
+                        drawables[i].Render(drawingArgs, camera);
+                    }
+                }
+            }
+            drawables.RemoveAll(d => !d.Exists);
+            
+
+        }
     }
 }

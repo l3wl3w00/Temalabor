@@ -18,7 +18,7 @@ namespace BaseRPG.View.ItemView
 
         public abstract Vector2D ObservedPosition { get; }
 
-        public bool Exists => ObservedItem.Exists;
+        public virtual bool Exists => ObservedItem.Exists;
 
         public virtual void OnRender(DrawingArgs drawingArgs)
         {

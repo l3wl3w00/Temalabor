@@ -30,9 +30,6 @@ namespace BaseRPG.View.Image
             var scaleEffect = new ScaleEffect();
             scaleEffect.Scale = new(XScaleFactor, YScaleFactor);
             scaleEffect.InterpolationMode = CanvasImageInterpolation.NearestNeighbor;
-            if (fileName.EndsWith("3-outlined.png"))
-            {
-            }
             scaleEffect.Source = imageProvider.GetByFilename(fileName);
             return scaleEffect;
         }

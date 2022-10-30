@@ -1,6 +1,7 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,7 @@ namespace BaseRPG.Model.Data
             if (!dict.ContainsKey(name)) return new List<T>();
             return dict[name].Select(e => (T)e).ToList();
         }
+        
         public void Add(IGameObject gameObject) {
             if(gameObjects.Contains(gameObject)) return;
             gameObjects.Add(gameObject);

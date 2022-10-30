@@ -3,14 +3,14 @@
   <Class Name="BaseRPG.MainWindow">
     <Position X="0.5" Y="1.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>ACAQBEACAQyAogEAAAoAAAAAIAIQABAAAEAQAAAAAAA=</HashCode>
-      <FileName>View\MainWindow.xaml.cs</FileName>
+      <HashCode>ACAQBEACAQyAogEAAAoAAAAAIAIQABAAEEAQAAAAAAA=</HashCode>
+      <FileName>View\Windows\MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="controller" />
       <Field Name="viewManager" />
-      <Field Name="drawLoopHandler" />
       <Field Name="rawImageProvider" />
+      <Field Name="drawLoopHandler" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -27,7 +27,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAEAAIAgAAAAgAAAAAAgAAAAAAAAAAABAAAIAAAAA=</HashCode>
+      <HashCode>AQAAEAAIAgAAAAggAAAAAgAAAAAAAAAAABAAAIAAAAA=</HashCode>
       <FileName>View\WorldView\WorldView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -42,7 +42,7 @@
   <Class Name="BaseRPG.Controller.Controller" Collapsed="true">
     <Position X="3.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAASAAAAAwAEAAABgAAQIAgAAAAIAAEAAAABxAA=</HashCode>
+      <HashCode>AAAQAAAQAAAAAwAEAAABgAAQAAgAAAAIAAEAAAABxAA=</HashCode>
       <FileName>Controller\Controller.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -81,30 +81,19 @@
   <Class Name="BaseRPG.Model.Worlds.World" Collapsed="true">
     <Position X="3.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgIAAAIAAAAAAABAAAAABAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAIAAAAAAABAAAAABAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Worlds\World.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BaseRPG.View.ItemView.EquippedItemView">
     <Position X="10.25" Y="3.5" Width="2.5" />
-    <AssociationLine Name="animator" Type="BaseRPG.View.Interfaces.IAnimator" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10.25" Y="6.75" />
-        <Point X="10.01" Y="6.75" />
-        <Point X="10.01" Y="8.344" />
-        <Point X="8" Y="8.344" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>BAAAAASAQAAChAAAAQAAAAAAAAABAAABAAAAIEAAQAA=</HashCode>
+      <HashCode>BAAAAASAQAAChAAAAQAAAAAAAAAAAAABAAAAIAEAQAA=</HashCode>
       <FileName>View\ItemView\EquippedItemView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="owner" />
-      <Field Name="animator" />
-      <Field Name="imageProvider" />
-      <Field Name="mousePositionTracker" />
     </ShowAsAssociation>
   </Class>
   <Class Name="BaseRPG.View.ItemView.BaseItemView" Collapsed="true">
@@ -118,29 +107,26 @@
   <Class Name="BaseRPG.Model.Tickable.FightingEntity.Unit" Collapsed="true">
     <Position X="11" Y="10" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAiACAAIAAgEEgAAAAAAAAAAEACQIAKQAAgAlEAQg=</HashCode>
+      <HashCode>AAAAmECABIAAhEAkAACAAAAAABEACQIAKQAAgAlEAQg=</HashCode>
       <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BaseRPG.View.EntityView.UnitView">
     <Position X="15.5" Y="3.25" Width="2.5" />
-    <AssociationLine Name="imageRenderer" Type="BaseRPG.View.Interfaces.IImageRenderer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="15.5" Y="3.352" />
-        <Point X="14.375" Y="3.352" />
-        <Point X="14.375" Y="0.625" />
-        <Point X="11.75" Y="0.625" />
-      </Path>
-    </AssociationLine>
+    <NestedTypes>
+      <Class Name="BaseRPG.View.EntityView.UnitView.Builder" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>View\EntityView\UnitView.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAACAQAAgAAAAAEAAgAAAAAAAAAAAAAAEIAEAAAA=</HashCode>
+      <HashCode>BAAAAACAQACgAAAAAAAEAAAAAAAAEAAAAAAAIAUAAAA=</HashCode>
       <FileName>View\EntityView\UnitView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="imageRenderer" />
       <Field Name="unit" />
-      <Field Name="directionMovementUnitMapper" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -177,15 +163,9 @@
   <Class Name="BaseRPG.View.Animation.DefaultAnimator">
     <Position X="5.5" Y="10.75" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAACAABAAAAAAAAAQEIAABAAAAAAIAAAAAACA=</HashCode>
+      <HashCode>AAEAAAAAACAAgACAAEAAAAQAAAAAAAACAAgAAAAAAAA=</HashCode>
       <FileName>View\Animation\DefaultAnimator.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="currentStrategy" />
-      <Field Name="defaultStrategy" />
-      <Field Name="imageProvider" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
   </Class>
   <Interface Name="BaseRPG.View.EntityView.IDrawable" Collapsed="true">
     <Position X="8.25" Y="6.25" Width="1.5" />
@@ -197,7 +177,7 @@
   <Interface Name="BaseRPG.View.Interfaces.IImageRenderer" Collapsed="true">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAABAAAAAABAAABAggAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAABAAAAAADAAABAgAAAAAAA=</HashCode>
       <FileName>View\Interfaces\IImageRenderer.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -215,11 +195,11 @@
       <FileName>View\Interfaces\IImageProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="BaseRPG.View.Interfaces.IAnimationStrategy">
+  <Interface Name="BaseRPG.View.Interfaces.IAnimation&lt;T&gt;">
     <Position X="12" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>View\Interfaces\IAnimationStrategy.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Interfaces\IAnimation.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

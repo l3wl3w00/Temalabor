@@ -15,8 +15,8 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         private Unit owner;
         public event Action<Attack> HeavyAttackCreatedEvent;
         public event Action<Attack> LightAttackCreatedEvent;
-        private readonly IAttackFactory lightAttackFactory;
-        private readonly IAttackFactory heavyAttackFactory;
+        private readonly AttackBuilder lightAttackFactory;
+        private readonly AttackBuilder heavyAttackFactory;
 
         
 
@@ -25,17 +25,17 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
             set
             {
                 owner = value;
-                heavyAttackFactory.Attacker = owner;
-                lightAttackFactory.Attacker = owner;
+                heavyAttackFactory.Attacker(owner);
+                lightAttackFactory.Attacker(owner);
                 
             } 
         }
-        public IAttackFactory LightAttackFactory { 
+        public AttackBuilder LightAttackFactory { 
             get {
                 return lightAttackFactory;
             }  }
 
-        public Weapon(IAttackFactory heavyAttackFactory, IAttackFactory lightAttackFactory, Unit owner = null)
+        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, Unit owner = null)
         {
             this.heavyAttackFactory = heavyAttackFactory;
             this.lightAttackFactory = lightAttackFactory;

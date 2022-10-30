@@ -29,13 +29,13 @@
     <AppXManifest Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-10-22T23:52:05.365</Modified>
+      <Modified>2022-10-25T23:27:15.035</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-10-22T23:52:05.051</Modified>
+      <Modified>2022-10-25T23:27:14.706</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.runtimeconfig.json">
       <PackagePath>BaseRPG.runtimeconfig.json</PackagePath>
@@ -43,15 +43,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.dll">
       <PackagePath>BaseRPG.dll</PackagePath>
-      <Modified>2022-10-22T23:52:04.926</Modified>
+      <Modified>2022-10-25T23:11:01.160</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\obj\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\apphost.exe">
       <PackagePath>BaseRPG.exe</PackagePath>
-      <Modified>2022-10-22T23:52:04.945</Modified>
+      <Modified>2022-10-25T23:11:01.186</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\bin\x86\Debug\net6.0-windows10.0.19041.0\win10-x86\BaseRPG.deps.json">
       <PackagePath>BaseRPG.deps.json</PackagePath>
-      <Modified>2022-10-20T19:37:30.187</Modified>
+      <Modified>2022-10-23T17:15:50.928</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.netcore.app.runtime.win-x86\6.0.5\runtimes\win-x86\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -1016,6 +1016,10 @@
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.graphics.win2d\1.0.3.1\runtimes\win10-x86\native\Microsoft.Graphics.Canvas.dll">
       <PackagePath>Microsoft.Graphics.Canvas.dll</PackagePath>
       <Modified>2022-04-28T15:55:28.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\enemy-attack.png">
+      <PackagePath>Assets\image\attacks\enemy-attack.png</PackagePath>
+      <Modified>2022-10-23T16:06:03.677</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
       <PackagePath>Assets\image\attacks\sword-attack-effect.png</PackagePath>

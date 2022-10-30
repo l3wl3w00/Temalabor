@@ -15,6 +15,8 @@ namespace BaseRPG.Controller.UnitControl
         public UnitControlBase(Unit controlledUnit)
         {
             this.controlledUnit = controlledUnit;
+            controlledUnit.OnCeaseToExist += () =>
+                this.controlledUnit = null;
         }
 
         public Unit ControlledUnit { get => controlledUnit; set => controlledUnit = value; }
@@ -22,6 +24,7 @@ namespace BaseRPG.Controller.UnitControl
         public abstract IMovementUnit NextMovement(double delta);
         public void OnTick(double delta)
         {
+            if (controlledUnit == null) return;
             IMovementUnit nextMovement = NextMovement(delta);
             if (nextMovement == null) return;
             ControlledUnit.Move(nextMovement);

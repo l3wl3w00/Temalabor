@@ -1,4 +1,5 @@
 ﻿using MathNet.Spatial.Euclidean;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -10,28 +11,37 @@ namespace BaseRPG.View.Animation
 {
     public class DrawingArgs
     {
-        public CanvasControl Sender { get; }
-        public CanvasDrawEventArgs Args { get; }
+        public CanvasVirtualControl Sender { get; }
+        public CanvasRegionsInvalidatedEventArgs Args { get; }
         public Vector2D PositionOnScreen { get; set; }
         public double Delta { get; }
         public Vector2D MousePositionOnScreen { get; }
-        public DrawingArgs(CanvasControl sender, CanvasDrawEventArgs args, double delta, Vector2D mousePositionOnScreen) :
-            this(sender, args, delta, new Vector2D(0, 0), mousePositionOnScreen)
+        public CanvasDrawingSession DrawingSession { get; }
+
+        public DrawingArgs(CanvasVirtualControl sender, 
+            CanvasRegionsInvalidatedEventArgs args,
+            double delta, Vector2D mousePositionOnScreen,
+            CanvasDrawingSession drawingSession) :
+            this(sender, args, delta, new Vector2D(0, 0), mousePositionOnScreen, drawingSession)
         {
-            
         }
-        public DrawingArgs(CanvasControl sender, CanvasDrawEventArgs args, double delta, Vector2D positionOnScreen,Vector2D mousePositionOnScreen)
+        public DrawingArgs(CanvasVirtualControl sender, 
+            CanvasRegionsInvalidatedEventArgs args,
+            double delta, Vector2D positionOnScreen,
+            Vector2D mousePositionOnScreen, 
+            CanvasDrawingSession drawingSession)
         {
             Sender = sender;
             Args = args;
             Delta = delta;
             PositionOnScreen = positionOnScreen;
             MousePositionOnScreen = mousePositionOnScreen;
+            DrawingSession = drawingSession;
         }
 
         internal DrawingArgs Copy()
         {
-            return new(Sender,Args,Delta,PositionOnScreen,MousePositionOnScreen);
+            return new(Sender,Args,Delta,PositionOnScreen,MousePositionOnScreen, DrawingSession);
         }
     }
 }

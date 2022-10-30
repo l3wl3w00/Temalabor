@@ -28,10 +28,10 @@ namespace BaseRPG.View.EntityView
     {
         private Unit unit;
         private HealthView healthView;
-        private IAnimator animator;
+        private Animator animator;
         private readonly Dictionary<string, ImageSequenceAnimation> animations;
 
-        private UnitView(Unit unit, HealthView healthView, IAnimator animator, Dictionary<string, ImageSequenceAnimation> animations)
+        private UnitView(Unit unit, HealthView healthView, Animator animator, Dictionary<string, ImageSequenceAnimation> animations)
         {
             this.unit = unit;
             this.healthView = healthView;
@@ -43,7 +43,7 @@ namespace BaseRPG.View.EntityView
 
         public bool Exists => unit.Exists;
 
-        public IAnimator Animator { get => animator; }
+        public Animator Animator { get => animator; }
 
         public void OnRender(DrawingArgs drawingArgs)
         {
@@ -74,7 +74,7 @@ namespace BaseRPG.View.EntityView
             private Color defaultHealthColor = Color.FromArgb(255,255,255,255);
             private Unit unit;
             private string imageName;
-            private IAnimator animator;
+            private Animator animator;
             private const MoveDirection defaultFacing = MoveDirection.Forward;
             private Dictionary<string, ImageSequenceAnimation> animations = new();
             private DirectionMovementUnitMapper directionMovementUnitMapper = DirectionMovementUnitMapper.CreateDefault2D();
@@ -93,14 +93,13 @@ namespace BaseRPG.View.EntityView
                     return Color.FromArgb(255, 0, 150, 200);
                 return defaultHealthColor;
             }
-            public Builder Animator(IAnimator animator) {
+            public Builder Animator(Animator animator) {
                 if (this.animator != null) throw new ParameterAlreadyDefined("The animator parameter is already defined");
                 this.animator = animator;
                 return this;
             }
             public Builder IdleAnimation(ImageSequenceAnimation animation) {
-                animations.Add("idle", animation);
-                return this;
+                return Animation("idle", animation);
             }
             public Builder Animation(string name, ImageSequenceAnimation animation) {
                 animations.Add(name, animation);

@@ -9,6 +9,7 @@ namespace BaseRPG.Model.Interfaces.Movement
     public interface IMovementUnit
     {
         IMovementUnit Scaled(double scalar);
+        IMovementUnit WithLength(double newLength);
         double[] Values { get; }
         IMovementUnit Clone();
         static IMovementUnit operator +(IMovementUnit movement1, IMovementUnit movement2) {

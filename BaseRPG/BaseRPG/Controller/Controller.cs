@@ -40,7 +40,7 @@ namespace BaseRPG.Controller
             this.viewManager = view;
             this.collisionNotifier = collisionNotifier;
         }
-        public void MainLoop(CanvasControl canvas) {
+        public void MainLoop() {
             DeltaLoopHandler loopHandler = new();
             while (running) {
                 double delta = loopHandler.Tick();

@@ -32,6 +32,7 @@ namespace BaseRPG.Controller.UnitControl
         public PlayerControl( Unit controlledUnit):base(controlledUnit)
         {
             directionVectorMapper = DirectionMovementUnitMapper.CreateDefault2D();
+
         }
 
         public void OnMove(MoveDirection moveDirection)
@@ -42,7 +43,8 @@ namespace BaseRPG.Controller.UnitControl
         }
         public void LightAttack()
         {
-            IAttackFactory attackFactory = ControlledUnit.AttackFactory("light");
+            if (ControlledUnit == null) return;
+            AttackBuilder attackFactory = ControlledUnit.AttackFactory("light");
             if (attackFactory != null)
                 EquippedItemView.StartLightAttackAnimation(attackFactory);
         }

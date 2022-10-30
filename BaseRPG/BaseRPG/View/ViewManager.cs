@@ -17,12 +17,12 @@ namespace BaseRPG.View
         private Game game;
         private WorldView.WorldView currentWorldView;
         private IWorldNameImageMapper worldNameImageMapper;
-        private CanvasControl canvas;
+        private CanvasVirtualControl canvas;
         public WorldView.WorldView CurrentWorldView { get { return currentWorldView; } set { currentWorldView = value; } }
 
         public Camera2D CurrentCamera { get { return currentWorldView.CurrentCamera; } set { currentWorldView.CurrentCamera = value; } }
 
-        public CanvasControl Canvas { get => canvas; }
+        public CanvasVirtualControl Canvas { get => canvas; }
 
         public void SetCurrentWorldView(string worldName, World world,IImageProvider imageProvider, Camera2D camera) {
             
@@ -35,7 +35,7 @@ namespace BaseRPG.View
             );
             
         }
-        public ViewManager(Game game, IWorldNameImageMapper worldNameImageMapper, CanvasControl canvas) {
+        public ViewManager(Game game, IWorldNameImageMapper worldNameImageMapper, CanvasVirtualControl canvas) {
             this.game = game;
             this.worldNameImageMapper = worldNameImageMapper;
             this.canvas = canvas;

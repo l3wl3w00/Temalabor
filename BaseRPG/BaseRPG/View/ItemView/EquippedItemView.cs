@@ -26,13 +26,13 @@ namespace BaseRPG.View.ItemView
     {
         private Unit owner;
 
-        private IAnimator animator;
+        private Animator animator;
         private Item observedWeapon;
-        Func<IAttackFactory, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation;
-
+        private Func<AttackBuilder, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation;
+        public override bool Exists => Owner.Exists && observedWeapon.Exists; 
         protected override Item ObservedItem { get { return observedWeapon; } }
-        public EquippedItemView(Item item, Unit owner, IAnimator animator,
-            Func<IAttackFactory, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation)
+        public EquippedItemView(Item item, Unit owner, Animator animator,
+            Func<AttackBuilder, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation)
         {
             this.observedWeapon = item;
             this.Owner = owner;
@@ -59,7 +59,7 @@ namespace BaseRPG.View.ItemView
             throw new NotImplementedException();
         }
         private Vector2D OwnerPos { get => new(owner.Position.Values[0], owner.Position.Values[1]); }
-        public void StartLightAttackAnimation(IAttackFactory attackFactory) {
+        public void StartLightAttackAnimation(AttackBuilder attackFactory) {
             animator.Start(lightAttackAnimationCreation.Invoke(attackFactory));
         }
     }

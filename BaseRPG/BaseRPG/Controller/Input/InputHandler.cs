@@ -39,7 +39,7 @@ namespace BaseRPG.Controller.Input
         }
         public void MouseDown(object sender, PointerRoutedEventArgs e)
         {
-            PointerPoint point = e.GetCurrentPoint((Grid)sender);
+            PointerPoint point = e.GetCurrentPoint((Canvas)sender);
             string input = "";
             if (point.Properties.IsLeftButtonPressed )
                 input = "MouseDownLeft";
@@ -53,7 +53,7 @@ namespace BaseRPG.Controller.Input
 
         public void MouseUp(object sender, PointerRoutedEventArgs e)
         {
-            PointerPoint point = e.GetCurrentPoint((Grid)sender);
+            PointerPoint point = e.GetCurrentPoint((Canvas)sender);
             string input = "";
             if (point.Properties.IsLeftButtonPressed)
                 input = "MouseDownLeft";
@@ -83,7 +83,7 @@ namespace BaseRPG.Controller.Input
         }
         public void MouseMoved(object sender, PointerRoutedEventArgs args)
         {
-            Windows.Foundation.Point position = args.GetCurrentPoint((Grid)sender).Position;
+            Windows.Foundation.Point position = args.GetCurrentPoint((Canvas)sender).Position;
             MousePosition = new(position.X,position.Y);
         }
 

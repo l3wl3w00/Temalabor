@@ -31,7 +31,8 @@ namespace BaseRPG.View.Image
                 @"Assets\image\enemies\slime-outlined.png",
                 @"Assets\image\characters\character1-outlined.png",
                 @"Assets\image\bacground\big-background-mozaic.jpg",
-                @"Assets\image\weapons\normal-sword-outlined.png"
+                @"Assets\image\weapons\normal-sword-outlined.png",
+                @"Assets\image\attacks\enemy-attack.png"
             };
 
             foreach (string p in pics)

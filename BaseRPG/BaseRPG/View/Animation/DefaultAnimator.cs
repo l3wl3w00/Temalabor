@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace BaseRPG.View.Animation
 {
-    public class DefaultAnimator : IAnimator
+    public class DefaultAnimator : Animator
     {
 
         private AnimationLifeCycle<TransformationAnimation2D> transformationAnimation;
@@ -37,7 +37,7 @@ namespace BaseRPG.View.Animation
                 TransformMatrix = transformationAnimation.CurrentAnimation.GetImage(animationArgs) 
             };
 
-            animationArgs.Args.DrawingSession.DrawImage(transform2DEffect
+            animationArgs.DrawingSession.DrawImage(transform2DEffect
                 , (float)(animationArgs.PositionOnScreen.X)
                 , (float)(animationArgs.PositionOnScreen.Y));
         }

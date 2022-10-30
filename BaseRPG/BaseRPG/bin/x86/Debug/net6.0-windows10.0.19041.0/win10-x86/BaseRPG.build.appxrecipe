@@ -763,6 +763,9 @@
     <AppxPackagedFile Include="C:\Users\Levi\.nuget\packages\microsoft.graphics.win2d\1.0.3.1\runtimes\win10-x86\native\Microsoft.Graphics.Canvas.dll">
       <PackagePath>Microsoft.Graphics.Canvas.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\enemy-attack.png">
+      <PackagePath>Assets\image\attacks\enemy-attack.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\main\Munka_Suli\Egyetem\targyak\5.felev\Temalabor\BaseRPG\BaseRPG\Assets\image\attacks\sword-attack-effect.png">
       <PackagePath>Assets\image\attacks\sword-attack-effect.png</PackagePath>
     </AppxPackagedFile>

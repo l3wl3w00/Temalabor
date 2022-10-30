@@ -12,6 +12,8 @@ namespace BaseRPG.Model.Tickable.Item
     {
         public bool Exists => true;
 
+        public event Action OnCeaseToExist;
+
         //public void OnCollect(ICollector collector)
         //{
         //    //Do something

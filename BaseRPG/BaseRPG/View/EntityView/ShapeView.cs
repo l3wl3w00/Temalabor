@@ -18,11 +18,13 @@ namespace BaseRPG.View.EntityView
     {
         private IShape2D shape;
         private IPositionProvider positionProvider;
-
-        public ShapeView(IShape2D shape, IPositionProvider positionProvider)
+        private Color color = Color.FromArgb(100, 255, 0, 0);
+        public ShapeView(IShape2D shape, IPositionProvider positionProvider, Color? color = null)
         {
             this.shape = shape;
             this.positionProvider = positionProvider;
+            if (color.HasValue)
+                this.color = color.Value;
         }
 
         public bool Exists => shape.Owner.Exists;
@@ -34,12 +36,12 @@ namespace BaseRPG.View.EntityView
             IEnumerable<Point2D> vertices = shape.ToPolygon2D().Vertices;
             Vector2[] verticesArray = vertices.Select(v => new Vector2((float)v.X, (float)v.Y)).ToArray();
             
-            drawingArgs.Args.DrawingSession.FillGeometry(
+            drawingArgs.DrawingSession.FillGeometry(
                 CanvasGeometry.CreatePolygon(drawingArgs.Sender, verticesArray),
                 new Vector2(
                     (float)(drawingArgs.PositionOnScreen.X ),
                     (float)(drawingArgs.PositionOnScreen.Y )),
-                Color.FromArgb(100,255,0,0));
+                color);
         }
     }
 }

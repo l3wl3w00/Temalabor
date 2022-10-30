@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Physics.TwoDimensional.Collision;
@@ -30,12 +31,8 @@ namespace BaseRPG.Physics.TwoDimensional
                     }
                 }
             }
-            foreach (var collision in collisions)
-            {
-                collision.CheckColliding();
 
-            }
-            collisions.RemoveAll(c => c.IsOver);
+            collisions.RemoveAll(c => !c.CheckColliding());
             collisionObjects.RemoveAll(s => !s.Owner.Exists);
         }
 
@@ -43,11 +40,11 @@ namespace BaseRPG.Physics.TwoDimensional
             collisionObjects.Add(shape);
         }
 
-        public void NotifyCollision(IGameObject g1, IGameObject g2) {
+        public void NotifyCollision(ICollisionDetector<IGameObject> g1, ICollisionDetector<IGameObject> g2) {
             g1.OnCollision(g2);
         }
 
-        public bool CollisionExists(IGameObject g1, IGameObject g2) {
+        public bool CollisionExists(ICollisionDetector<IGameObject> g1, ICollisionDetector<IGameObject> g2) {
             foreach (var col in collisions)
             {
                 if (col.Shape1.Owner == g1 && col.Shape2.Owner == g2) return true; 
@@ -64,17 +61,17 @@ namespace BaseRPG.Physics.TwoDimensional
 
             public IShape2D Shape1 { get; set; }
             public IShape2D Shape2 { get; set; }
-            public bool IsOver { get; private set; } = false;
             public bool CheckColliding()
             {
                 var shiftedShape1 = Shape1.Shifted(Shape1.GlobalPosition);
                 var shiftedShape2 = Shape2.Shifted(Shape2.GlobalPosition);
                 var result = shiftedShape1.IsColliding(shiftedShape2);
+                if (!Shape1.Owner.Exists) result = false;
+                if (!Shape2.Owner.Exists) result = false;
                 if (!result)
                 {
                     Shape1.Owner.OnCollisionExit(Shape2.Owner);
                     Shape2.Owner.OnCollisionExit(Shape1.Owner);
-                    IsOver = true;
                 }
                 return result;
             }

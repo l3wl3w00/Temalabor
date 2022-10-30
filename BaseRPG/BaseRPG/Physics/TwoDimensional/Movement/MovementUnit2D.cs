@@ -55,6 +55,11 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             return new MovementUnit2D(movement * scalar);
         }
 
+        public IMovementUnit WithLength(double newLength)
+        {
+            return new MovementUnit2D(movement.Normalize() * newLength);
+        }
+
         //public IMovementUnit Unite(IMovementUnit movementUnit,int weight)
         //{
         //    var otherMovement = new Vector2D(movementUnit.Values[0], movementUnit.Values[1])*weight;

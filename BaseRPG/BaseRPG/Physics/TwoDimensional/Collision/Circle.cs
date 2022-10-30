@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
@@ -12,13 +13,13 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 {
     public class Circle : IShape2D
     {
-        private IGameObject owner;
+        private ICollisionDetector<IGameObject> owner;
         private IMovementManager movementManager;
         private Vector2D center;
         private double radius;
 
 
-        public Circle(IGameObject owner, IMovementManager movementManager, Vector2D center, double radius)
+        public Circle(ICollisionDetector<IGameObject> owner, IMovementManager movementManager, Vector2D center, double radius)
         {
             this.owner = owner;
             this.movementManager = movementManager;
@@ -32,7 +33,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         public Vector2D GlobalPosition => new(movementManager.Position.Values[0], movementManager.Position.Values[1]);
 
         public IMovementManager MovementManager { get => movementManager; set => movementManager = value; }
-        public IGameObject Owner { get => owner; set => owner = value; }
+        public ICollisionDetector<IGameObject> Owner { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private double _distanceFrom(Vector2D point) {
             return (point - center).Length;
@@ -65,7 +66,11 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         public Polygon2D ToPolygon2D()
         {
-            double step = (Math.PI * 2) / 20;
+            return ToPolygon2D(20);
+        }
+        public Polygon2D ToPolygon2D(int numberOfVertices)
+        {
+            double step = (Math.PI * 2) / numberOfVertices;
             List<Point2D> vertices = new();
             for (double angle = 0; angle < (Math.PI * 2); angle += step)
             {
@@ -80,9 +85,14 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             return (_distanceFrom(circleSector.center) <= radius + circleSector.radius);
         }
 
+        public Polygon ToPolygon(int numberOfVertices)
+        {
+            return new Polygon(owner, movementManager, ToPolygon2D(numberOfVertices).Vertices);
+        }
+
         public Polygon ToPolygon()
         {
-            return new Polygon(Owner, movementManager, ToPolygon2D().Vertices);
+            return ToPolygon(20);
         }
     }
 }
