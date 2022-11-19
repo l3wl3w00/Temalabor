@@ -11,7 +11,7 @@
     <Page Update="View\UIElements\Inventory\ItemsGrid.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\UIElements\Inventory\EquippedItems.xaml">
+    <Page Update="View\UIElements\Inventory\EquippedItemUI.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -43,7 +43,7 @@
     <None Remove="View\UIElements\HealthViewControl.xaml" />
     <None Remove="View\UIElements\Hud.xaml" />
     <None Remove="View\UIElements\InventoryWindow.xaml" />
-    <None Remove="View\UIElements\Inventory\EquippedItems.xaml" />
+    <None Remove="View\UIElements\Inventory\EquippedItemUI.xaml" />
     <None Remove="View\UIElements\Inventory\ItemsGrid.xaml" />
     <None Remove="View\UIElements\KeyBinding.xaml" />
     <None Remove="View\UIElements\KeyBindingsWindow.xaml" />
@@ -148,7 +148,7 @@
     <Page Update="View\UIElements\Inventory\ItemsGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="View\UIElements\Inventory\EquippedItems.xaml">
+    <Page Update="View\UIElements\Inventory\EquippedItemUI.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="View\Windows\ExperienceControl\ExperienceControl.xaml">

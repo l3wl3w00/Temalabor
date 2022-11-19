@@ -50,11 +50,11 @@ namespace BaseRPG.View.UIElements
                 return hero;
             }
             internal set {
-                var firstValue = hero == null;
+                var heroWasNull = hero == null;
                 hero = value;
                 HealthView = new HealthView(hero.Health,250, Color.FromArgb(255, 0, 150, 255),4);
 
-                if (firstValue)
+                if (heroWasNull)
                 {
                     levelText.Text = hero.Level.ToString();
                     hero.OnLevelUpCallback(

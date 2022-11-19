@@ -1,5 +1,6 @@
 ﻿using BaseRPG.View.UIElements;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 
 namespace BaseRPG.Controller.Window
@@ -22,11 +23,13 @@ namespace BaseRPG.Controller.Window
             {
                 Opened = true;
                 mainCanvas.Children.Add(Window);
+                Window.OnOpened();
             }
             internal void Close(Canvas mainCanvas)
             {
                 Opened = false;
                 mainCanvas.Children.Remove(Window);
+                Window.OnClosed();
             }
         }
         private Canvas mainCanvas;
@@ -114,6 +117,11 @@ namespace BaseRPG.Controller.Window
                 settingsWindow.WindowControl = windowControl;
                 return windowControl;
             }
+        }
+
+        internal CustomWindow FindByName(string windowName)
+        {
+            return windows[windowName].Window;
         }
     }
 }

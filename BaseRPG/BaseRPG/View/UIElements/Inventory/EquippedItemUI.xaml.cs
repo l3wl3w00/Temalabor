@@ -25,21 +25,28 @@ using Windows.Foundation.Collections;
 
 namespace BaseRPG.View.UIElements.Inventory
 {
-    public sealed partial class EquippedItems : UserControl
+    public sealed partial class EquippedItemUI : UserControl
     {
         private InventoryControl inventoryControl;
         private IDrawable equippedWeaponView;
-        public EquippedItems()
+        public EquippedItemUI()
         {
             this.InitializeComponent();
         }
 
         public IDrawable EquippedWeaponView { get => equippedWeaponView; set => equippedWeaponView = value; }
         public InventoryControl InventoryControl { get => inventoryControl; set => inventoryControl = value; }
-
+        public CanvasControl EquippedWeaponCanvas { get => equippedWeaponCanvas; }
         private void equippedWeaponCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            equippedWeaponView?.OnRender(new DrawingArgs(sender,1,new(0,0),args.DrawingSession));
+            Size size = EquippedWeaponCanvas.Size;
+            equippedWeaponView?.OnRender(new DrawingArgs(sender,1,new(size.Width/2,size.Height/2),new(0,0),args.DrawingSession));
+            
+        }
+
+        private void equippedWeaponButton_Click(object sender, RoutedEventArgs e)
+        {
+            equippedWeaponCanvas.Invalidate();
         }
     }
 }

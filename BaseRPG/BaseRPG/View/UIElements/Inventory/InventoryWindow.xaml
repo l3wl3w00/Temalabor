@@ -16,7 +16,7 @@
             PointerPressed="UserControl_PointerPressed"
             PointerReleased="UserControl_PointerReleased"
             TitleText="Inventory"></local:WindowHeader>
-        <inventory:EquippedItems x:Name="equippedItemUI"></inventory:EquippedItems>
+        <inventory:EquippedItemUI x:Name="equippedItemUI"></inventory:EquippedItemUI>
         <Rectangle Height="5" Fill="DarkBlue"></Rectangle>
         <inventory:ItemsGrid></inventory:ItemsGrid>
         

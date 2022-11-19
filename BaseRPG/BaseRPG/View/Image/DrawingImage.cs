@@ -1,5 +1,6 @@
 ﻿using BaseRPG.View.Animation;
 using BaseRPG.View.Interfaces;
+using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace BaseRPG.View.Image
         }
 
         public void Draw(DrawingArgs drawingArgs) {
-            drawingArgs.DrawingSession.DrawImage(imageProvider.GetByFilename(imagePath));
+            Vector2D pos = drawingArgs.PositionOnScreen;
+            drawingArgs.DrawingSession.DrawImage(imageProvider.GetByFilename(imagePath),new((float)pos.X,(float)pos.Y));
         }
         public Tuple<double, double> Size {
             get {

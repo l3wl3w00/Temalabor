@@ -45,6 +45,11 @@ namespace BaseRPG.View.UIElements
             }
 
         }
+
+        public virtual void  OnClosed()
+        {
+        }
+
         public event Action<CustomWindow> XButtonClicked;
         private DragHandler dragHandler;
         public CustomWindow()
@@ -56,6 +61,7 @@ namespace BaseRPG.View.UIElements
         {
             XButtonClicked?.Invoke(this);
         }
+        public virtual void OnOpened() { }
 
         private void StartDrag(Point point) {
             dragHandler.Start(new(point.X, point.Y));

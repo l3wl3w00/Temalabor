@@ -5,6 +5,7 @@ using BaseRPG.View;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
+using BaseRPG.View.UIElements.Inventory;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
