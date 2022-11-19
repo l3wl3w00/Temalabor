@@ -2,6 +2,7 @@
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
+using BaseRPG.Model.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,25 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable
 {
-    public class InRangeDetector : IGameObject, ICollisionDetector<IGameObject>
+    public class InRangeDetector : GameObject, ICollisionDetector<GameObject>
     {
-        public event Action<ICollisionDetector<IGameObject>> OnInRange;
-        public event Action<ICollisionDetector<IGameObject>> OnExitedRange;
-        public event Action OnCeaseToExist;
+        public event Action<ICollisionDetector<GameObject>> OnInRange;
+        public event Action<ICollisionDetector<GameObject>> OnExitedRange;
+        public override event Action OnCeaseToExist;
 
-        public List<ICollisionDetector<IGameObject>> objectsInRange = new();
+        public List<ICollisionDetector<GameObject>> objectsInRange = new();
+
+        public InRangeDetector(World currentWorld) : base(currentWorld)
+        {
+        }
+
+        private bool exists = true;
         // Exists for the duration of its owner
-        public bool Exists {get;set;}
-
-        public void OnCollision(ICollisionDetector<IGameObject> gameObject)
+        public override bool Exists { get { return exists; }}
+        public void SetExists(bool value) {
+            exists = value;
+        }
+        public void OnCollision(ICollisionDetector<GameObject> gameObject, double delta)
         {
             if (!objectsInRange.Contains(gameObject))
             {
@@ -30,12 +39,12 @@ namespace BaseRPG.Model.Tickable
             OnInRange?.Invoke(gameObject);
         }
 
-        public void OnTick(double delta)
+        public override void Step(double delta)
         {
             objectsInRange.RemoveAll(o => !o.Exists);
         }
 
-        public void Separate(Dictionary<string, List<ISeparable>> dict)
+        public override void Separate(Dictionary<string, List<ISeparable>> dict)
         {
             throw new NotImplementedException();
         }
@@ -43,7 +52,7 @@ namespace BaseRPG.Model.Tickable
             return objectsInRange.Contains(obj);
         }
 
-        public void OnCollisionExit(ICollisionDetector<IGameObject> gameObject)
+        public void OnCollisionExit(ICollisionDetector<GameObject> gameObject)
         {
             objectsInRange.Remove(gameObject);
             OnExitedRange?.Invoke(gameObject);

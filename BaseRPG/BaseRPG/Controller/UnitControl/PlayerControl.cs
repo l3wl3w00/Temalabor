@@ -1,11 +1,14 @@
-﻿using BaseRPG.Model.Interfaces.Combat;
-using BaseRPG.Model.Interfaces.Movement;
+﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Skills;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Physics.TwoDimensional;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.ItemView;
 using MathNet.Spatial.Euclidean;
 using System;
@@ -24,15 +27,16 @@ namespace BaseRPG.Controller.UnitControl
 
     public class PlayerControl:UnitControlBase
     {
-
         private DirectionMovementUnitMapper directionVectorMapper;
         private List<IMovementUnit> movements = new List<IMovementUnit>();
+        private IPositionProvider mousePositionProvider;
+
         public EquippedItemView EquippedItemView { get; set; }
+        public IPositionProvider MousePositionProvider { set => mousePositionProvider = value; }
 
         public PlayerControl( Unit controlledUnit):base(controlledUnit)
         {
             directionVectorMapper = DirectionMovementUnitMapper.CreateDefault2D();
-
         }
 
         public void OnMove(MoveDirection moveDirection)
@@ -49,10 +53,6 @@ namespace BaseRPG.Controller.UnitControl
                 EquippedItemView.StartLightAttackAnimation(attackFactory);
         }
         public void HeavyAttack()
-        {
-
-        }
-        public void UseSpell()
         {
 
         }

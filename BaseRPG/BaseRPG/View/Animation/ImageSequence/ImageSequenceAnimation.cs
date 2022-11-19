@@ -30,21 +30,42 @@ namespace BaseRPG.View.Animation.ImageSequence
             this.imageProvider = imageProvider;
             this.imageNames = imageNames;
             OnAnimationCompleted += actionOnAnimationCompleted;
-            animationTimer = new AnimationTimer(timeBetween,true);
-            animationTimer.Elapsed += 
-            ()=>
-            {
-                bool moved = imageNames.MoveNext();
-                if (moved) 
-                    lastValidImage = imageNames.Current;
-                else { 
-                    imageNames.Reset();
-                    imageNames.MoveNext();
-                    OnAnimationCompleted?.Invoke(this); 
-                }
-            };
+            TimeBetween = timeBetween;
+            //animationTimer = new AnimationTimer(timeBetween,true);
+            //animationTimer.Elapsed += 
+            //()=>
+            //{
+            //    bool moved = imageNames.MoveNext();
+            //    if (moved) 
+            //        lastValidImage = imageNames.Current;
+            //    else { 
+            //        imageNames.Reset();
+            //        imageNames.MoveNext();
+            //        OnAnimationCompleted?.Invoke(this); 
+            //    }
+            //};
         }
 
+        public double TimeBetween
+        {
+            set 
+            {
+                animationTimer = new AnimationTimer(value, true);
+                animationTimer.Elapsed +=
+                () =>
+                {
+                    bool moved = imageNames.MoveNext();
+                    if (moved)
+                        lastValidImage = imageNames.Current;
+                    else
+                    {
+                        imageNames.Reset();
+                        imageNames.MoveNext();
+                        OnAnimationCompleted?.Invoke(this);
+                    }
+                };
+            }
+        }
         public ICanvasImage CalculateImage(double delta)
         {
             animationTimer.Tick(delta);
@@ -54,9 +75,25 @@ namespace BaseRPG.View.Animation.ImageSequence
         }
 
         public static ImageSequenceAnimation SingleImage(IImageProvider imageProvider, string image, double timeBetween = 0.1) {
-
             return new ImageSequenceAnimation(imageProvider, new LoopingEnumerator<string>(new List<string> { image }),null, timeBetween);
         }
-
+        public static ImageSequenceAnimation LoopingAnimation(IImageProvider imageProvider, List<string> images, double timeBetween = 0.1)
+        {
+            return new ImageSequenceAnimation(imageProvider, new LoopingEnumerator<string>(images), null, timeBetween);
+        }
+        
+        public static ImageSequenceAnimation WithDefaultEnumerator(IImageProvider imageProvider, List<string> images, double timeBetween = 0.1)
+        {
+            List<string>.Enumerator enumerator = images.GetEnumerator();
+            enumerator.MoveNext();
+            return new ImageSequenceAnimation(imageProvider, enumerator, null, timeBetween);
+        }
+        public static ImageSequenceAnimation WithTimeFrame(IImageProvider imageProvider, List<string> images, double timeFrame)
+        {
+            List<string>.Enumerator enumerator = images.GetEnumerator();
+            enumerator.MoveNext();
+            var timeBetween = timeFrame / (images.Count);
+            return new ImageSequenceAnimation(imageProvider, enumerator, null, timeBetween);
+        }
     }
 }

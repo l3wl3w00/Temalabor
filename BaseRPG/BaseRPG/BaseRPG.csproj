@@ -12,8 +12,45 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="View\Windows\InventoryWindow.xaml" />
-    <None Remove="View\Windows\MyGrid.xaml" />
+    <Compile Remove="Controller\NewFolder\**" />
+    <Compile Remove="Model\Exceptions\**" />
+    <Compile Remove="Model\Interfaces\NewFolder1\**" />
+    <Compile Remove="Model\Tickable\Collectible\**" />
+    <Compile Remove="Tests\**" />
+    <Compile Remove="View\Shapes\**" />
+    <EmbeddedResource Remove="Controller\NewFolder\**" />
+    <EmbeddedResource Remove="Model\Exceptions\**" />
+    <EmbeddedResource Remove="Model\Interfaces\NewFolder1\**" />
+    <EmbeddedResource Remove="Model\Tickable\Collectible\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <EmbeddedResource Remove="View\Shapes\**" />
+    <None Remove="Controller\NewFolder\**" />
+    <None Remove="Model\Exceptions\**" />
+    <None Remove="Model\Interfaces\NewFolder1\**" />
+    <None Remove="Model\Tickable\Collectible\**" />
+    <None Remove="Tests\**" />
+    <None Remove="View\Shapes\**" />
+    <Page Remove="Controller\NewFolder\**" />
+    <Page Remove="Model\Exceptions\**" />
+    <Page Remove="Model\Interfaces\NewFolder1\**" />
+    <Page Remove="Model\Tickable\Collectible\**" />
+    <Page Remove="Tests\**" />
+    <Page Remove="View\Shapes\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="View\UIElements\CustomWindow.xaml" />
+    <None Remove="View\UIElements\Experience\ExperienceControl.xaml" />
+    <None Remove="View\UIElements\HealthViewControl.xaml" />
+    <None Remove="View\UIElements\Hud.xaml" />
+    <None Remove="View\UIElements\InventoryWindow.xaml" />
+    <None Remove="View\UIElements\Inventory\EquippedItems.xaml" />
+    <None Remove="View\UIElements\Inventory\ItemsGrid.xaml" />
+    <None Remove="View\UIElements\KeyBinding.xaml" />
+    <None Remove="View\UIElements\KeyBindingsWindow.xaml" />
+    <None Remove="View\UIElements\LabelAndCombobox.xaml" />
+    <None Remove="View\UIElements\LabelAndTextBox.xaml" />
+    <None Remove="View\UIElements\SettingsWindow.xaml" />
+    <None Remove="View\UIElements\WindowHeader.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +66,10 @@
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="MathNet.Spatial" Version="0.6.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -49,27 +86,84 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\NewFolder\" />
-    <Folder Include="Model\Interfaces\NewFolder1\" />
-    <Folder Include="Model\Interfaces\NewFolder\" />
     <Folder Include="Model\Interfaces\WorldInterfaces\NewFolder\" />
-    <Folder Include="Model\Movement\" />
-    <Folder Include="Model\Exceptions\" />
-    <Folder Include="Model\Tickable\Collectible\" />
     <Folder Include="Model\Tickable\Item\Weapon\Attacks\" />
-    <Folder Include="Tests\" />
     <Folder Include="Physics\NewFolder\" />
-    <Folder Include="Themes\" />
-    <Folder Include="View\Animation\NewFolder\" />
-    <Folder Include="View\Shapes\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Windows\MyGrid.xaml">
+    <Page Update="View\Windows\WindowHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Windows\CustomWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Windows\SettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Windows\HealthViewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Windows\Hud.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Windows\InventoryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Model\Exceptions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Model\Tickable\Collectible\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Controller\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Tests\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="View\Shapes\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Model\Interfaces\NewFolder1\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\config\input-binding.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\config\input-binding.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="View\UIElements\Inventory\ItemsGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\UIElements\Inventory\EquippedItems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\Windows\ExperienceControl\ExperienceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\Windows\CustomControl\LabelAndCombobox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\Windows\CustomControl\LabelAndTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\Windows\Binding\KeyBinding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\Windows\Binding\KeyBindingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

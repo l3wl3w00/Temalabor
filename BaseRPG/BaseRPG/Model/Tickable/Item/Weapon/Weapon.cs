@@ -1,7 +1,9 @@
-﻿using BaseRPG.Model.Interfaces;
-using BaseRPG.Model.Interfaces.Combat;
+﻿using BaseRPG.Model.Attribute;
+using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
+using BaseRPG.Model.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,13 +37,16 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
                 return lightAttackFactory;
             }  }
 
-        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, Unit owner = null)
+        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, World world, Unit owner = null):base(world)
         {
             this.heavyAttackFactory = heavyAttackFactory;
             this.lightAttackFactory = lightAttackFactory;
             this.Owner = owner;
         }
 
-        
+        public override void EquippedBy(Inventory inventory)
+        {
+            inventory.EquippedWeapon = this;
+        }
     }
 }

@@ -8,6 +8,6 @@ namespace BaseRPG.Controller.Interfaces
 {
     public interface IProcessedInputActionMapper
     {
-        Action ToAction(string key);
+        IInputAction ToAction(string key);
     }
 }

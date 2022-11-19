@@ -1,6 +1,6 @@
 ﻿using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Interfaces.Movement;
-using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
@@ -28,7 +28,6 @@ namespace BaseRPG.Controller.Initialization
         public Attack2DBuilder Attack(Attack attack)
         {
             this.attack = attack;
-
             return this;
         }
         public Attack2DBuilder OwnerPosition(IPositionUnit ownerPosition) {
@@ -44,24 +43,28 @@ namespace BaseRPG.Controller.Initialization
             this.vertices = vertices;
             return this;
         }
-        public FullGameObject2D CreateAttack()
+        public ShapeViewPair CreateAttack(bool rotated = true)
         {
-            if (attack == null) throw new RequiredParameterMissing("attack was null");
+            if (attack == null)  throw new RequiredParameterMissing("attack was null");
             DefaultImageRenderer attackImageRenderer = new DefaultImageRenderer(
                 imageProvider.GetByFilename(imageName),
                 imageProvider.GetSizeByFilename(imageName)
             );
-                double[] values = ownerPosition.MovementTo(attack.Position).Values;
-                double initialRotation = Math.Atan2(values[1], values[0]);
+            var shape = new Polygon(attack, attack.MovementManager, vertices);
 
-                var shape = new Polygon(attack, attack.MovementManager, vertices);
-            shape.Rotate(initialRotation - Math.PI / 2);
-                FullGameObject2D fullAttackObject =
-                    new FullGameObject2D(
-                        attack,
-                        shape,
-                        new AttackView(attack, attackImageRenderer, initialRotation));
-                return fullAttackObject;
+
+            double initialRotation = 0;
+            if (rotated) { 
+                double[] values = ownerPosition.MovementTo(attack.Position).Values;
+                initialRotation = Math.Atan2(values[1], values[0]);
+                shape.Rotate(initialRotation - Math.PI / 2);
+            }
+
+            ShapeViewPair fullAttackObject =
+                new ShapeViewPair(
+                    shape,
+                    new AttackView(attack, attackImageRenderer, initialRotation));
+            return fullAttackObject;
         }
 
     }

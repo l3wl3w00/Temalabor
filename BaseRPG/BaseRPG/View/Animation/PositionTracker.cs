@@ -1,4 +1,5 @@
-﻿using BaseRPG.View.Interfaces;
+﻿using BaseRPG.Physics.TwoDimensional.Interfaces;
+using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Model.Interfaces;
-using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Tickable.Item;
@@ -8,6 +8,7 @@ using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View.Animation;
+using BaseRPG.View.Animation.Animators;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;

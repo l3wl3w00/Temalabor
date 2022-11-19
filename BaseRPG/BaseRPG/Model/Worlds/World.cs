@@ -14,13 +14,16 @@ namespace BaseRPG.Model.Worlds
     public class World : ITickable
     {
         private GameObjectContainer gameObjectContainer = new GameObjectContainer();
+        private CallbackQueue callbackQueue = new();
         //private IWorldInitializationStrategy initializationStrategy;
         
-        public Hero Hero { get { return gameObjectContainer.Hero; } set { gameObjectContainer.Hero = value; } }
+        public Hero Hero { get { return GameObjectContainer.Hero; } set { GameObjectContainer.Hero = value; } }
+
+        public GameObjectContainer GameObjectContainer { get => gameObjectContainer; set => gameObjectContainer = value; }
 
         public World(GameObjectContainer gameObjectContainer)
         {
-            this.gameObjectContainer = gameObjectContainer;
+            this.GameObjectContainer = gameObjectContainer;
         }
 
         //public void Initialize() {
@@ -29,20 +32,24 @@ namespace BaseRPG.Model.Worlds
 
         public void OnTick(double delta)
         {
-            List<IGameObject> all = gameObjectContainer.All;
+            callbackQueue.ExecuteAll();
+            List<GameObject> all = GameObjectContainer.All;
             lock (all) {
                 for (int i = 0; i < all.Count; i++) {
-                    all[i].OnTick(delta);
+                    GameObject gameObject = all[i];
+                    gameObject.OnTick(delta);
                 }
                 all.RemoveAll(g => !g.Exists);
             }
         }
-        public void Add(IGameObject gameObject) {
-            gameObjectContainer.Add(gameObject);
+        public void Add(GameObject gameObject) {
+            GameObjectContainer.Add(gameObject);
         }
-        public void Remove(IGameObject gameObject) {
-            gameObjectContainer.Remove(gameObject);
+        public void Remove(GameObject gameObject) {
+            GameObjectContainer.Remove(gameObject);
         }
-
+        public void QueueForAdd(GameObject gameObject) {
+            callbackQueue.QueueAction(()=>Add(gameObject));
+        }
     }
 }

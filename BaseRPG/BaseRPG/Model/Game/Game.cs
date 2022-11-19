@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Data;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Worlds;
@@ -21,10 +22,13 @@ namespace BaseRPG.Model.Game
             {
                 if (instance == null)
                     instance = new Game();
-                return instance;
+                lock (instance) {
+                    return instance;
+                }
+                
             }
         }
-
+        private ICollisionNotifier collisionNotifier;
         private WorldCatalogue worldCatalogue = new();
         private World currentWorld;
         private ItemCatalogue itemCatalogue = new();
@@ -42,6 +46,7 @@ namespace BaseRPG.Model.Game
 
         public WorldCatalogue WorldCatalogue { get => worldCatalogue;  }
         public ItemCatalogue ItemCatalogue { get => itemCatalogue; }
+        public ICollisionNotifier CollisionNotifier { get => collisionNotifier; set => collisionNotifier = value; }
 
         public void ChangeWorld(string name) {
             CurrentWorld = worldCatalogue[name].Create();
@@ -50,6 +55,7 @@ namespace BaseRPG.Model.Game
 
         public void OnTick(double delta)
         {
+            CollisionNotifier.NotifyCollisions(delta);
             CurrentWorld.OnTick(delta);
         }
     }

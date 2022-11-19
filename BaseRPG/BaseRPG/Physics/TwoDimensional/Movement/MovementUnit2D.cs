@@ -34,9 +34,9 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         {
             var avgMovement = movement;
             var avgLength = movement.Length;
-            foreach(var otherMovementUnit in otherMovementUnits)
+            foreach (var otherMovementUnit in otherMovementUnits)
             {
-                Vector2D otherMovementUnit2D = new(otherMovementUnit.Values[0], otherMovementUnit.Values[1]) ;
+                Vector2D otherMovementUnit2D = new(otherMovementUnit.Values[0], otherMovementUnit.Values[1]);
                 avgMovement += otherMovementUnit2D;
                 avgLength += otherMovementUnit2D.Length;
             }
@@ -58,6 +58,11 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         public IMovementUnit WithLength(double newLength)
         {
             return new MovementUnit2D(movement.Normalize() * newLength);
+        }
+
+        public bool GreaterThan(IMovementUnit otherMovement)
+        {
+            return movement.Length > new Vector2D(otherMovement.Values[0], otherMovement.Values[1]).Length;
         }
 
         //public IMovementUnit Unite(IMovementUnit movementUnit,int weight)

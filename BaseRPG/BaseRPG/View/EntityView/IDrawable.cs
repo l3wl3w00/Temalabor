@@ -8,6 +8,7 @@ using Windows.Storage;
 using BaseRPG.View.Camera;
 using BaseRPG.View.Animation;
 using BaseRPG.Model.Interfaces;
+using BaseRPG.Physics.TwoDimensional.Collision;
 
 namespace BaseRPG.View.EntityView
 {

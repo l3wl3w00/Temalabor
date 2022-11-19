@@ -23,4 +23,8 @@
     <ProjectReference Include="..\BaseRPG\BaseRPG.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controller\UnitControl\" />
+  </ItemGroup>
+
 </Project>

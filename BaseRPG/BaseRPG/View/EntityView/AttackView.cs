@@ -1,6 +1,6 @@
 ﻿using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Interfaces.Movement;
-using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.View.Animation;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;

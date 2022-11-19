@@ -17,6 +17,9 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Windows.ApplicationModel;
@@ -34,6 +37,8 @@ namespace BaseRPG
     /// </summary>
     public partial class App : Application
     {
+
+        public static readonly int IMAGE_SCALE = 4;
         private Game game;
         Controller.Controller controller;
         private MainWindow window;
@@ -58,23 +63,24 @@ namespace BaseRPG
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        
+
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+
+
             game = Game.Instance;
             game.PhysicsFactory = new PhysicsFactory2D();
             window = new MainWindow();
             window.ViewManager = new(game, new DefaultWorldNameImageMapper(), window.Canvas);
-            controller = new Controller.Controller(window.ViewManager, new CollisionNotifier2D());
+            controller = new Controller.Controller(window.ViewManager, new CollisionNotifier2D(),Game.Instance);
             window.Controller = controller;
-
             window.OnResourcesReady += StartGame;
             window.Activate();
             
         }
         private void StartGame(IImageProvider imageProvider) {
             controller.Initialize(
-                new DefaultGameConfigurer(new CenteredImageProvider(new ScalingImageProvider(4, imageProvider))),
+                new DefaultGameConfigurer(new CenteredImageProvider(new ScalingImageProvider(IMAGE_SCALE, imageProvider))),
                 window);
             StartLogic();
         }

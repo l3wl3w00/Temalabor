@@ -16,7 +16,7 @@ namespace BaseRPG.View.Animation.FacingPoint
         {
         }
 
-        public Vector2D Point { set { point = value; } }
+        public Vector2D Point { get { return point; } set { point = value; } }
 
         public override event Action<Interfaces.TransformationAnimation2D> OnAnimationCompleted;
 

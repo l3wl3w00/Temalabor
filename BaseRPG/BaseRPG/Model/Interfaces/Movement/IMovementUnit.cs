@@ -24,5 +24,6 @@ namespace BaseRPG.Model.Interfaces.Movement
         }
         IMovementUnit UniteWith(List<IMovementUnit> otherMovementUnits);
         IMovementUnit Add(IMovementUnit otherMovement);
+        bool GreaterThan(IMovementUnit otherMovement);
     }
 }

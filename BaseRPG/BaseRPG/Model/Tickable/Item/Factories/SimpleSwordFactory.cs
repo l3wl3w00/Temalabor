@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.Item.Factories
 {
-    public class SimpleSwordFactory:IItemFactory
-    {
-        public Item Create()
-        {
-            return new Weapon.Weapon(
-                new AttackBuilder(new DamagingAttackStrategy(40)),
-                new AttackBuilder(new DamagingAttackStrategy(40)));
-        }
-    }
+    //public class SimpleSwordFactory:IItemFactory
+    //{
+    //    public Item Create()
+    //    {
+    //        return new Weapon.Weapon(
+    //            new AttackBuilder(new DamagingAttackStrategy(40)),
+    //            new AttackBuilder(new DamagingAttackStrategy(40)));
+    //    }
+    //}
 }

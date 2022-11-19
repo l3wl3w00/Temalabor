@@ -1,5 +1,7 @@
-﻿using BaseRPG.Controller.Interfaces;
+﻿using BaseRPG.Controller.Input.InputActions;
+using BaseRPG.Controller.Interfaces;
 using BaseRPG.Controller.UnitControl;
+using BaseRPG.View.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +10,10 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Controller.Input
 {
-    public class ProcessedInputActionMapper: IProcessedInputActionMapper
+    public class ProcessedInputActionMapper : IProcessedInputActionMapper
     {
-        private Dictionary<string, Action> inputActionMap;
-        
-        public static ProcessedInputActionMapper CreateDefault(PlayerControl playerControl)
-        {
-            Dictionary<string, Action>  inputActionMap = new Dictionary<string, Action>();
-            inputActionMap.Add("move-forward", () => { playerControl.OnMove(MoveDirection.Forward); });
-            inputActionMap.Add("move-left", () => { playerControl.OnMove(MoveDirection.Left); });
-            inputActionMap.Add("move-right", () => { playerControl.OnMove(MoveDirection.Right); });
-            inputActionMap.Add("move-backward", () => { playerControl.OnMove(MoveDirection.Backward); });
-            inputActionMap.Add("light-attack", () => { playerControl.LightAttack(); });
-            inputActionMap.Add("heavy-attack-start", () => { playerControl.HeavyAttack(); });
-            inputActionMap.Add("heavy-attack-finish", () => { });
-            inputActionMap.Add("", () => { });
-            return new ProcessedInputActionMapper(inputActionMap);
-        }
-        public ProcessedInputActionMapper(Dictionary<string, Action> inputActionMap)
+        private Dictionary<string, IInputAction> inputActionMap;
+        public ProcessedInputActionMapper(Dictionary<string, IInputAction> inputActionMap)
         {
             this.inputActionMap = inputActionMap;
         }
@@ -34,11 +22,22 @@ namespace BaseRPG.Controller.Input
         {
         }
         public Dictionary<string, Action> InputActionMap { get; set; }
-        
-        public Action ToAction(string key) {
-            if (!inputActionMap.ContainsKey(key)) 
-                return () => { };
+
+        public IInputAction ToAction(string key) {
+            if (!inputActionMap.ContainsKey(key))
+                return new EmptyInputAction();
             return inputActionMap[key];
+        }
+
+        public class Builder{
+            private Dictionary<string, IInputAction> inputActionMap = new();
+            public Builder AddMapping(string name, IInputAction action) {
+                inputActionMap.Add(name, action);
+                return this;
+            }
+            public ProcessedInputActionMapper Create() {
+                return new ProcessedInputActionMapper(inputActionMap);
+            }
         }
     }
 }

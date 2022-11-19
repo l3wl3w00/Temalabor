@@ -17,10 +17,10 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         private Polygon2D polygon;
         private double angle;
-        private ICollisionDetector<IGameObject> owner;
+        private ICollisionDetector<GameObject> owner;
         private IMovementManager movementManager;
 
-        public Polygon(ICollisionDetector<IGameObject> owner, IMovementManager movementManager, IEnumerable<Point2D> vertices)
+        public Polygon(ICollisionDetector<GameObject> owner, IMovementManager movementManager, IEnumerable<Point2D> vertices)
         {
             polygon = new Polygon2D(vertices);
             this.owner = owner;
@@ -28,7 +28,8 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             if (movementManager != null)
                 movementManager.Moved += () =>
                 {
-                    Angle angle = new Vector2D(movementManager.LastMovement.Values[0], movementManager.LastMovement.Values[1]).SignedAngleTo(new(0, 1), true);
+                    double[] values = movementManager.LastMovement.Values;
+                    Angle angle = new Vector2D(values[0], values[1]).SignedAngleTo(new(0, 1), true);
                     SetRotation(angle.Radians);
                 };
         }
@@ -49,7 +50,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         }
 
-        public ICollisionDetector<IGameObject> Owner
+        public ICollisionDetector<GameObject> Owner
         {
             get { return owner; }
             set { owner = value; }
@@ -125,19 +126,38 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             throw new NotImplementedException();
         }
         public static Polygon Circle(
-            ICollisionDetector<IGameObject> owner, 
+            ICollisionDetector<GameObject> owner, 
             IMovementManager movementManager,
             Vector2D center,
             double radius,
             int numberOfVertices = 20) {
-            return new Circle(owner, movementManager,center, radius).ToPolygon(numberOfVertices);
+            return new Polygon(owner, movementManager, CircleVertices(center, radius, numberOfVertices));
         }
-        public static List<Point2D> Rectangle(Vector2D center, double width, double height) {
+        public static List<Point2D> RectangleVertices(Vector2D center, double width, double height) {
             return new List<Point2D> { 
                 new(center.X-width/2,center.Y-height/2),
                 new(center.X-width/2,center.Y+height/2),
                 new(center.X+width/2,center.Y+height/2),
                 new(center.X+width/2,center.Y-height/2)};
+        }
+        public static List<Point2D> CircleVertices(
+            Vector2D center,
+            double radius,
+            int numberOfVertices = 20)
+        {
+            double step = (Math.PI * 2) / numberOfVertices;
+            List<Point2D> vertices = new();
+            for (double angle = 0; angle < (Math.PI * 2); angle += step)
+            {
+                Vector2D v = Vector2D.FromPolar(radius, Angle.FromRadians(angle)) + center;
+                vertices.Add(new(v.X,v.Y));
+            }
+            return vertices;
+        }
+
+        public bool IsCollidingPoint(Vector2D point)
+        {
+            return polygon.EnclosesPoint(new(point.X,point.Y));
         }
     }
 }

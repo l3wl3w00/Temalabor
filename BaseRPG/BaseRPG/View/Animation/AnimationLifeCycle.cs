@@ -1,4 +1,4 @@
-﻿using BaseRPG.Controller.Utility;
+﻿using BaseRPG.Model.Utility;
 using BaseRPG.View.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -20,14 +20,20 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         IMovementManager MovementManager { get; set; }
 
         public Vector2D GlobalPosition { get; }
-        public ICollisionDetector<IGameObject> Owner { get; set; }
+        public ICollisionDetector<GameObject> Owner { get; set; }
         public Vector2D Middle { get; }
         void Rotate(double angle);
         Polygon2D ToPolygon2D();
         Polygon ToPolygon();
         bool IsColliding(IShape2D s2);
         bool IsCollidingCircle(Circle circleSector);
+        bool IsCollidingPoint(Vector2D point);
         IShape2D Shifted(Vector2D shift);
         IShape2D Shifted(params double[] values);
+        void OnCollision(IShape2D shape2, double delta)
+        {
+            shape2.Owner.OnCollision(Owner, delta);
+        }
+        
     }
 }

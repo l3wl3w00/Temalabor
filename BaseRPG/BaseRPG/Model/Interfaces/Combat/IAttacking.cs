@@ -12,5 +12,7 @@ namespace BaseRPG.Model.Interfaces.Combat
     {
         AttackabilityService.Group OffensiveGroup { get; }
         int Damage { get; }
+
+        void OnTargetKilled(IAttackable target);
     }
 }

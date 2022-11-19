@@ -9,9 +9,9 @@ namespace BaseRPG.Model.Data
 {
     public class GameObjectContainer
     {
-        private List<IGameObject> gameObjects = new List<IGameObject>();
-        public List<IGameObject> All { get { return gameObjects; } }
-        public List<Enemy> Enemies { get { return GetGameObjects<Enemy>("Enemy"); } }
+        private List<GameObject> gameObjects = new List<GameObject>();
+        public List<GameObject> All { get { return gameObjects; } }
+        //public List<Enemy> Enemies { get { return GetGameObjects<Enemy>("Enemy"); } }
 
         private Hero hero;
         public Hero Hero {
@@ -19,23 +19,26 @@ namespace BaseRPG.Model.Data
             set {
                 Remove(hero);
                 hero = value;
-                Add(hero);
+                if (!gameObjects.Contains(hero))
+                    Add(hero);
             }
         }
 
-        public List<T> GetGameObjects<T>(string name)
-        {
-            Dictionary<string, List<ISeparable>> dict = new Dictionary<string, List<ISeparable>>();
-            All.ForEach(g => g.Separate(dict));
-            if (!dict.ContainsKey(name)) return new List<T>();
-            return dict[name].Select(e => (T)e).ToList();
-        }
+        //public List<T> GetGameObjects<T>(string name)
+        //{
+        //    Dictionary<string, List<ISeparable>> dict = new Dictionary<string, List<ISeparable>>();
+        //    All.ForEach(g => g.Separate(dict));
+        //    if (!dict.ContainsKey(name)) return new List<T>();
+        //    return dict[name].Select(e => (T)e).ToList();
+        //}
         
-        public void Add(IGameObject gameObject) {
-            if(gameObjects.Contains(gameObject)) return;
+        public void Add(GameObject gameObject) {
+            if(gameObject == null) 
+                return;
+            if(gameObjects.Contains(gameObject)) throw new GameObjectAlreadyInWorldException(gameObject);
             gameObjects.Add(gameObject);
         }
-        public void Remove(IGameObject gameObject){
+        public void Remove(GameObject gameObject){
             gameObjects.Remove(gameObject);
         }
     }

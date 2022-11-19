@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Attribute
 {
-    public class Inventory: ICollector<Item>
+    public class Inventory
     {
         private List<Item> items = new();
         public event Action<Weapon> WeaponEquipped;
@@ -29,10 +29,13 @@ namespace BaseRPG.Model.Attribute
                 equippedShoe = value;
                 DefensiveItemEquipped?.Invoke(equippedShoe);
             } }
-        public Weapon EquippedWeapon { get => equippedWeapon; set {
+        public Weapon EquippedWeapon { 
+            get => equippedWeapon; 
+            set {
                 equippedWeapon = value;
                 WeaponEquipped?.Invoke(equippedWeapon);
-            } }
+            }
+        }
 
         public void Drop(Item item) {
             throw new NotImplementedException();
@@ -40,8 +43,17 @@ namespace BaseRPG.Model.Attribute
 
         public void Collect(Item collectible)
         {
-            collectible.OnCollect(this);
+            //collectible.OnCollect(this);
             items.Add(collectible);
         }
+
+        public void Equip(Item item) {
+            item.EquippedBy(this);
+        }
+
+        public void Equip(int itemIndex) {
+        
+        }
+
     }
 }

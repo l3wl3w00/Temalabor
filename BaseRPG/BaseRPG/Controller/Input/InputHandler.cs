@@ -28,7 +28,6 @@ namespace BaseRPG.Controller.Input
         public PositionTracker MousePositionTracker => mousePositionTracker;
         internal void OnTick()
         {
-
             lock (pressedButNotReleasedInput) {
                 foreach (string input in pressedButNotReleasedInput)
                 {
@@ -42,11 +41,10 @@ namespace BaseRPG.Controller.Input
             PointerPoint point = e.GetCurrentPoint((Canvas)sender);
             string input = "";
             if (point.Properties.IsLeftButtonPressed )
-                input = "MouseDownLeft";
+                input = "MouseLeft";
             if (point.Properties.IsRightButtonPressed)
-                input = "MouseDownRight";
-            reactToPressedInput(input);
-            //reactToInputDown(input);
+                input = "MouseRight";
+            reactToInputDown(input);
         }
 
         
@@ -55,11 +53,11 @@ namespace BaseRPG.Controller.Input
         {
             PointerPoint point = e.GetCurrentPoint((Canvas)sender);
             string input = "";
-            if (point.Properties.IsLeftButtonPressed)
-                input = "MouseDownLeft";
-            if (point.Properties.IsRightButtonPressed)
-                input = "MouseDownRight";
-            //reactToInputUp(input);
+            if (pressedButNotReleasedInput.Contains("MouseLeft") &&!point.Properties.IsLeftButtonPressed)
+                input = "MouseLeft";
+            if (pressedButNotReleasedInput.Contains("MouseRight") && !point.Properties.IsRightButtonPressed)
+                input = "MouseRight";
+            reactToInputUp(input);
         }
 
         public void KeyDown(object sender,KeyRoutedEventArgs e)
@@ -89,8 +87,12 @@ namespace BaseRPG.Controller.Input
 
         private void reactToInputDown(string rawInput)
         {
+            
             lock (pressedButNotReleasedInput) {
+
                 if (pressedButNotReleasedInput.Contains(rawInput)) return;
+                IInputAction action = toAction(rawInput);
+                action.OnPressed();
                 pressedButNotReleasedInput.Add(rawInput);
             }
             
@@ -100,6 +102,8 @@ namespace BaseRPG.Controller.Input
 
         private void reactToInputUp(string rawInput)
         {
+            IInputAction action = toAction(rawInput);
+            action.OnReleased();
             lock (pressedButNotReleasedInput)
             {
                 pressedButNotReleasedInput.RemoveAll((s) => s == rawInput);
@@ -107,9 +111,12 @@ namespace BaseRPG.Controller.Input
             
         }
         private void reactToPressedInput(string rawInput) {
-            Action action = processedInputActionMapper.ToAction(rawInputProcessedInputMapper.toProcessedInput(rawInput));
-            action.Invoke();
+            IInputAction action = toAction(rawInput);
+            action.OnHold();
         }
-        
+
+        private IInputAction toAction(string rawInput) {
+            return processedInputActionMapper.ToAction(rawInputProcessedInputMapper.toProcessedInput(rawInput));
+        }
     }
 }

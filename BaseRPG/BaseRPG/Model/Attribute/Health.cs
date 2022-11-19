@@ -11,6 +11,7 @@ namespace BaseRPG.Model.Attribute
         
         public event Action HealthReachedZeroEvent;
         public event Action<double> HealthReachedMaxEvent;
+        public event Action HealthCanged;
         private double currentValue;
         private double maxValue;
 
@@ -19,11 +20,16 @@ namespace BaseRPG.Model.Attribute
             currentValue = maxValue;
             this.maxValue = maxValue;
         }
-
+        public bool BelowZero {
+            get {
+                return currentValue <= 0;
+            }
+        }
         public double CurrentValue{
             get { return currentValue; }
-            set { 
+            set {
                 currentValue = value;
+                HealthCanged?.Invoke();
                 if (currentValue <= 0) {
                     currentValue = 0;
                     HealthReachedZeroEvent?.Invoke();

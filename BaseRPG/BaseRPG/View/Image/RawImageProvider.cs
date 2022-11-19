@@ -10,36 +10,50 @@ using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using System.Threading;
 
 namespace BaseRPG.View.Image
 {
     public class RawImageProvider : IImageProvider
     {
-        private Dictionary<string, ICanvasImage> images = new Dictionary<string, ICanvasImage>();
+        //private static RawImageProvider instance;
+        //public static RawImageProvider Instance
+        //{
+        //    get { 
+        //        if(instance==null) return new RawImageProvider();
+        //        return instance;
+        //    }
+        //}
+        //private RawImageProvider() {
+        
+        //}
+        private Dictionary<string, CanvasVirtualBitmap> images = new Dictionary<string, CanvasVirtualBitmap>();
         private bool initialized = false;
         public async Task LoadImages(ICanvasResourceCreator canvasResourceCreator)
         {
             string projectPath =  AppDomain.CurrentDomain.BaseDirectory;
-
-            List<string> pics = new List<string> 
-            {
-                @"Assets\image\enemies\attack-animation\slime-attack-0-outlined.png",
-                @"Assets\image\enemies\attack-animation\slime-attack-1-outlined.png",
-                @"Assets\image\enemies\attack-animation\slime-attack-2-outlined.png",
-                @"Assets\image\enemies\attack-animation\slime-attack-3-outlined.png",
-                @"Assets\image\attacks\sword-attack-effect.png",
-                @"Assets\image\enemies\slime-outlined.png",
-                @"Assets\image\characters\character1-outlined.png",
-                @"Assets\image\bacground\big-background-mozaic.jpg",
-                @"Assets\image\weapons\normal-sword-outlined.png",
-                @"Assets\image\attacks\enemy-attack.png"
-            };
-
+            List<string> pics = 
+                File.ReadAllLines(Path.Combine(projectPath, @"Assets\config\images-to-load.txt"))
+                .Select(line=>line.Trim()).ToList();
             foreach (string p in pics)
-                images.Add(p, await CanvasBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, p)));
+                images.Add(p, await CanvasVirtualBitmap.LoadAsync(canvasResourceCreator, Path.Combine(projectPath, p)));
             initialized = true;
         }
         public ICanvasImage GetByFilename(string fileName)
+        {
+            if (fileName == null) return null;
+            if (!initialized)
+            {
+                //This exception is also thrown if an image couldn't be loaded
+                throw new ImageProviderUninitializedException();
+            }
+            if (images.ContainsKey(fileName))
+            {
+                return images[fileName];
+            }
+            throw new NoSuchFileException("image doesn't exist: " + fileName);
+        }
+        public CanvasVirtualBitmap GetByFilenameAsBitmap(string fileName)
         {
             if (fileName == null) return null;
             if (!initialized)
@@ -57,7 +71,7 @@ namespace BaseRPG.View.Image
         public Tuple<double, double> GetSizeByFilename(string fileName)
         {
             if (fileName == null) return null;
-            var bitmap = GetByFilename(fileName) as CanvasBitmap;
+            var bitmap = GetByFilenameAsBitmap(fileName);
             return new(bitmap.Size.Width, bitmap.Size.Height);
         }
     }

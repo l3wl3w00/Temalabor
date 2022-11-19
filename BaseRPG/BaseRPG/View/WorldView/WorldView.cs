@@ -6,7 +6,6 @@ using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
@@ -24,7 +23,7 @@ namespace BaseRPG.View.WorldView
         private World world;
         private IImageRenderer backgroundImageRenderer;
         private Camera2D camera;
-        private List<IDrawable> drawables = new List<IDrawable>();
+        private LayerHandler layerHandler = new();
         private object _lock = new object();
         public WorldView(World world, ICanvasImage background, Tuple<double, double> sizeOfImage, Camera2D camera)
         {
@@ -35,9 +34,9 @@ namespace BaseRPG.View.WorldView
 
         public Camera2D CurrentCamera { get { return camera; } set { camera = value; } }
 
-        public void AddView(IDrawable gameObjectView)
+        public void AddView(IDrawable gameObjectView, int layer = 0)
         {
-            drawables.Add(gameObjectView);
+            layerHandler.AddToLayer(layer, gameObjectView);
         }
 
         // this function will always draw all of the drawables,
@@ -48,7 +47,10 @@ namespace BaseRPG.View.WorldView
         public void alwaysDraw(DrawingArgs drawingArgs) {
             try
             {
-                drawables.ForEach(d => d.Render(drawingArgs, camera));
+                foreach (var drawable in layerHandler.Drawables)
+                {
+                    drawable.Render(drawingArgs, camera);
+                }
             }
             catch (InvalidOperationException e) { 
                 alwaysDraw(drawingArgs);
@@ -61,6 +63,7 @@ namespace BaseRPG.View.WorldView
             backgroundImageRenderer.Render(drawingArgs);
             lock (_lock)
             {
+                var drawables = layerHandler.Drawables.ToList();
                 // uncomment this code (and comment out the for loop) for the slower but surer way of drawing
                 // alwaysDraw(drawingArgs);
 
@@ -74,8 +77,9 @@ namespace BaseRPG.View.WorldView
                         drawables[i].Render(drawingArgs, camera);
                     }
                 }
+                layerHandler.RemoveAll(d => !d.Exists);
             }
-            drawables.RemoveAll(d => !d.Exists);
+            
             
 
         }

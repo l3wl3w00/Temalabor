@@ -2,8 +2,12 @@
 using BaseRPG.Model.Interfaces.Collecting;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Movement;
 using BaseRPG.Model.Services;
+using BaseRPG.Model.Skills;
+using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Worlds;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
@@ -14,27 +18,36 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.FightingEntity.Hero
 {
-    public class Hero : Unit, ICollector<Item.Item>, ICollector<ICollectible>
+    public class Hero : Unit, ICollector
     {
         protected override string Type { get { return "Hero"; } }
         private Model.Attribute.Inventory inventory;
         private Model.Attribute.ExperienceManager experienceManager;
-
-
         public override AttackabilityService.Group OffensiveGroup => AttackabilityService.Group.Friendly;
         public override AttackabilityService.Group DefensiveGroup => OffensiveGroup;
 
-        public Hero(int maxHp, IMovementManager movementManager ) :
-            base(maxHp, movementManager, new EmptyMovementStrategy())
+        public int Level { get => ExperienceManager.Level; }
+        public ExperienceManager ExperienceManager { get => experienceManager; set => experienceManager = value; }
+        public Inventory Inventory => inventory;
+
+        private Hero(int maxHp, IMovementManager movementManager, SkillManager skillManager, World world) :
+            base(maxHp, movementManager, new EmptyMovementStrategy(), skillManager, world, false)
         {
+            ExperienceManager = new();
             inventory = new();
-            
         }
 
         //public void Collect(ICollectible collectible)
         //{
         //    inventory.Collect(collectible);
         //}
+
+        public void OnLevelUpCallback(Action<int> callback) {
+            ExperienceManager.LevelUp += callback;
+        }
+        public void OnXpChagedCallback(Action<double,double> action) {
+            ExperienceManager.ExperienceChanged += action;
+        }
         public override AttackBuilder AttackFactory(string attackName)
         {
             if (attackName == "light")
@@ -45,24 +58,58 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         {
             //inventory.EquippedWeapon.OnLightAttack();
         }
-        public override void OnTick(double delta)
+        public override void Step(double delta)
         
         {
-            base.OnTick(delta);
+            base.Step(delta);
             //throw new NotImplementedException();
         }
 
-        public void Collect(Item.Item collectible)
+        public void CollectItem(Item.Item collectible)
         {
             inventory.Collect(collectible);
         }
-        public void Equip(Weapon weapon) {
-            inventory.EquippedWeapon = weapon;
+        public void Equip(Item.Item item) {
+            inventory.Equip(item);
         }
 
         public void Collect(ICollectible collectible)
         {
+            collectible.OnCollectedByHero(this);
+        }
+
+        public override void OnTargetKilled(IAttackable target)
+        {
+            target.OnKilledByHero(this);
+        }
+
+        public override void OnKilledByHero(Hero hero)
+        {
             
         }
+
+        public override void OnKilledByEnemy(Enemy.Enemy enemy)
+        {
+            
+        }
+
+        internal void OnEnemyKilled(Enemy.Enemy enemy)
+        {
+            ExperienceManager.GainExpirence(enemy.XpValue*10);
+        }
+
+        public class HeroBuilder : Builder
+        {
+            public HeroBuilder(int maxHp, IMovementManager movementManager, World world) : base(maxHp, movementManager, new EmptyMovementStrategy(),world)
+            {
+            }
+
+            public override Hero Build(int maxHp, IMovementManager movementManager, IMovementStrategy movementStrategy, SkillManager skillManager, World world)
+            {
+                return new Hero(maxHp,movementManager,skillManager,world);
+            }
+        }
+
+        
     }
 }

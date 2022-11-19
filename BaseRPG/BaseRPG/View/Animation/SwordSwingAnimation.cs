@@ -37,7 +37,7 @@ namespace BaseRPG.View.Animation
             double seconds)
         {
             this.angleRange = angleRange;
-            initTimers(seconds, seconds/4);
+            initTimers(seconds, seconds/6);
 
             facingPointAnimationStrategy = new FacingPointAnimation(100);
             OnAnimationAlmostEnding += a => hasInvokedAnimationAlmostEnding = true;
@@ -64,6 +64,7 @@ namespace BaseRPG.View.Animation
             return facingPointAnimationStrategy.GetImage(animationArgs);
         }
 
+        // ---------------------- PRIVATE FUNCTIONS ---------------------------
         private void setStateForAnimation() {
             
             facingPointAnimationStrategy.FirstPointOffset = Vector2D.FromPolar(

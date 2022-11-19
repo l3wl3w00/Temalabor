@@ -2,8 +2,8 @@
 
 namespace BaseRPG.Model.Interfaces.Collecting
 {
-    public interface ICollector<T> where T : ICollectible
+    public interface ICollector
     {
-        void Collect(T collectible);
+        void Collect(ICollectible collectible);
     }
 }

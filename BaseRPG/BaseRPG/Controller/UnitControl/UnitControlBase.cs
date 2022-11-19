@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Interfaces.Movement;
+﻿using BaseRPG.Model.Attribute;
+using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,14 @@ namespace BaseRPG.Controller.UnitControl
         }
 
         public Unit ControlledUnit { get => controlledUnit; set => controlledUnit = value; }
-
+        public Health ControlledUnitHealth => ControlledUnit.Health;
         public abstract IMovementUnit NextMovement(double delta);
         public void OnTick(double delta)
         {
             if (controlledUnit == null) return;
             IMovementUnit nextMovement = NextMovement(delta);
             if (nextMovement == null) return;
-            ControlledUnit.Move(nextMovement);
+            ControlledUnit.QueueMovement(nextMovement);
         }
     }
     

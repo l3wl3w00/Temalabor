@@ -11,28 +11,24 @@ namespace BaseRPG.View.Animation
 {
     public class DrawingArgs
     {
-        public CanvasVirtualControl Sender { get; }
-        public CanvasRegionsInvalidatedEventArgs Args { get; }
+        public ICanvasResourceCreator Sender { get; }
         public Vector2D PositionOnScreen { get; set; }
         public double Delta { get; }
         public Vector2D MousePositionOnScreen { get; }
         public CanvasDrawingSession DrawingSession { get; }
 
-        public DrawingArgs(CanvasVirtualControl sender, 
-            CanvasRegionsInvalidatedEventArgs args,
+        public DrawingArgs(ICanvasResourceCreator sender, 
             double delta, Vector2D mousePositionOnScreen,
             CanvasDrawingSession drawingSession) :
-            this(sender, args, delta, new Vector2D(0, 0), mousePositionOnScreen, drawingSession)
+            this(sender, delta, new Vector2D(0, 0), mousePositionOnScreen, drawingSession)
         {
         }
-        public DrawingArgs(CanvasVirtualControl sender, 
-            CanvasRegionsInvalidatedEventArgs args,
+        public DrawingArgs(ICanvasResourceCreator sender, 
             double delta, Vector2D positionOnScreen,
             Vector2D mousePositionOnScreen, 
             CanvasDrawingSession drawingSession)
         {
             Sender = sender;
-            Args = args;
             Delta = delta;
             PositionOnScreen = positionOnScreen;
             MousePositionOnScreen = mousePositionOnScreen;
@@ -41,7 +37,7 @@ namespace BaseRPG.View.Animation
 
         internal DrawingArgs Copy()
         {
-            return new(Sender,Args,Delta,PositionOnScreen,MousePositionOnScreen, DrawingSession);
+            return new(Sender,Delta,PositionOnScreen,MousePositionOnScreen, DrawingSession);
         }
     }
 }

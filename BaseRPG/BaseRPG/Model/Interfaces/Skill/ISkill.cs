@@ -8,6 +8,6 @@ namespace BaseRPG.Model.Interfaces.Skill
 {
     public interface ISkill
     {
-        void OnCast(ISkillCaster skillCaster);
+        void Cast(object param);
     }
 }

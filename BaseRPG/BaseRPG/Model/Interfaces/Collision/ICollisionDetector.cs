@@ -8,8 +8,7 @@ namespace BaseRPG.Model.Interfaces.Collision
 {
     public interface ICollisionDetector<T>:IExisting
     {
-        void OnCollision(ICollisionDetector<T> other);
+        void OnCollision(ICollisionDetector<T> other, double delta);
         virtual void OnCollisionExit(ICollisionDetector<T> gameObject) { }
-        
     }
 }

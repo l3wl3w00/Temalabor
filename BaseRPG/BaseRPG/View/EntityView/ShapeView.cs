@@ -1,8 +1,9 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.View.Animation;
-using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
+using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,19 @@ namespace BaseRPG.View.EntityView
     {
         private IShape2D shape;
         private IPositionProvider positionProvider;
-        private Color color = Color.FromArgb(100, 255, 0, 0);
-        public ShapeView(IShape2D shape, IPositionProvider positionProvider, Color? color = null)
+        private Color fillColor = Color.FromArgb(100, 255, 0, 0);
+        private Color borderColor = Color.FromArgb(100, 255, 0, 0);
+        private float borderThickness;
+
+        public ShapeView(IShape2D shape, IPositionProvider positionProvider, Color? fillColor = null, Color? borderColor = null,float borderThickness = 1 )
         {
             this.shape = shape;
             this.positionProvider = positionProvider;
-            if (color.HasValue)
-                this.color = color.Value;
+            this.borderThickness = borderThickness;
+            if (fillColor.HasValue)
+                this.fillColor = fillColor.Value;
+            if (borderColor.HasValue)
+                this.borderColor = borderColor.Value;
         }
 
         public bool Exists => shape.Owner.Exists;
@@ -41,7 +48,16 @@ namespace BaseRPG.View.EntityView
                 new Vector2(
                     (float)(drawingArgs.PositionOnScreen.X ),
                     (float)(drawingArgs.PositionOnScreen.Y )),
-                color);
+                fillColor);
+            drawingArgs.DrawingSession.DrawGeometry(
+                CanvasGeometry.CreatePolygon(drawingArgs.Sender, verticesArray),
+                new Vector2(
+                    (float)(drawingArgs.PositionOnScreen.X),
+                    (float)(drawingArgs.PositionOnScreen.Y)),
+                borderColor,borderThickness);
+        }
+        public bool MouseOver(DrawingArgs drawingArgs) {
+            return shape.Shifted(drawingArgs.PositionOnScreen).IsCollidingPoint(drawingArgs.MousePositionOnScreen);
         }
     }
 }

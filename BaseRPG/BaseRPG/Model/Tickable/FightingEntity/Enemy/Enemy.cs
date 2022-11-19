@@ -1,9 +1,13 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Combat.Attack;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Movement;
 using BaseRPG.Model.Services;
-using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Skills;
+using BaseRPG.Model.Tickable.Attacks;
+using BaseRPG.Model.Worlds;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
@@ -16,13 +20,13 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
 {
     public class Enemy : Unit
     {
-
-        
-
         protected override string Type { get { return "Enemy"; } }
         private readonly Dictionary<string, AttackBuilder> attacks;
         private InRangeDetector inRangeDetector;
         private Unit target;
+
+        public double XpValue { get; private set; }
+
         public event Action<IAttackable> AttackableInRange;
 
         public override AttackabilityService.Group OffensiveGroup => AttackabilityService.Group.Enemy;
@@ -33,42 +37,46 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
 
         public InRangeDetector InRangeDetector => inRangeDetector; 
 
-        public Enemy(
-            int maxHp, IMovementManager movementManager,
+        private Enemy(
+            int maxHp,
+            IMovementManager movementManager,
+            IMovementStrategy movementStrategy,
             Unit target,
             Dictionary<string, AttackBuilder> attacks,
-            InRangeDetector inRangeDetector)
-            : base(maxHp, movementManager, new FollowingMovementStrategy(target.MovementManager))
+            InRangeDetector inRangeDetector,
+            SkillManager skillManager,
+            World world,
+            double xpValue)
+            : base(maxHp, movementManager, movementStrategy, skillManager, world)
         {
             this.target = target;
             this.attacks = attacks;
             this.inRangeDetector = inRangeDetector;
-            inRangeDetector.Exists = true;
-            target.OnCeaseToExist += OnTargetDead;
+            inRangeDetector.SetExists(true);
             //inRangeDetector.OnInRange += OnInRange;
             inRangeDetector.OnExitedRange += g => StartMoving();
-
+            XpValue = xpValue;
         }
         public void OnTargetDead(){
             this.target = null;
             DefaultMovementStrategy = new EmptyMovementStrategy();
             MovementStrategy = DefaultMovementStrategy;
         }
-        public override void OnCollision(ICollisionDetector<IGameObject> gameObject) 
+        public override void OnCollision(ICollisionDetector<GameObject> gameObject,double delta) 
         {
             
         }
-        public void OnInRange(ICollisionDetector<IGameObject> gameObject) {
+        public void OnInRange(ICollisionDetector<GameObject> gameObject) {
             if (gameObject == this) return;
             
         }
-        public override void OnTick(double delta)
+        public override void Step(double delta)
         {
-            base.OnTick(delta);
+            base.Step(delta);
             if (inRangeDetector.IsInRange(target)) {
                 if (target is IAttackable)
                 {
-                    var canAttack = AttackabilityService.Builder.CreateByDefaultMapping().CanAttack(this, target as IAttackable);
+                    var canAttack = new AttackabilityService.Builder().CreateByDefaultMapping().CanAttack(this, target as IAttackable);
                     if (canAttack)
                     {
                         StopMoving();
@@ -78,28 +86,50 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             }
         }
         protected override void OnExistsSet(bool value) { 
-            inRangeDetector.Exists = value;
+            inRangeDetector.SetExists(value);
         }
-
+        public Attack Attack(string v) {
+            if (Target == null) 
+                return null;
+            var attack = attacks[v].Attacker(this).CreateTargeted(Target);
+            return attack;
+        }
         public override AttackBuilder AttackFactory(string v)
         {
             return attacks[v];
         }
-        public class Builder {
+
+        public override void OnTargetKilled(IAttackable target)
+        {
+            target.OnKilledByEnemy(this);
+            if (target == this.target) {
+                OnTargetDead();
+            }
+        }
+
+        public override void OnKilledByHero(Hero.Hero hero)
+        {
+            hero.OnEnemyKilled(this);
+        }
+
+        public override void OnKilledByEnemy(Enemy enemy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public class EnemyBuilder:Builder {
             private readonly Dictionary<string, AttackBuilder> attacks = new();
             private InRangeDetector inRangeDetector;
             private Unit target;
-            private int maxHp;
-            private IMovementManager movementManager;
-            public Builder(
+            private double xpValue = 1;
+
+            public EnemyBuilder(
                 int maxHp, IMovementManager movementManager,
                 Unit target,
-                InRangeDetector inRangeDetector)
+                 World world):base(maxHp,movementManager, new FollowingMovementStrategy(target.MovementManager), world)
             {
-                this.maxHp = maxHp;
-                this.movementManager = movementManager;
                 this.target = target;
-                this.inRangeDetector = inRangeDetector;
+                this.inRangeDetector = new InRangeDetector(world);
             }
             public Builder Attack(string name, AttackBuilder builder) { 
                 attacks.Add(name, builder);
@@ -107,19 +137,23 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             }
             public Builder Attack(string name, IAttackStrategy strategy)
             {
-                attacks.Add(name, new AttackBuilder(strategy));
+                attacks.Add(name, new AttackBuilder(strategy,this.World));
                 return this;
             }
-            public Enemy Build()
+            public Builder XpValue(double value) { 
+                xpValue = value;
+                return this;
+            }
+            public override Enemy Build(int maxHp, IMovementManager movementManager, IMovementStrategy movementStrategy, SkillManager skillManager, World world)
+
             {
-                Enemy enemy = new Enemy(maxHp,movementManager,target,attacks,inRangeDetector);
-                inRangeDetector.Exists = true;
+                Enemy enemy = new Enemy(maxHp,movementManager,movementStrategy,target,attacks,inRangeDetector,skillManager,world,xpValue);
+                inRangeDetector.SetExists(true);
                 target.OnCeaseToExist += enemy.OnTargetDead;
                 //inRangeDetector.OnInRange += OnInRange;
                 inRangeDetector.OnExitedRange += g => enemy.StartMoving();
                 return enemy;
             }
-
 
         }
 

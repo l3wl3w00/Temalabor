@@ -13,23 +13,27 @@ namespace BaseRPG.Model.Services
         public enum Group {
             Friendly, Enemy, Neutral, Harmless
         }
+        private List<Func<IAttacking, IAttackable, bool>> allowingPredicates;
         //TODO ezt majd adatbázisból
         private Dictionary<Group, List<Group>> canAttackMapping;
         public Dictionary<Group, List<Group>> CanAttackMapping { get { return canAttackMapping; } set { canAttackMapping = value; } }
-        
-        
-        private AttackabilityService(Dictionary<Group, List<Group>> canAttackMapping) {
+        private AttackabilityService(Dictionary<Group, List<Group>> canAttackMapping, List<Func<IAttacking, IAttackable, bool>> allowingPredicates)
+        {
             this.canAttackMapping = canAttackMapping;
+            this.allowingPredicates = allowingPredicates;
         }
 
         public bool CanAttack(IAttacking attacker, IAttackable attacked)
         {
+            if (allowingPredicates.Any(p => p.Invoke(attacker, attacked)))
+                return true;
             return canAttackMapping[attacker.OffensiveGroup].Contains(attacked.DefensiveGroup);
         }
 
-        public static class Builder{
-            public static Dictionary<Group, List<Group>> staticDefaultCanAttackMapping = null;
-            public static Dictionary<Group, List<Group>> DefaultCanAttackMapping
+        public class Builder{
+            private List<Func<IAttacking, IAttackable, bool>> allowingPredicates = new();
+            public Dictionary<Group, List<Group>> staticDefaultCanAttackMapping = null;
+            public Dictionary<Group, List<Group>> DefaultCanAttackMapping
             {
                 get
                 {
@@ -46,22 +50,29 @@ namespace BaseRPG.Model.Services
                     return staticDefaultCanAttackMapping;
                 }
             }
-            public static Dictionary<Group, List<Group>> ReverseMappingOf(Dictionary<Group, List<Group>> canAttackMapping)
+            public Dictionary<Group, List<Group>> ReverseMappingOf(Dictionary<Group, List<Group>> canAttackMapping)
             {
                 Dictionary<Group, List<Group>> reversedMapping = new Dictionary<Group, List<Group>>();
                 throw new NotImplementedException();
             }
-            public static AttackabilityService CreateByDefaultMapping()
+            public AttackabilityService CreateByDefaultMapping()
             {
-                return new AttackabilityService(DefaultCanAttackMapping);
+                return Create(DefaultCanAttackMapping);
             }
-            public static AttackabilityService CreateByMapping(Dictionary<Group, List<Group>> mapping)
+            public AttackabilityService CreateByMapping(Dictionary<Group, List<Group>> mapping)
             {
-                return new AttackabilityService(mapping);
+                return Create(mapping);
             }
-            public static AttackabilityService CreateByReverseMapping(Dictionary<Group, List<Group>> mapping) 
+            public AttackabilityService CreateByReverseMapping(Dictionary<Group, List<Group>> mapping) 
             {
-                return new AttackabilityService(ReverseMappingOf(mapping));
+                return Create(ReverseMappingOf(mapping));
+            }
+            public Builder AllowIf(Func<IAttacking, IAttackable, bool> predicate) { 
+                allowingPredicates.Add(predicate);
+                return this;
+            }
+            private AttackabilityService Create(Dictionary<Group, List<Group>> mapping) {
+                return new AttackabilityService(mapping,allowingPredicates);
             }
         }
     }

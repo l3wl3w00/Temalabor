@@ -3,6 +3,8 @@ using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
+using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,26 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Physics.TwoDimensional
 {
-    public class CollisionNotifier2D
+    public class CollisionNotifier2D:ICollisionNotifier
     {
         private List<IShape2D> collisionObjects = new List<IShape2D>();
         private List<Collision> collisions = new List<Collision>();
+        
+        /// <summary>
+        /// Stores all of the shapes that collide with the given position provider's position
+        /// </summary>
+        private IPositionProvider positionProvider;
+        private List<IShape2D> shapesCollidingWithTrackedPosition = new();
+
+        public List<IShape2D> ShapesCollidingWithTrackedPosition { 
+            get => 
+                shapesCollidingWithTrackedPosition;
+        }
+
         //if any 2 collisionObjects are colliding, invoke the CollisionOccured event
-        public void CheckCollisions() {
-           
+        public void NotifyCollisions(double delta) {
+
+            UpdateShapes();
             foreach (IShape2D shape1 in collisionObjects) {
                 foreach (IShape2D shape2 in collisionObjects)
                 {
@@ -27,7 +42,7 @@ namespace BaseRPG.Physics.TwoDimensional
                     if (shiftedShape1.IsColliding(shiftedShape2)) {
                         if(!CollisionExists(shiftedShape1.Owner,shiftedShape2.Owner))
                             collisions.Add(new Collision(shape1, shape2));
-                        NotifyCollision(shape1.Owner, shape2.Owner);
+                        shape1.OnCollision(shape2, delta);
                     }
                 }
             }
@@ -40,17 +55,32 @@ namespace BaseRPG.Physics.TwoDimensional
             collisionObjects.Add(shape);
         }
 
-        public void NotifyCollision(ICollisionDetector<IGameObject> g1, ICollisionDetector<IGameObject> g2) {
-            g1.OnCollision(g2);
+        private List<IShape2D> ShapesCollidingWith(Vector2D point) {
+            List<IShape2D> result = new();
+            foreach (var shape in collisionObjects) {
+                if (shape.Shifted(shape.GlobalPosition).IsCollidingPoint(point)) result.Add(shape);
+            }
+            return result;
         }
-
-        public bool CollisionExists(ICollisionDetector<IGameObject> g1, ICollisionDetector<IGameObject> g2) {
+        private void UpdateShapes() {
+            if (positionProvider == null)
+            {
+                shapesCollidingWithTrackedPosition.Clear();
+                return;
+            }
+            shapesCollidingWithTrackedPosition = ShapesCollidingWith(positionProvider.Position);
+        }
+        public bool CollisionExists(ICollisionDetector<GameObject> g1, ICollisionDetector<GameObject> g2) {
             foreach (var col in collisions)
             {
                 if (col.Shape1.Owner == g1 && col.Shape2.Owner == g2) return true; 
                 if (col.Shape1.Owner == g2 && col.Shape2.Owner == g1) return true;
             }
             return false;
+        }
+
+        public void KeepTrackOf(IPositionProvider positionProvider) {
+            this.positionProvider = positionProvider;
         }
         private class Collision {
             public Collision(IShape2D shape1, IShape2D shape2)

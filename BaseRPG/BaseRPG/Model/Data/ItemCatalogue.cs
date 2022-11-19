@@ -12,7 +12,7 @@ namespace BaseRPG.Model.Data
         {
             factories.Add("SimpleShoe",new SimpleShoeFactory());
             factories.Add("SimpleArmor", new SimpleArmorFactory());
-            factories.Add("SimpleSword", new SimpleSwordFactory());
+            //factories.Add("SimpleSword", new SimpleSwordFactory());
         }
     }
 }
