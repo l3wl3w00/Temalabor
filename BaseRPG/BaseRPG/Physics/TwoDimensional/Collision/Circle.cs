@@ -39,6 +39,8 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 
         public IShape2D ShiftedByPos => throw new NotImplementedException();
 
+        public Vector2D LastCalculatedMiddle => throw new NotImplementedException();
+
         private double _distanceFrom(Vector2D point) {
             return (point - center).Length;
         }

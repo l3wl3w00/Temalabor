@@ -42,7 +42,7 @@ namespace BaseRPG.View.EntityView
         {
             IEnumerable<Point2D> vertices = shape.ToPolygon2D().Vertices;
             Vector2[] verticesArray = vertices.Select(v => new Vector2((float)v.X, (float)v.Y)).ToArray();
-            
+            var middle = shape.LastCalculatedMiddle; 
             drawingArgs.DrawingSession.FillGeometry(
                 CanvasGeometry.CreatePolygon(drawingArgs.Sender, verticesArray),
                 new Vector2(
@@ -55,6 +55,10 @@ namespace BaseRPG.View.EntityView
                     (float)(drawingArgs.PositionOnScreen.X),
                     (float)(drawingArgs.PositionOnScreen.Y)),
                 borderColor,borderThickness);
+            drawingArgs.DrawingSession.FillCircle(
+                    (float)(drawingArgs.PositionOnScreen.X+middle.X),
+                    (float)(drawingArgs.PositionOnScreen.Y+middle.Y),
+                    5, Color.FromArgb(200,255,255,255));
         }
         public bool MouseOver(DrawingArgs drawingArgs) {
             return shape.Shifted(drawingArgs.PositionOnScreen).IsCollidingPoint(drawingArgs.MousePositionOnScreen);

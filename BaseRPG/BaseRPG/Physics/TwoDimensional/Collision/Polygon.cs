@@ -30,6 +30,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
     public class Polygon : IShape2D
     {
 
+        private Vector2D lastMiddle;
         private Polygon2D polygon;
         private double angle;
         private ICollisionDetector owner;
@@ -64,11 +65,12 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
                     var v = new Vector2D(p.X, p.Y);
                     sum += v;
                 }
-                return sum / polygon.VertexCount;
+                lastMiddle = sum / polygon.VertexCount;
+                return lastMiddle;
             }
 
         }
-
+        public Vector2D LastCalculatedMiddle => lastMiddle;
         public ICollisionDetector Owner
         {
             get { return owner; }
