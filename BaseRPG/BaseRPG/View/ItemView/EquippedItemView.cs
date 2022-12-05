@@ -9,6 +9,7 @@ using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View.Animation;
 using BaseRPG.View.Animation.Animators;
+using BaseRPG.View.Animation.ImageSequence;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
@@ -28,17 +29,17 @@ namespace BaseRPG.View.ItemView
         private Unit owner;
 
         private Animator animator;
+        private readonly IAttackAnimationFactory lightAnimationFactory;
         private Item observedWeapon;
-        private Func<AttackBuilder, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation;
         public override bool Exists => Owner.Exists && observedWeapon.Exists; 
         protected override Item ObservedItem { get { return observedWeapon; } }
         public EquippedItemView(Item item, Unit owner, Animator animator,
-            Func<AttackBuilder, Interfaces.TransformationAnimation2D> lightAttackAnimationCreation)
+            IAttackAnimationFactory lightAnimationFactory)
         {
             this.observedWeapon = item;
             this.Owner = owner;
             this.animator = animator;
-            this.lightAttackAnimationCreation = lightAttackAnimationCreation;
+            this.lightAnimationFactory = lightAnimationFactory;
         }
 
         public override Vector2D ObservedPosition => new(Owner.Position.Values[0], Owner.Position.Values[1]);
@@ -61,7 +62,10 @@ namespace BaseRPG.View.ItemView
         }
         private Vector2D OwnerPos { get => new(owner.Position.Values[0], owner.Position.Values[1]); }
         public void StartLightAttackAnimation(AttackBuilder attackFactory) {
-            animator.Start(lightAttackAnimationCreation.Invoke(attackFactory));
+
+                animator.Start(
+                    lightAnimationFactory.CreateTransformation(attackFactory),
+                    lightAnimationFactory.CreateImageSequence(attackFactory));
         }
     }
 }

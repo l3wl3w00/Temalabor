@@ -39,7 +39,7 @@ namespace BaseRPG.View.Animation
             this.angleRange = angleRange;
             initTimers(seconds, seconds/6);
 
-            facingPointAnimationStrategy = new FacingPointAnimation(100);
+            facingPointAnimationStrategy = new FacingPointAnimation(25*App.IMAGE_SCALE);
             OnAnimationAlmostEnding += a => hasInvokedAnimationAlmostEnding = true;
         }
 
@@ -70,7 +70,7 @@ namespace BaseRPG.View.Animation
             facingPointAnimationStrategy.FirstPointOffset = Vector2D.FromPolar(
                 (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 30,
                 StartingAngle);
-            facingPointAnimationStrategy.DistanceOffsetTowardsPointer = 130 - (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 20;
+            facingPointAnimationStrategy.DistanceOffsetTowardsPointer = 32.5 * App.IMAGE_SCALE - (CalculateMovementAngle(timer.SecondsSinceStarted) + angleRange.Radians / 2) * 5*App.IMAGE_SCALE;
         }
         private Vector2D nextPosition(Vector2D positionOnScreen) {
      

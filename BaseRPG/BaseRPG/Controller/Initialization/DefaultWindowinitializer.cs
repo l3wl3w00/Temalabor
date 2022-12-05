@@ -1,9 +1,11 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Controller.Interfaces;
+using BaseRPG.Controller.UnitControl;
 using BaseRPG.Controller.Window;
 using BaseRPG.Model.Attribute;
 using BaseRPG.View.UIElements;
 using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.Spell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +18,24 @@ namespace BaseRPG.Controller.Initialization
     {
         private BindingHandler bindingHandler;
         private readonly Inventory inventory;
+        private readonly InventoryControl inventoryControl;
+        private readonly SpellControl spellControl;
 
-        public DefaultWindowinitializer(BindingHandler bindingHandler, Inventory inventory)
+        public DefaultWindowinitializer(BindingHandler bindingHandler, Inventory inventory, InventoryControl inventoryControl, SpellControl spellControl)
         {
             this.bindingHandler = bindingHandler;
             this.inventory = inventory;
+            this.inventoryControl = inventoryControl;
+            this.spellControl = spellControl;
         }
 
         public WindowControl Initialize(MainWindow window)
         {
             var result = new WindowControl.Builder(window.MainCanvas)
                 .SettingsWindowAs(new SettingsWindow(exitCallback: window.Close))
-                .Window(InventoryWindow.WindowName, new InventoryWindow(inventory,window.Controller.DrawableProvider))
+                .Window(InventoryWindow.WindowName, new InventoryWindow(inventory,window.Controller.DrawableProvider, inventoryControl))
                 .Window(KeyBindingsWindow.WindowName,new KeyBindingsWindow(bindingHandler, 2))
+                .Window(SpellsWindow.WindowName,new SpellsWindow(window.ImageProvider, spellControl))
                 .Build();
             return result;
         }

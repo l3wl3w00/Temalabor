@@ -1,6 +1,8 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Physics.TwoDimensional.Collision.Ray;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
 using System;
@@ -13,13 +15,13 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
 {
     public class Circle : IShape2D
     {
-        private ICollisionDetector<GameObject> owner;
+        private ICollisionDetector owner;
         private IMovementManager movementManager;
         private Vector2D center;
         private double radius;
 
 
-        public Circle(ICollisionDetector<GameObject> owner, IMovementManager movementManager, Vector2D center, double radius)
+        public Circle(ICollisionDetector owner, IMovementManager movementManager, Vector2D center, double radius)
         {
             this.owner = owner;
             this.movementManager = movementManager;
@@ -33,7 +35,9 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         public Vector2D GlobalPosition => new(movementManager.Position.Values[0], movementManager.Position.Values[1]);
 
         public IMovementManager MovementManager { get => movementManager; set => movementManager = value; }
-        public ICollisionDetector<GameObject> Owner { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICollisionDetector Owner { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public IShape2D ShiftedByPos => throw new NotImplementedException();
 
         private double _distanceFrom(Vector2D point) {
             return (point - center).Length;
@@ -96,6 +100,11 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         }
 
         public bool IsCollidingPoint(Vector2D point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RayCollection CastRays(Vector2D movementVector, int v)
         {
             throw new NotImplementedException();
         }

@@ -9,32 +9,45 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Physics.TwoDimensional.Movement
 {
+
     public class MovementManager2D : IMovementManager
     {
         private PositionUnit2D position;
         private IMovementUnit lastMovement;
         private List<IMovementUnit> queuedMovements = new();
+        private IMovementBlockingStrategy movementBlockingStrategy;
         public event Action Moved;
-
-        public MovementManager2D(double x, double y)
+        public MovementManager2D(Vector2D vector, IMovementBlockingStrategy movementBlockingStrategy): this(new PositionUnit2D(vector), movementBlockingStrategy)
         {
-            this.position = new PositionUnit2D(x, y);
         }
-        
+        public MovementManager2D(double x, double y, IMovementBlockingStrategy movementBlockingStrategy):this(new PositionUnit2D(x, y),movementBlockingStrategy)
+        {
+
+        }
+        public MovementManager2D(PositionUnit2D position, IMovementBlockingStrategy movementBlockingStrategy)
+        {
+            this.position = position;
+            this.movementBlockingStrategy = movementBlockingStrategy;
+        }
+
         public IPositionUnit Position { get { return position; } }
-        public Vector2D PositionAsVector { get { return new(position.Values[0], position.Values[1]); } }
         public void Move(IMovementUnit movement)
         {
             if (movement == null) return;
             if (almostZeroLength(movement)) return;
-            lastMovement = movement;
-            position.MoveBy(lastMovement);
+
+            var movementBefore = toVector2D(movement);
+            movement = movementBlockingStrategy.GenerateMovement(movement, position);
+            var movementAfter = toVector2D(movement);
+            if(movementBefore.DotProduct(movementAfter) >= 0)
+                lastMovement = movement;
+            position.MoveBy(movement);
             Moved?.Invoke();
         }
 
         private bool almostZeroLength(IMovementUnit movement) {
-            return Math.Abs(movement.Values[0]) < double.Epsilon &&
-                Math.Abs(movement.Values[1]) < double.Epsilon;
+            return Math.Abs(movement.Values[0]) < 0.00001 &&
+                Math.Abs(movement.Values[1]) < 0.00001;
         }
         public IMovementUnit LastMovement
         {
@@ -47,6 +60,8 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             }
         }
 
+        public IMovementBlockingStrategy MovementBlockingStrategy { get => movementBlockingStrategy; set => movementBlockingStrategy = value; }
+
         private Vector2D toVector2D(IMovementUnit movementUnit) {
             double[] values = movementUnit.Values;
             return new(values[0], values[1]);
@@ -57,15 +72,16 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             return new(values[0], values[1]);
         }
 
-        private MovementManager2D(IPositionUnit position, IMovementUnit lastMovement)
+        private MovementManager2D(IPositionUnit position, IMovementUnit lastMovement, IMovementBlockingStrategy movementBlockingStrategy)
         {
             this.position = new(position.Values[0], position.Values[1]);
             this.lastMovement = lastMovement;
+            this.movementBlockingStrategy = movementBlockingStrategy;
         }
 
         public IMovementManager Copy()
         {
-            return new MovementManager2D(position.Copy(),LastMovement.Clone());
+            return new MovementManager2D(position.Copy(),LastMovement.Clone(), movementBlockingStrategy);
         }
 
         public void QueueMovement(IMovementUnit movement)

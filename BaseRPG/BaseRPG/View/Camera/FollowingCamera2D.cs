@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.FightingEntity;
+using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using Microsoft.UI.Xaml;
 using System;
@@ -14,6 +15,8 @@ namespace BaseRPG.View.Camera
     public class FollowingCamera2D:Camera2D
     {
         private IMovementManager observedPosition;
+        private LinkedList<Vector2D> lastPositions = new ();
+
         public Unit FollowedUnit { set {
                 FollowedPosition = value.MovementManager;
             } }
@@ -26,15 +29,21 @@ namespace BaseRPG.View.Camera
         public FollowingCamera2D(Vector2D position, Size size):base(position, size)
         {
             
+            for (int i = 0; i < 10; i++)
+            {
+                lastPositions.AddLast(position);
+            }
         }
         public override void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
         {
             base.OnCanvasSizeChanged(sender, e);
-            Update();
         }
-        public void Update() {
-
-            MiddlePosition = new Vector2D(observedPosition.Position.Values[0], observedPosition.Position.Values[1]);
+        public override void Update() {
+            base.Update();
+            MiddlePosition = PositionUnit2D.ToVector2D(observedPosition.Position);
+            //    lastPositions.First.Value;
+            //lastPositions.RemoveFirst();
+            //lastPositions.AddLast(PositionUnit2D.ToVector2D(observedPosition.Position));
         }
     }
-}
+} 

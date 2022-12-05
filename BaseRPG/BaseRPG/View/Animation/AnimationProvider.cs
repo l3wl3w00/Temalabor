@@ -67,7 +67,15 @@ namespace BaseRPG.View.Animation
                     @"Assets\image\effects\dash\dash-09.png",
                 }
             );
-
+            mapping.Add("bow-attack",
+                new List<string>{
+                    @"Assets\image\weapons\normal-bow\attack\bow-attack-1-outlined.png",
+                    @"Assets\image\weapons\normal-bow\attack\bow-attack-2-outlined.png",
+                    @"Assets\image\weapons\normal-bow\attack\bow-attack-3-outlined.png",
+                    @"Assets\image\weapons\normal-bow\attack\bow-attack-4-outlined.png",
+                    @"Assets\image\weapons\normal-bow\attack\bow-attack-5-outlined.png",
+                }
+            );
             return new AnimationProvider(mapping);
         }
     }

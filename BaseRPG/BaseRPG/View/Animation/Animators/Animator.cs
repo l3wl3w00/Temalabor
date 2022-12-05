@@ -13,10 +13,10 @@ namespace BaseRPG.View.Animation.Animators
     public abstract class Animator
     {
         public abstract Tuple<double, double> Size { get; }
-        void Start(TransformationAnimation2D transformationAnimation, ImageSequenceAnimation imageSequenceAnimation)
+        public void Start(TransformationAnimation2D transformationAnimation, ImageSequenceAnimation imageSequenceAnimation)
         {
-            Start(transformationAnimation);
-            Start(imageSequenceAnimation);
+            if (transformationAnimation != null) Start(transformationAnimation);
+            if (imageSequenceAnimation != null) Start(imageSequenceAnimation);
         }
         public abstract void Start(TransformationAnimation2D animation);
         public abstract void Start(ImageSequenceAnimation animation);

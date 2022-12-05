@@ -22,7 +22,8 @@ namespace BaseRPG.View.UIElements
 {
     public sealed partial class SettingsWindow : CustomWindow
     {
-        public static readonly string WindowName = "settings";
+        public static string WindowName => windowName;
+        private static readonly string windowName = "settings";
         private Action exitCallback;
         private WindowControl windowControl;
 

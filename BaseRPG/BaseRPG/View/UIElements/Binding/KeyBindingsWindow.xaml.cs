@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Controller.Input;
+using BaseRPG.View.UIElements.Initialization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -35,34 +36,18 @@ namespace BaseRPG.View.UIElements
         }
 
         private void AfterInit() {
-            CreateColumnDefinitions();
-            FillPossibleActions();
-        }
-        private void CreateColumnDefinitions() {
-            for (int i = 0; i < numerOfColumns; i++)
-            {
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-        }
-        private void FillPossibleActions() {
             grid.RowDefinitions.Clear();
             grid.Children.Clear();
-            int index = 0;
-            foreach (var binding in bindingHandler.Bindings)
-            {
-                KeyBinding keyBinding = new KeyBinding(binding, bindingHandler);
-                grid.Children.Add(keyBinding);
-                if (index % numerOfColumns == 0) grid.RowDefinitions.Add(new RowDefinition());
-
-                Grid.SetColumn(keyBinding, index % numerOfColumns);
-                Grid.SetRow(keyBinding, index / numerOfColumns);
-                index++;
-            }
+            new GridFillStrategy().Fill(grid, CreateKeyBinding, numerOfColumns, bindingHandler.Bindings.Count);
         }
+
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             bindingHandler.Save();
+        }
+        private KeyBinding CreateKeyBinding(int index) { 
+            return new KeyBinding(bindingHandler.Bindings[index], bindingHandler);
         }
     }
 }

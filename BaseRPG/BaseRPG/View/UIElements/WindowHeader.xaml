@@ -18,7 +18,7 @@
             <TextBlock x:Name="title" Grid.Column="1" FontSize="20" FontWeight="Bold" TextAlignment="Center" HorizontalTextAlignment="Center"></TextBlock>
 
         </Grid>
-        <Rectangle Height="5" Fill="White"></Rectangle>
+        <Rectangle x:Name="rect" Height ="2" Fill="White"></Rectangle>
     </StackPanel>
     
 </UserControl>

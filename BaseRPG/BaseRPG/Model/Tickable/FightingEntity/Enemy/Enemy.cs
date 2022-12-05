@@ -24,8 +24,9 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
         private readonly Dictionary<string, AttackBuilder> attacks;
         private InRangeDetector inRangeDetector;
         private Unit target;
-
+        
         public double XpValue { get; private set; }
+        public int GoldValue { get; private set; }
 
         public event Action<IAttackable> AttackableInRange;
 
@@ -46,7 +47,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             InRangeDetector inRangeDetector,
             SkillManager skillManager,
             World world,
-            double xpValue)
+            double xpValue,
+            int goldValue)
             : base(maxHp, movementManager, movementStrategy, skillManager, world)
         {
             this.target = target;
@@ -56,17 +58,18 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             //inRangeDetector.OnInRange += OnInRange;
             inRangeDetector.OnExitedRange += g => StartMoving();
             XpValue = xpValue;
+            GoldValue = goldValue;
         }
         public void OnTargetDead(){
             this.target = null;
             DefaultMovementStrategy = new EmptyMovementStrategy();
             MovementStrategy = DefaultMovementStrategy;
         }
-        public override void OnCollision(ICollisionDetector<GameObject> gameObject,double delta) 
+        public override void OnCollision(ICollisionDetector gameObject,double delta) 
         {
             
         }
-        public void OnInRange(ICollisionDetector<GameObject> gameObject) {
+        public void OnInRange(ICollisionDetector gameObject) {
             if (gameObject == this) return;
             
         }
@@ -122,6 +125,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             private InRangeDetector inRangeDetector;
             private Unit target;
             private double xpValue = 1;
+            private int goldValue = 1;
 
             public EnemyBuilder(
                 int maxHp, IMovementManager movementManager,
@@ -137,17 +141,22 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             }
             public Builder Attack(string name, IAttackStrategy strategy)
             {
-                attacks.Add(name, new AttackBuilder(strategy,this.World));
+                attacks.Add(name, new AttackBuilder(strategy).World(this.World));
                 return this;
             }
             public Builder XpValue(double value) { 
                 xpValue = value;
                 return this;
             }
+            public Builder GoldValue(int value)
+            {
+                goldValue  = value;
+                return this;
+            }
             public override Enemy Build(int maxHp, IMovementManager movementManager, IMovementStrategy movementStrategy, SkillManager skillManager, World world)
 
             {
-                Enemy enemy = new Enemy(maxHp,movementManager,movementStrategy,target,attacks,inRangeDetector,skillManager,world,xpValue);
+                Enemy enemy = new Enemy(maxHp,movementManager,movementStrategy,target,attacks,inRangeDetector,skillManager,world,xpValue,goldValue);
                 inRangeDetector.SetExists(true);
                 target.OnCeaseToExist += enemy.OnTargetDead;
                 //inRangeDetector.OnInRange += OnInRange;

@@ -20,6 +20,7 @@ namespace BaseRPG.View.UIElements
 {
     public sealed partial class WindowHeader : UserControl
     {
+        public double LineWidth { get => rect.Height; set { rect.Height = value; } }
         public event Action<object, RoutedEventArgs> XButtonClicked;
         public string TitleText { get {
                 return title.Text;

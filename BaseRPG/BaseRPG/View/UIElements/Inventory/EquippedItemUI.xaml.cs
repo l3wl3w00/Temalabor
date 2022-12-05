@@ -1,8 +1,10 @@
 ﻿using BaseRPG.Controller.UnitControl;
+using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.ItemView;
+using BaseRPG.View.UIElements.DrawingArgsFactory;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -28,25 +30,59 @@ namespace BaseRPG.View.UIElements.Inventory
     public sealed partial class EquippedItemUI : UserControl
     {
         private InventoryControl inventoryControl;
-        private IDrawable equippedWeaponView;
+        private IDrawable inventoryWeaponView;
         public EquippedItemUI()
         {
             this.InitializeComponent();
-        }
-
-        public IDrawable EquippedWeaponView { get => equippedWeaponView; set => equippedWeaponView = value; }
-        public InventoryControl InventoryControl { get => inventoryControl; set => inventoryControl = value; }
-        public CanvasControl EquippedWeaponCanvas { get => equippedWeaponCanvas; }
-        private void equippedWeaponCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
-        {
-            Size size = EquippedWeaponCanvas.Size;
-            equippedWeaponView?.OnRender(new DrawingArgs(sender,1,new(size.Width/2,size.Height/2),new(0,0),args.DrawingSession));
+            
             
         }
+        public void Init(InventoryControl inventoryControl, DrawableProvider drawableProvider) {
+            InventoryControl = inventoryControl;
+            InventoryWeaponView = drawableProvider.GetDrawable(inventoryControl.EquippedWeapon,"inventory");
 
+            inventoryControl.OnUnequipped += (i,d) => Update(d);
+            inventoryControl.OnEquipped += (i, d) => Update(d);
+            Update(inventoryControl.DrawableProvider);
+            equippedWeaponButton.EquippedArmor = InventoryWeaponView;
+            equippedWeaponButton.DrawingArgsFactory = new ImageButtonDrawingArgsFactory(new(EquippedWeaponCanvas.Width,EquippedWeaponCanvas.Height));
+        }
+        public IDrawable InventoryWeaponView { get => inventoryWeaponView; set => inventoryWeaponView = value; }
+        public InventoryControl InventoryControl { get => inventoryControl; set => inventoryControl = value; }
+        public CanvasControl EquippedWeaponCanvas { get => 
+                equippedWeaponButton.Canvas;
+        }
+        private void Update(DrawableProvider drawableProvider) {
+            equippedWeaponButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedWeapon, "inventory");
+            equippedShoeButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedArmor, "inventory");
+            equippedArmorButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedShoe, "inventory");
+            EquippedWeaponCanvas.Invalidate();
+        }
+        #region callback functions
+        private void equippedWeaponCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+
+        }
         private void equippedWeaponButton_Click(object sender, RoutedEventArgs e)
         {
-            equippedWeaponCanvas.Invalidate();
+            inventoryControl.UnEquipItem(inventoryControl.Inventory.EquippedWeapon);
         }
+
+        private void equippedArmorCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+
+        }
+        private void equippedArmorButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void equippedShoeButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        private void equippedShoeCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+
+        }
+        #endregion
     }
 }

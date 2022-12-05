@@ -6,45 +6,44 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    xmlns:experiencecontrol="using:BaseRPG.View.UIElements.ExperienceControl" 
+    xmlns:experiencecontrol="using:BaseRPG.View.UIElements.ExperienceControl" xmlns:customcontrol="using:BaseRPG.View.UIElements.CustomControl" xmlns:gold="using:BaseRPG.View.UIElements.Gold"
     mc:Ignorable="d">
 
     <Grid >
         <Grid Background="SaddleBrown" BorderBrush="White" BorderThickness="5" Opacity="0.7">
             
         </Grid>
-        <Grid x:Name="grid" Padding="10,10,10,10" ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <StackPanel x:Name="grid" Padding="10" Spacing="10" Orientation="Horizontal">
 
-            <Button x:Name ="settingsButton" Grid.Column="0" Click="settingsButton_Click">
-                <xaml:CanvasControl Width="80" Height="80" x:Name="settingsButtonCanvas" Draw="settingsButton_Draw">
+            <customcontrol:ButtonWithCanvas x:Name ="settingsButton" ButtonClick="settingsButton_Click" CanvasDraw="settingsButton_Draw"/>
+            <customcontrol:ButtonWithCanvas x:Name ="inventoryButton"  ButtonClick="inventoryButton_Click" CanvasDraw="inventoryButton_Draw"/>
+            <customcontrol:ButtonWithCanvas x:Name ="spellsButton" ButtonClick="spellsButton_ButtonClick"  CanvasDraw="spellsButton_CanvasDraw"/>
+            <gold:GoldUI x:Name="goldUI" />
 
-                </xaml:CanvasControl>
-            </Button>
-            <Button x:Name ="inventoryButton" Grid.Column="1" Click="inventoryButton_Click">
-                <xaml:CanvasControl Width="80" Height="80" x:Name="inventoryButtonCanvas" Draw="inventoryButton_Draw">
 
-                </xaml:CanvasControl>
-            </Button>
-            <Grid Grid.Column="3">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
-                    <TextBlock FontSize="30" Text="Level:"/>
-                    <TextBlock x:Name="levelText" LayoutUpdated="levelText_LayoutUpdated" FontSize="30"/>
+            <Grid >
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock FontSize="30" Text="Level:"/>
+                        <TextBlock x:Name="levelText" LayoutUpdated="levelText_LayoutUpdated" FontSize="30"/>
+                    </StackPanel>
                     <experiencecontrol:ExperienceControl x:Name="experienceControl"/>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Column="4">
-                <local:HealthViewControl x:Name="healthViewControl" Height="Auto" Margin="20,0,0,0"></local:HealthViewControl>
+            <Grid Margin="20,0,0,0" >
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock FontSize="30" Text="Health:"/>
+                        <TextBlock x:Name="healthPercentText" FontSize="30"/>
+                        <TextBlock FontSize="30">%</TextBlock>
+                    </StackPanel>
+                    <local:HealthViewControl x:Name="healthViewControl" Height="Auto" ></local:HealthViewControl>
+                </StackPanel>
+                
             </Grid>
 
-        </Grid>
+        </StackPanel>
     </Grid>
     
 </UserControl>

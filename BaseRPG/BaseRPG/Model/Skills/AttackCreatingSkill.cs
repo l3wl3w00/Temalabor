@@ -13,7 +13,7 @@ namespace BaseRPG.Model.Skills
     {
         private AttackBuilder attackBuilder;
 
-        public AttackCreatingSkill(AttackBuilder attackBuilder, Action<Attack> attackCreationCallback)
+        public AttackCreatingSkill(string name,AttackBuilder attackBuilder, Action<Attack> attackCreationCallback):base(name)
         {
             this.attackBuilder = attackBuilder;
             this.attackBuilder.CreatedEvent += attackCreationCallback;

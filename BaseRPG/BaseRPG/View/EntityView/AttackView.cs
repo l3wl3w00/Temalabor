@@ -21,11 +21,13 @@ namespace BaseRPG.View.EntityView
         
         private Attack attack;
         private IImageRenderer imageRenderer;
+        private readonly double secondsAfterAttackDestroyed;
         private bool exists = true;
-        public AttackView(Attack attack, IImageRenderer imageRenderer, double initialRotation)
+        public AttackView(Attack attack, IImageRenderer imageRenderer, double initialRotation, double secondsAfterAttackDestroyed = 0)
         {
             this.attack = attack;
             this.imageRenderer = imageRenderer;
+            this.secondsAfterAttackDestroyed = secondsAfterAttackDestroyed;
             imageRenderer.SetImageRotation(initialRotation + Math.PI/2);
         }
 
@@ -35,11 +37,18 @@ namespace BaseRPG.View.EntityView
 
         public void OnRender(DrawingArgs drawingArgs)
         {
-            if (!attack.Exists) {
-                var timer = new Timer(200);
-                timer.Elapsed += (a,b) => exists = false;
-                timer.AutoReset = false;
-                timer.Start();
+            if (!attack.Exists)
+            {
+                if (secondsAfterAttackDestroyed > 0.00001)
+                {
+                    var timer = new Timer(secondsAfterAttackDestroyed * 1000);
+                    timer.Elapsed += (a, b) => exists = false;
+                    timer.AutoReset = false;
+                    timer.Start();
+                }
+                else {
+                    exists = false;
+                }
             }
             var temp = imageRenderer.ImageRotation;
             imageRenderer.Render(drawingArgs);

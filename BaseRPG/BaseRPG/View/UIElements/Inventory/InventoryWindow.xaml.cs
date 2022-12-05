@@ -10,18 +10,17 @@ namespace BaseRPG.View.UIElements.Inventory
 {
     public sealed partial class InventoryWindow : CustomWindow
     {
-        public static readonly string WindowName = "inventory";
+        public static string WindowName => windowName;
+        private static readonly string windowName = "inventory";
         private InventoryControl inventoryControl;
         private DrawableProvider drawableProvider;
 
-        public InventoryWindow(Model.Attribute.Inventory inventory,DrawableProvider drawableProvider)
+        public InventoryWindow(Model.Attribute.Inventory inventory,DrawableProvider drawableProvider,InventoryControl inventoryControl)
         {
             this.InitializeComponent();
             Inventory = inventory;
-            equippedItemUI.InventoryControl = new InventoryControl(Inventory);
-            equippedItemUI.EquippedWeaponView = drawableProvider.GetDrawable(Inventory.EquippedWeapon,"inventory");
-
-
+            equippedItemUI.Init(inventoryControl, drawableProvider);
+            itemsGrid.Init(inventoryControl,drawableProvider);
         }
         public EquippedItemUI EquippedItemsUI => equippedItemUI;
         public Model.Attribute.Inventory Inventory { get; }

@@ -34,10 +34,17 @@ namespace BaseRPG.Model.Worlds
         {
             callbackQueue.ExecuteAll();
             List<GameObject> all = GameObjectContainer.All;
-            lock (all) {
+            lock (GameObjectContainer) {
                 for (int i = 0; i < all.Count; i++) {
                     GameObject gameObject = all[i];
-                    gameObject.OnTick(delta);
+                    try
+                    {
+                        gameObject.OnTick(delta);
+                    }
+                    catch (NullReferenceException e){
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    
                 }
                 all.RemoveAll(g => !g.Exists);
             }

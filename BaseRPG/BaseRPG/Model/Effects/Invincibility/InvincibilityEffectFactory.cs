@@ -14,12 +14,12 @@ namespace BaseRPG.Model.Effects.Invincibility
     internal class InvincibilityEffectFactory : IEffectFactory<TargetedEffectParams>
     {
         private double secondsDuration;
-        private readonly World world;
 
-        public InvincibilityEffectFactory(double secondsDuration, World world)
+        public InvincibilityEffectFactory(double secondsDuration, Action<Effect> onCreatedCallback = null)
         {
             this.secondsDuration = secondsDuration;
-            this.world = world;
+            if(onCreatedCallback != null)
+                EffectCreated += onCreatedCallback;
         }
 
         public event Action<Effect> EffectCreated;

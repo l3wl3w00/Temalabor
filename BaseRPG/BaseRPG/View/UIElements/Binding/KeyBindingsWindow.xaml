@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel BorderBrush="White" BorderThickness="5" CornerRadius="1">
+    <StackPanel BorderBrush="White" BorderThickness="2" CornerRadius="0">
         <local:WindowHeader 
             XButtonClicked="XButton_Click" 
             PointerMoved="UserControl_PointerMoved"

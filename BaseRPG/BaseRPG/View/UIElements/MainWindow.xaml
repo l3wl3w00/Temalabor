@@ -27,7 +27,6 @@
             Visibility="Visible"
             />
             
-            <!--<windows:SettingsWindow CanDrag="True" XButtonClicked="ExitClicked"></windows:SettingsWindow>-->
         </Canvas>
         
         <windows:Hud VerticalAlignment="Bottom" WindowButtonClicked="hud_WindowButtonClicked"  x:Name="hud"></windows:Hud>

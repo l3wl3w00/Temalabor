@@ -16,23 +16,21 @@ namespace BaseRPG.Model.Effects.Dash
     {
         private double timeToComplete;
         private double distance;
-        private readonly World world;
 
-        public DashEffectFactory(double timeToComplete, double distance, World world)
+        public DashEffectFactory(double timeToComplete, double distance, Action<Effect> onCreated = null)
         {
             this.timeToComplete = timeToComplete;
-            this.distance = distance;
-            this.world = world;
+            this.distance = distance; 
+            if (onCreated != null)
+                EffectCreated += onCreated;
         }
 
         public event Action<Effect> EffectCreated;
 
         public Effect CreateEffect(DashEffectCreationParams skillCastParams)
         {
-
             var movement = skillCastParams.Direction.WithLength(distance);
             DashEffect dashEffect = new DashEffect(skillCastParams.Target, movement, timeToComplete);
-            //world.QueueForAdd(dashEffect);
             EffectCreated?.Invoke(dashEffect);
             return dashEffect;
         }

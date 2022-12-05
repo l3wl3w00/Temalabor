@@ -4,22 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BaseRPG.View.UIElements.Inventory"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml" xmlns:customcontrol="using:BaseRPG.View.UIElements.CustomControl"
     mc:Ignorable="d">
 
-    <Grid Height="Auto"  Padding="10,0,10,0" ColumnSpacing="10">
+    <Grid Height="Auto"  Padding="10" ColumnSpacing="10" >
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Button x:Name="equippedWeaponButton" Grid.Column="0" Click="equippedWeaponButton_Click" >
-
-            <xaml:CanvasControl x:Name="equippedWeaponCanvas" Width="80" Height="80" ClearColor="Wheat" Draw="equippedWeaponCanvas_Draw" ></xaml:CanvasControl>
-        </Button>
-
-        <xaml:CanvasControl Grid.Column="1" Width="80" Height="80" ClearColor="Wheat"></xaml:CanvasControl>
-        <xaml:CanvasControl Grid.Column="2"  Width="80" Height="80" ClearColor="Wheat"></xaml:CanvasControl>
+        <customcontrol:ButtonWithCanvas Grid.Column="0" x:Name="equippedWeaponButton" CanvasDraw="equippedWeaponCanvas_Draw"  ButtonClick="equippedWeaponButton_Click"/>
+        <customcontrol:ButtonWithCanvas Grid.Column="1" x:Name="equippedArmorButton" CanvasDraw="equippedArmorCanvas_Draw"  ButtonClick="equippedArmorButton_Click"/>
+        <customcontrol:ButtonWithCanvas Grid.Column="2" x:Name="equippedShoeButton" CanvasDraw="equippedShoeCanvas_Draw"  ButtonClick="equippedShoeButton_Click"/>
     </Grid>
 </UserControl>

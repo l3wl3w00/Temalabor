@@ -34,7 +34,7 @@ namespace BaseRPG.Controller.Input.InputActions.Effect
             {
                 var point = mousePositionProvider.Position - new Vector2D(unit.Position.Values[0], unit.Position.Values[1]);
                 DashEffectCreationParams skillCastParams = new DashEffectCreationParams(new MovementUnit2D(point), unit);
-                unit.CastSkill(skillIndex, skillCastParams);
+                unit.CastSkill("dash", skillCastParams);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Movement;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,12 @@ namespace BaseRPG.Physics.TwoDimensional
 
         public IMovementManager CreateMovementManager(IPositionUnit initialPosition)
         {
-            return new MovementManager2D(initialPosition.Values[0], initialPosition.Values[1]);
+            return CreateMovementManager(initialPosition, new UnstoppableMovementBlockingStrategy());
+        }
+        public IMovementManager CreateMovementManager(IPositionUnit initialPosition,IMovementBlockingStrategy movementBlockingStrategy)
+        {
+            var result = new MovementManager2D(PositionUnit2D.ToVector2D(initialPosition), movementBlockingStrategy);
+            return result;
         }
 
         public IPositionUnit CreatePosition(params double[] args)

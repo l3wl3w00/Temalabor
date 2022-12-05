@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.CollisionDetectors
 {
-    public class EmptyCollisionDetector<T> : ICollisionDetector<T>
+    public class EmptyCollisionDetector : ICollisionDetector
     {
         private bool exists = true;
         public bool Exists { 
@@ -21,10 +21,19 @@ namespace BaseRPG.Model.CollisionDetectors
 
         public event Action OnCeaseToExist;
 
+        public void CanCollide(ICollisionDetector other)
+        {
+            throw new NotImplementedException();
+        }
 
-        public void OnCollision(ICollisionDetector<T> other, double delta)
+        public void OnCollision(ICollisionDetector other, double delta)
         {
 
+        }
+
+        bool ICollisionDetector.CanCollide(ICollisionDetector other)
+        {
+            return true;
         }
     }
 }

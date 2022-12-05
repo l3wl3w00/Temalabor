@@ -36,6 +36,7 @@ namespace BaseRPG.View.WorldView
 
         public void AddView(IDrawable gameObjectView, int layer = 0)
         {
+            if (gameObjectView == null) return;
             layerHandler.AddToLayer(layer, gameObjectView);
         }
 
@@ -61,6 +62,7 @@ namespace BaseRPG.View.WorldView
             var backgoundPos = camera.CalculatePositionOnScreen(new(0, 0));
             drawingArgs.PositionOnScreen = backgoundPos;
             backgroundImageRenderer.Render(drawingArgs);
+            camera.Update();
             lock (_lock)
             {
                 var drawables = layerHandler.Drawables.ToList();
@@ -82,6 +84,14 @@ namespace BaseRPG.View.WorldView
             
             
 
+        }
+
+        internal void RemoveView(IDrawable drawable)
+        {
+            lock (_lock)
+            {
+                layerHandler.Remove(drawable);
+            }
         }
     }
 }

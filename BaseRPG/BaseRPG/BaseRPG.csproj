@@ -38,8 +38,10 @@
     <Page Remove="View\Shapes\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="View\UIElements\CustomControl\ButtonWithCanvas.xaml" />
     <None Remove="View\UIElements\CustomWindow.xaml" />
     <None Remove="View\UIElements\Experience\ExperienceControl.xaml" />
+    <None Remove="View\UIElements\Gold\GoldUI.xaml" />
     <None Remove="View\UIElements\HealthViewControl.xaml" />
     <None Remove="View\UIElements\Hud.xaml" />
     <None Remove="View\UIElements\InventoryWindow.xaml" />
@@ -50,6 +52,8 @@
     <None Remove="View\UIElements\LabelAndCombobox.xaml" />
     <None Remove="View\UIElements\LabelAndTextBox.xaml" />
     <None Remove="View\UIElements\SettingsWindow.xaml" />
+    <None Remove="View\UIElements\Spell\SingleSpellUI.xaml" />
+    <None Remove="View\UIElements\Spell\SpellsWindow.xaml" />
     <None Remove="View\UIElements\WindowHeader.xaml" />
   </ItemGroup>
 
@@ -145,6 +149,18 @@
     <None Update="Assets\config\input-binding.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\UIElements\Spell\SingleSpellUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\UIElements\Spell\SpellsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\UIElements\Gold\GoldUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\UIElements\CustomControl\ButtonWithCanvas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\UIElements\Inventory\ItemsGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

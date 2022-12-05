@@ -28,16 +28,14 @@ namespace BaseRPG.Controller.Input.InputActions.Attack
     public class MeteorCreatingSkillOnReleaseInputAction : IInputAction
     {
         private readonly Unit unit;
-        private readonly int skillIndex;
         private readonly IPositionProvider mousePositionProvider;
         private readonly Controller controller;
         private readonly IImageProvider imageProvider;
         private readonly AnimationProvider animationProvider;
-        private EmptyCollisionDetector<GameObject> shapeViewOwner;
+        private EmptyCollisionDetector shapeViewOwner;
 
         public MeteorCreatingSkillOnReleaseInputAction(
             Unit unit,
-            int skillIndex,
             IPositionProvider mousePositionProvider,
             Controller controller,
             IImageProvider imageProvider,
@@ -45,7 +43,6 @@ namespace BaseRPG.Controller.Input.InputActions.Attack
             )
         {
             this.unit = unit;
-            this.skillIndex = skillIndex;
             this.mousePositionProvider = mousePositionProvider;
             this.controller = controller;
             this.imageProvider = imageProvider;
@@ -54,12 +51,14 @@ namespace BaseRPG.Controller.Input.InputActions.Attack
 
         public void OnPressed()
         {
+
+            if (!_checkLearnt()) return;
             // Add an empty shapeView to display what the skill is going to look like
             IMovementManager movementManager = new PhysicsFactory2D().CreateMovementManager();
-            shapeViewOwner = new EmptyCollisionDetector<GameObject>();
+            shapeViewOwner = new EmptyCollisionDetector();
             controller.AddView(
                 new ShapeView(
-                    Polygon.Circle(shapeViewOwner, movementManager, new(0, 0), 300, 40),
+                    Polygon.Circle(shapeViewOwner, movementManager, new Vector2D(0, 0), 300, 40),
                     mousePositionProvider, Color.FromArgb(100, 255, 255, 255), Color.FromArgb(255, 255, 255, 255), 5
                 )
             );
@@ -67,6 +66,8 @@ namespace BaseRPG.Controller.Input.InputActions.Attack
 
         public void OnReleased()
         {
+            
+            if (!_checkLearnt()) return; 
             shapeViewOwner.Exists = false;
 
             var mousePositionNow = mousePositionProvider.Position;
@@ -82,10 +83,13 @@ namespace BaseRPG.Controller.Input.InputActions.Attack
                     )
                     .WithFixPosition(mousePositionProvider.Position)
                     .TransformationCompletedCallback(
-                        (a) => controller.QueueAction(() => unit.CastSkill<IPositionUnit>(skillIndex, new PositionUnit2D(mousePositionNow))))
+                        (a) => controller.QueueAction(() => unit.CastSkill<IPositionUnit>("meteor", new PositionUnit2D(mousePositionNow))))
                     .Create();
             controller.AddView( animationView, 1000);
 
+        }
+        private bool _checkLearnt() {
+            lock (unit.SkillManager) return unit.SkillManager.IsLearnt("meteor");
         }
 
     }

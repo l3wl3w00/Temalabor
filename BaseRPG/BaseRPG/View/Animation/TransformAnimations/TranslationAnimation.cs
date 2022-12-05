@@ -34,7 +34,7 @@ namespace BaseRPG.View.Animation.TransformAnimations
             var result =  Matrix3x2.CreateTranslation(
                 (float)(velocity.X *(time/originalTime)),
                 (float)(velocity.Y * (time / originalTime)));
-            if (time <= double.Epsilon) { 
+            if (time <= 0.00001) { 
                 OnAnimationCompleted?.Invoke(this);
             }
             return result;

@@ -10,8 +10,8 @@ namespace BaseRPG.Model.Data
 
         protected override void FillFactories(Dictionary<string, IItemFactory> factories)
         {
-            factories.Add("SimpleShoe",new SimpleShoeFactory());
-            factories.Add("SimpleArmor", new SimpleArmorFactory());
+            factories.Add("SimpleSword",new SimpleSwordFactory());
+            factories.Add("SimpleBow", new SimpleBowFactory());
             //factories.Add("SimpleSword", new SimpleSwordFactory());
         }
     }

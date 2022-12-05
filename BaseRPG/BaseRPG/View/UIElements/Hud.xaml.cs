@@ -1,8 +1,11 @@
 ﻿using BaseRPG.Model.Data;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.View.EntityView.Health;
+using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
+using BaseRPG.View.UIElements.DrawingArgsFactory;
 using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.Spell;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,15 +32,36 @@ namespace BaseRPG.View.UIElements
     {
         private IImageProvider imageProvider;
         private Hero hero;
-        public CanvasControl SettingsButtonCanvas => settingsButtonCanvas;
+        public CanvasControl SettingsButtonCanvas => settingsButton.Canvas;
         public event Action<string> WindowButtonClicked;
         public Hud()
         {
             this.InitializeComponent();
+            
+        }
+        public void Init(IImageProvider imageProvider, Hero hero) {
+            ImageProvider = imageProvider;
+            Hero = hero;
+            var settingsImage = new DrawingImage(@"Assets\image\icons\settings-outlined.png", ImageProvider);
+            settingsButton.SetImageAsDrawable(settingsImage);
+
+            var inventoryImage = new DrawingImage(@"Assets\image\icons\inventory-outlined.png", ImageProvider);
+            inventoryButton.SetImageAsDrawable(inventoryImage);
+
+            var spellsImage = new DrawingImage(@"Assets\image\icons\spells-outlined.png", ImageProvider);
+            spellsButton.SetImageAsDrawable(spellsImage);
+
+            goldUI.GoldIcon = new DrawingImage(@"Assets\image\icons\gold-outlined.png", ImageProvider);
+            goldUI.Hero = hero;
+
+            goldUI.Canvas.Invalidate();
+            SettingsButtonCanvas.Invalidate();
+            InventoryButtonCanvas.Invalidate();
+            spellsButton.Canvas.Invalidate();
         }
 
         public IImageProvider ImageProvider { get => imageProvider; set => imageProvider = value; }
-        public CanvasControl InventoryButtonCanvas => inventoryButtonCanvas;
+        public CanvasControl InventoryButtonCanvas => inventoryButton.Canvas;
         public HealthView HealthView {
             set 
             {
@@ -60,22 +84,21 @@ namespace BaseRPG.View.UIElements
                     hero.OnLevelUpCallback(
                         (newLevel)=> DispatcherQueue.TryEnqueue(() => levelText.Text = newLevel.ToString())
                     );
+                    healthPercentText.Text = hero.Health.HealthPercentage.ToString();
+                    hero.Health.HealthCanged += () => DispatcherQueue.TryEnqueue(() => healthPercentText.Text = hero.Health.HealthPercentage.ToString());
+                   
                     experienceControl.Hero = hero;
                 }
             }
         }
 
+        #region callback functions
         public void settingsButton_Draw(CanvasControl sender, CanvasDrawEventArgs args) {
-            if (ImageProvider == null) return;
-            var image = ImageProvider.GetByFilename(@"Assets\image\icons\settings-outlined.png");
-            args.DrawingSession.DrawImage(image);
         }
+
 
         public void inventoryButton_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (ImageProvider == null) return;
-            var image = ImageProvider.GetByFilename(@"Assets\image\icons\inventory-outlined.png");
-            args.DrawingSession.DrawImage(image);
         }
 
         private void settingsButton_Click(object sender, RoutedEventArgs e)
@@ -92,5 +115,17 @@ namespace BaseRPG.View.UIElements
         {
 
         }
+        
+
+        private void spellsButton_ButtonClick(object arg1, RoutedEventArgs arg2)
+        {
+            WindowButtonClicked?.Invoke(SpellsWindow.WindowName);
+        }
+
+        private void spellsButton_CanvasDraw(CanvasControl arg1, CanvasDrawEventArgs arg2)
+        {
+
+        }
+        #endregion
     }
 }

@@ -30,13 +30,16 @@ namespace BaseRPG.Controller.UnitControl
         private DirectionMovementUnitMapper directionVectorMapper;
         private List<IMovementUnit> movements = new List<IMovementUnit>();
         private IPositionProvider mousePositionProvider;
+        private readonly Hero controlledUnitAsHero;
+        private readonly DrawableProvider drawableProvider;
 
-        public EquippedItemView EquippedItemView { get; set; }
         public IPositionProvider MousePositionProvider { set => mousePositionProvider = value; }
 
-        public PlayerControl( Unit controlledUnit):base(controlledUnit)
+        public PlayerControl( Hero controlledUnitAsHero, DrawableProvider drawableProvider):base(controlledUnitAsHero)
         {
             directionVectorMapper = DirectionMovementUnitMapper.CreateDefault2D();
+            this.controlledUnitAsHero = controlledUnitAsHero;
+            this.drawableProvider = drawableProvider;
         }
 
         public void OnMove(MoveDirection moveDirection)
@@ -49,8 +52,11 @@ namespace BaseRPG.Controller.UnitControl
         {
             if (ControlledUnit == null) return;
             AttackBuilder attackFactory = ControlledUnit.AttackFactory("light");
+            
             if (attackFactory != null)
-                EquippedItemView.StartLightAttackAnimation(attackFactory);
+                drawableProvider
+                    .GetDrawable<EquippedItemView>(controlledUnitAsHero.Inventory.EquippedWeapon,"equipped")
+                    .StartLightAttackAnimation(attackFactory);
         }
         public void HeavyAttack()
         {

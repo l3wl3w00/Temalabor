@@ -2,6 +2,7 @@
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.WorldInterfaces;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Model.Worlds.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,8 @@ namespace BaseRPG.Model.Worlds
         public World Create()
         {
             GameObjectContainer gameObjectContainer = new GameObjectContainer();
-            return new World(gameObjectContainer);
+            var world = new World(gameObjectContainer);
+            return world;
         }
     }
 }

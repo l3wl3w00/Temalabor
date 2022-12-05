@@ -5,10 +5,13 @@ using BaseRPG.View;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces;
 using BaseRPG.View.UIElements.Inventory;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -49,6 +52,7 @@ namespace BaseRPG
         public MainWindow()
         {
             this.InitializeComponent();
+
             this.SizeChanged += (s, e) =>
             {
                 canvas.Width = e.Size.Width;
@@ -56,9 +60,14 @@ namespace BaseRPG
             };
             
             drawLoopHandler = new DeltaLoopHandler();
-            
+            var timer = new System.Timers.Timer(1000);
+            timer.Elapsed += (a, b) => Console.WriteLine("Draw fps: " + drawLoopHandler.Fps);
+            timer.Start();
         }
         public Vector2D MiddleOfScreen => new(canvas.Width/2, canvas.Height/2);
+
+        public IImageProvider ImageProvider => controller.ImageProvider;
+
         public async Task CreateResourceAsync(CanvasVirtualControl sender)
         {
             rawImageProvider = new();
@@ -72,10 +81,8 @@ namespace BaseRPG
             drawLoopHandler.FirsTickEvent += ResourcesReady;
         }
         public void ResourcesReady() {
-            hud.ImageProvider = new ScalingImageProvider(4, rawImageProvider);
-            hud.SettingsButtonCanvas.Invalidate();
-            hud.InventoryButtonCanvas.Invalidate();
-            hud.Hero = controller.Game.Hero;
+            
+            hud.Init(controller.ImageProvider, controller.Game.Hero);
         }
         public void canvas_Draw(CanvasVirtualControl sender, CanvasRegionsInvalidatedEventArgs args)
         {

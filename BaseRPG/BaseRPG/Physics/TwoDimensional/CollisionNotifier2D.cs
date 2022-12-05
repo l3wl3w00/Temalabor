@@ -28,7 +28,7 @@ namespace BaseRPG.Physics.TwoDimensional
             get => 
                 shapesCollidingWithTrackedPosition;
         }
-
+        public List<IShape2D> Shapes => collisionObjects;
         //if any 2 collisionObjects are colliding, invoke the CollisionOccured event
         public void NotifyCollisions(double delta) {
 
@@ -37,8 +37,8 @@ namespace BaseRPG.Physics.TwoDimensional
                 foreach (IShape2D shape2 in collisionObjects)
                 {
                     if (shape1 == shape2) continue;
-                    var shiftedShape1 = shape1.Shifted(shape1.GlobalPosition);
-                    var shiftedShape2 = shape2.Shifted(shape2.GlobalPosition);
+                    var shiftedShape1 = shape1.ShiftedByPos;
+                    var shiftedShape2 = shape2.ShiftedByPos;
                     if (shiftedShape1.IsColliding(shiftedShape2)) {
                         if(!CollisionExists(shiftedShape1.Owner,shiftedShape2.Owner))
                             collisions.Add(new Collision(shape1, shape2));
@@ -58,7 +58,17 @@ namespace BaseRPG.Physics.TwoDimensional
         private List<IShape2D> ShapesCollidingWith(Vector2D point) {
             List<IShape2D> result = new();
             foreach (var shape in collisionObjects) {
-                if (shape.Shifted(shape.GlobalPosition).IsCollidingPoint(point)) result.Add(shape);
+                if (shape.ShiftedByPos.IsCollidingPoint(point)) result.Add(shape);
+            }
+            return result;
+        }
+        public List<IShape2D> ShapesCollidingWith(IShape2D shape)
+        {
+            List<IShape2D> result = new();
+            foreach (var s in collisionObjects)
+            {
+                if (s.ShiftedByPos.IsColliding(shape)) 
+                    result.Add(s);
             }
             return result;
         }
@@ -70,7 +80,7 @@ namespace BaseRPG.Physics.TwoDimensional
             }
             shapesCollidingWithTrackedPosition = ShapesCollidingWith(positionProvider.Position);
         }
-        public bool CollisionExists(ICollisionDetector<GameObject> g1, ICollisionDetector<GameObject> g2) {
+        public bool CollisionExists(ICollisionDetector g1, ICollisionDetector g2) {
             foreach (var col in collisions)
             {
                 if (col.Shape1.Owner == g1 && col.Shape2.Owner == g2) return true; 
@@ -93,8 +103,8 @@ namespace BaseRPG.Physics.TwoDimensional
             public IShape2D Shape2 { get; set; }
             public bool CheckColliding()
             {
-                var shiftedShape1 = Shape1.Shifted(Shape1.GlobalPosition);
-                var shiftedShape2 = Shape2.Shifted(Shape2.GlobalPosition);
+                var shiftedShape1 = Shape1.ShiftedByPos;
+                var shiftedShape2 = Shape2.ShiftedByPos;
                 var result = shiftedShape1.IsColliding(shiftedShape2);
                 if (!Shape1.Owner.Exists) result = false;
                 if (!Shape2.Owner.Exists) result = false;

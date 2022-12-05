@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Skills
 {
-    public abstract class SkillNoParams : ISkill
+    public abstract class SkillNoParams : Skill
     {
-        public void Cast(object param)
+        protected SkillNoParams(string name) : base(name)
+        {
+        }
+
+        public override void Cast(object param)
         {
             Cast();
         }

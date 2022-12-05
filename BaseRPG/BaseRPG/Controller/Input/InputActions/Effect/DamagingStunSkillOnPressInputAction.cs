@@ -34,8 +34,7 @@ namespace BaseRPG.Controller.Input.InputActions.Effect
             }
             if (target == null) return;
             TargetedEffectParams targetedEffectParams = new TargetedEffectParams(target);
-            caster.CastSkill(3, targetedEffectParams);
-            
+            caster.CastSkill("stun", targetedEffectParams);
         }
     }
 }

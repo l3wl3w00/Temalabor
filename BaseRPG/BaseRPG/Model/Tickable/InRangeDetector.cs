@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable
 {
-    public class InRangeDetector : GameObject, ICollisionDetector<GameObject>
+    public class InRangeDetector : GameObject, ICollisionDetector
     {
-        public event Action<ICollisionDetector<GameObject>> OnInRange;
-        public event Action<ICollisionDetector<GameObject>> OnExitedRange;
+        public event Action<ICollisionDetector> OnInRange;
+        public event Action<ICollisionDetector> OnExitedRange;
         public override event Action OnCeaseToExist;
 
-        public List<ICollisionDetector<GameObject>> objectsInRange = new();
+        public List<ICollisionDetector> objectsInRange = new();
 
         public InRangeDetector(World currentWorld) : base(currentWorld)
         {
@@ -29,7 +29,7 @@ namespace BaseRPG.Model.Tickable
         public void SetExists(bool value) {
             exists = value;
         }
-        public void OnCollision(ICollisionDetector<GameObject> gameObject, double delta)
+        public void OnCollision(ICollisionDetector gameObject, double delta)
         {
             if (!objectsInRange.Contains(gameObject))
             {
@@ -52,10 +52,20 @@ namespace BaseRPG.Model.Tickable
             return objectsInRange.Contains(obj);
         }
 
-        public void OnCollisionExit(ICollisionDetector<GameObject> gameObject)
+        public void OnCollisionExit(ICollisionDetector gameObject)
         {
             objectsInRange.Remove(gameObject);
             OnExitedRange?.Invoke(gameObject);
         }
+
+        public bool CanCollide(ICollisionDetector other)
+        {
+            return true;
+        }
+
+        //public void CanCollide(ICollisionDetector other)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

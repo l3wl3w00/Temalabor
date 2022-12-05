@@ -49,7 +49,7 @@ namespace BaseRPG.Model.Attribute
             }
         }
 
-        
+        public double HealthPercentage => (currentValue / maxValue)*100;
 
     }
 }

@@ -1,7 +1,9 @@
 ﻿using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.Attacks;
+using BaseRPG.Model.Utility;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
@@ -43,7 +45,7 @@ namespace BaseRPG.Controller.Initialization
             this.vertices = vertices;
             return this;
         }
-        public ShapeViewPair CreateAttack(bool rotated = true)
+        public ShapeViewPair CreateAttack(double secondsAfterAttackDestroyed = 0,bool rotated = true )
         {
             if (attack == null)  throw new RequiredParameterMissing("attack was null");
             DefaultImageRenderer attackImageRenderer = new DefaultImageRenderer(
@@ -63,7 +65,7 @@ namespace BaseRPG.Controller.Initialization
             ShapeViewPair fullAttackObject =
                 new ShapeViewPair(
                     shape,
-                    new AttackView(attack, attackImageRenderer, initialRotation));
+                    new AttackView(attack, attackImageRenderer, initialRotation, secondsAfterAttackDestroyed));
             return fullAttackObject;
         }
 

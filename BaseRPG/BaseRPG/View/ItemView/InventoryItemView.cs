@@ -28,7 +28,7 @@ namespace BaseRPG.View.ItemView
 
         public override void OnRender(DrawingArgs drawingArgs)
         {
-            image.Draw(drawingArgs);
+            image.OnRender(drawingArgs);
         }
     }
 }

@@ -14,16 +14,16 @@ namespace BaseRPG.Controller.Input.InputActions
     public class SkillOnPressInputAction:IInputAction
     {
         private readonly Unit unit;
-        private readonly int skillIndex;
+        private readonly string skillName;
 
-        public SkillOnPressInputAction(Unit unit, int skillIndex)
+        public SkillOnPressInputAction(Unit unit, string skillName)
         {
             this.unit = unit;
-            this.skillIndex = skillIndex;
+            this.skillName = skillName;
         }
         public void OnPressed()
         {
-            unit.CastSkill(skillIndex, new object());
+            unit.CastSkill(skillName, new object());
         }
 
     }

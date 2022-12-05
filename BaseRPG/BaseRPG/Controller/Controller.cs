@@ -13,7 +13,9 @@ using BaseRPG.Model.Game;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.Utility;
 using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Utility;
 using BaseRPG.Model.Worlds;
+using BaseRPG.Model.Worlds.Blocks;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.Physics.TwoDimensional.Movement;
@@ -24,32 +26,43 @@ using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using BaseRPG.View.UIElements;
 using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.Spell;
 using BaseRPG.View.WorldView;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
+using System.Timers;
 
 namespace BaseRPG.Controller
 {
-    public class Controller:ICanQueueAction
+    public class Controller:ICanQueueAction,ICanQueueFunc<bool>
     {
-
+        #region private fields
         private PlayerControl playerControl;
         private InputHandler inputHandler;
         private ViewManager viewManager;
         private CollisionNotifier2D collisionNotifier;
         private readonly Game game;
         private bool running = true;
-        public Game Game=>game;
+        private CallbackQueue callbackQueue = new();
+        private BoolCallbackQueue boolCallbackQueue = new();
+        private IImageProvider imageProvider;
+        #endregion
+
+        #region properties
+        public Game Game => game;
         public InputHandler InputHandler { get { return inputHandler; } }
         public bool Running { get => running; }
         public PlayerControl PlayerControl { set { playerControl = value; } get => playerControl; }
-
         public DrawableProvider DrawableProvider { get; internal set; }
+        public IImageProvider ImageProvider => imageProvider;
 
-        private CallbackQueue callbackQueue = new();
+        public BoolCallbackQueue BoolCallbackQueue { get => boolCallbackQueue; }
+        public CollisionNotifier2D CollisionNotifier => collisionNotifier;
+        #endregion
 
         public Controller(ViewManager view, CollisionNotifier2D collisionNotifier, Game game)
         {
@@ -59,13 +72,20 @@ namespace BaseRPG.Controller
             game.CollisionNotifier = collisionNotifier;
         }
         public void MainLoop(int msBetweenTicks = 0) {
+            
             lock (game) {
                 DeltaLoopHandler loopHandler = new();
+                var timer = new System.Timers.Timer(1000);
+                timer.Elapsed += (a,b) => Console.WriteLine("Tick fps: "+loopHandler.Fps);
+                timer.Start();
                 while (running)
                 {
+                    
                     double delta = loopHandler.Tick();
                     Tick(delta);
                     Thread.Sleep(msBetweenTicks);
+
+                    
                 }
             }
             
@@ -75,7 +95,7 @@ namespace BaseRPG.Controller
             callbackQueue.QueueAction(action);
         }
         public void Tick(double delta) {
-            
+            boolCallbackQueue.Tick();
             callbackQueue.ExecuteAll();
             inputHandler.OnTick();
             game.OnTick(delta);
@@ -86,14 +106,15 @@ namespace BaseRPG.Controller
             MainWindow window) {
 
             inputHandler = new();
-
-            gameConfigurer.Configure(this, viewManager);
-            DrawableProvider = gameConfigurer.DrawableProvider;
-            BindingHandler binding = BindingHandler.CreateAndLoad(@"Assets\config\input-binding.json");
             PositionObserver globalMousePositionObserver = new PositionObserver(() => inputHandler.MousePosition + viewManager.CurrentCamera.MiddlePosition);
+            gameConfigurer.Configure(this, viewManager, globalMousePositionObserver);
+            DrawableProvider = gameConfigurer.DrawableProvider;
+            
+            imageProvider = gameConfigurer.ImageProvider;
+            BindingHandler binding = BindingHandler.CreateAndLoad(@"Assets\config\input-binding.json");
             collisionNotifier.KeepTrackOf(globalMousePositionObserver);
             
-            window.WindowControl = new DefaultWindowinitializer(binding, Game.Instance.Hero.Inventory).Initialize(window);
+            window.WindowControl = new DefaultWindowinitializer(binding, Game.Instance.Hero.Inventory,gameConfigurer.InventoryControl, gameConfigurer.SpellControl).Initialize(window);
             inputHandler.Initialize(
                 RawInputProcessedInputMapper.FromBinding(binding),
                 new ProcessedInputActionMapper.Builder()
@@ -106,14 +127,15 @@ namespace BaseRPG.Controller
                 .AddMapping("skill-2", new InvincibilitySkillOnPressInputAction(playerControl.ControlledUnit, 1))
                 .AddMapping("skill-3", new MeteorCreatingSkillOnReleaseInputAction(
                     playerControl.ControlledUnit,
-                    2, globalMousePositionObserver,
+                    globalMousePositionObserver,
                     window.Controller,
-                    gameConfigurer.ImageProvider,
+                    imageProvider,
                     gameConfigurer.AnimationProvider
                     ))
                 .AddMapping("skill-4",new DamagingStunSkillOnPressInputAction(playerControl.ControlledUnit,collisionNotifier))
                 .AddMapping("settings-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(SettingsWindow.WindowName)))
                 .AddMapping("inventory-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(InventoryWindow.WindowName)))
+                .AddMapping("spells-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(SpellsWindow.WindowName)))
                 .Create()
             );
             
@@ -132,9 +154,12 @@ namespace BaseRPG.Controller
 
         public void AddShape(IShape2D shape)
         {
+            
             if (System.Diagnostics.Debugger.IsAttached)
                 viewManager.CurrentWorldView.AddView(
-                    new ShapeView(shape, new PositionObserver(() => PositionUnit2D.ToVector2D(shape.MovementManager.Position))),
+                    new ShapeView(shape, new PositionObserver(() => 
+                    PositionUnit2D.ToVector2D(shape.MovementManager.Position)
+                    )),
                     int.MaxValue);
             collisionNotifier.AddToObservedShapes(shape);
         }
@@ -151,6 +176,14 @@ namespace BaseRPG.Controller
                 AddShape(fullGameObject.Shape);
         }
 
+        internal void RemoveView(IDrawable drawable)
+        {
+            viewManager.CurrentWorldView.RemoveView(drawable);
+        }
 
+        public void QueueWithResult(Func<bool> func, Action<bool> onResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

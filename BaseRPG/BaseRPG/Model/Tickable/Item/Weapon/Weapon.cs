@@ -19,16 +19,13 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         public event Action<Attack> LightAttackCreatedEvent;
         private readonly AttackBuilder lightAttackFactory;
         private readonly AttackBuilder heavyAttackFactory;
-
-        
-
         public Unit Owner { 
             get => owner;
             set
             {
                 owner = value;
-                heavyAttackFactory.Attacker(owner);
-                lightAttackFactory.Attacker(owner);
+                heavyAttackFactory?.Attacker(owner);
+                lightAttackFactory?.Attacker(owner);
                 
             } 
         }
@@ -39,14 +36,35 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
 
         public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, World world, Unit owner = null):base(world)
         {
-            this.heavyAttackFactory = heavyAttackFactory;
-            this.lightAttackFactory = lightAttackFactory;
+            this.heavyAttackFactory = heavyAttackFactory.World(world);
+            this.lightAttackFactory = lightAttackFactory.World(world);
             this.Owner = owner;
         }
 
         public override void EquippedBy(Inventory inventory)
         {
             inventory.EquippedWeapon = this;
+        }
+        public class Builder {
+            private AttackBuilder lightAttackFactory = null;
+            private AttackBuilder heavyAttackFactory = null;
+            private Unit owner = null;
+
+            public Builder Owner(Unit owner)
+            {
+                this.owner = owner;
+                return this;
+            }
+
+            public Builder LightAttackFactory(AttackBuilder lightAttackFactory) {
+                this.lightAttackFactory = lightAttackFactory;
+                return this;
+            }
+            public Builder HeavyAttackFactory(AttackBuilder heavyAttackFactory)
+            {
+                this.heavyAttackFactory = heavyAttackFactory;
+                return this;
+            }
         }
     }
 }

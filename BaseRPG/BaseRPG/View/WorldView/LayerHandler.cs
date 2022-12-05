@@ -39,10 +39,24 @@ namespace BaseRPG.View.WorldView
 
         internal void RemoveAll(Predicate<IDrawable> condition)
         {
-            foreach (int key in layers.Keys)
-            {
-                layers[key].RemoveAll(condition);
+            lock (layers)
+            { 
+                foreach (int key in layers.Keys)
+                {
+                    layers[key].RemoveAll(condition);
+                }
             }
+            
+        }
+        public void Remove(IDrawable drawable) {
+            lock (layers)
+            {
+                foreach (int key in layers.Keys)
+                {
+                    layers[key].Remove(drawable);
+                }
+            }
+            
         }
     }
 }

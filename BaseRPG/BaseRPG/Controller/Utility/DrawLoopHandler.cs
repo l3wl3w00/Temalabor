@@ -14,13 +14,14 @@ namespace BaseRPG.Controller.Utility
     {
         private bool isFirstTick = true;
         private Stopwatch stopWatch;
-
+        public double Fps { get { return (int)fps; } }
         public DeltaLoopHandler()
         {
             this.stopWatch = new();
             stopWatch.Start();
         }
 
+        private double fps;
         private double lastTickTime = 0.0;
         public event Action FirsTickEvent;
 
@@ -32,6 +33,7 @@ namespace BaseRPG.Controller.Utility
             }
             var currentTime = stopWatch.Elapsed.TotalMilliseconds;
             double delta = (currentTime - lastTickTime) / 1000.0;
+            fps = 1/delta;
             lastTickTime = currentTime;
             return delta;
         }

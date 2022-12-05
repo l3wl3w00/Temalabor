@@ -1,4 +1,7 @@
-﻿using BaseRPG.Model.Interfaces.Movement;
+﻿using BaseRPG.Controller.UnitControl;
+using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Utility;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
@@ -16,7 +19,9 @@ namespace BaseRPG.Controller.Interfaces
         IImageProvider ImageProvider { get; }
         AnimationProvider AnimationProvider { get; }
         DrawableProvider DrawableProvider { get; }
+        InventoryControl InventoryControl { get; }
+        SpellControl SpellControl { get; }
 
-        void Configure(Controller controller, ViewManager viewManager);
+        void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver);
     }
 }

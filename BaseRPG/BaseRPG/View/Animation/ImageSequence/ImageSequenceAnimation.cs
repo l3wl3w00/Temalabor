@@ -1,4 +1,6 @@
-﻿using BaseRPG.View.Interfaces;
+﻿using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces;
+using MathNet.Spatial.Units;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using System;
@@ -31,19 +33,6 @@ namespace BaseRPG.View.Animation.ImageSequence
             this.imageNames = imageNames;
             OnAnimationCompleted += actionOnAnimationCompleted;
             TimeBetween = timeBetween;
-            //animationTimer = new AnimationTimer(timeBetween,true);
-            //animationTimer.Elapsed += 
-            //()=>
-            //{
-            //    bool moved = imageNames.MoveNext();
-            //    if (moved) 
-            //        lastValidImage = imageNames.Current;
-            //    else { 
-            //        imageNames.Reset();
-            //        imageNames.MoveNext();
-            //        OnAnimationCompleted?.Invoke(this); 
-            //    }
-            //};
         }
 
         public double TimeBetween
@@ -66,6 +55,7 @@ namespace BaseRPG.View.Animation.ImageSequence
                 };
             }
         }
+
         public ICanvasImage CalculateImage(double delta)
         {
             animationTimer.Tick(delta);
@@ -94,6 +84,12 @@ namespace BaseRPG.View.Animation.ImageSequence
             enumerator.MoveNext();
             var timeBetween = timeFrame / (images.Count);
             return new ImageSequenceAnimation(imageProvider, enumerator, null, timeBetween);
+        }
+
+        internal static ImageSequenceAnimation SingleImage(DrawingImage image)
+        {
+            return new ImageSequenceAnimation(image.ImageProvider, new LoopingEnumerator<string>(new List<string> { image.ImageName }), null, 0.1);
+
         }
     }
 }

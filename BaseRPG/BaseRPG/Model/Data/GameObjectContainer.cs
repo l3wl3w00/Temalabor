@@ -10,7 +10,7 @@ namespace BaseRPG.Model.Data
     public class GameObjectContainer
     {
         private List<GameObject> gameObjects = new List<GameObject>();
-        public List<GameObject> All { get { return gameObjects; } }
+        public List<GameObject> All { get { lock (this) { return gameObjects; } } }
         //public List<Enemy> Enemies { get { return GetGameObjects<Enemy>("Enemy"); } }
 
         private Hero hero;
@@ -33,13 +33,16 @@ namespace BaseRPG.Model.Data
         //}
         
         public void Add(GameObject gameObject) {
-            if(gameObject == null) 
-                return;
-            if(gameObjects.Contains(gameObject)) throw new GameObjectAlreadyInWorldException(gameObject);
-            gameObjects.Add(gameObject);
+            lock (this) {
+                if (gameObject == null)
+                    return;
+                if (gameObjects.Contains(gameObject)) throw new GameObjectAlreadyInWorldException(gameObject);
+                gameObjects.Add(gameObject);
+            }
+            
         }
         public void Remove(GameObject gameObject){
-            gameObjects.Remove(gameObject);
-        }
+            lock (this) gameObjects.Remove(gameObject);
+        } 
     }
 }

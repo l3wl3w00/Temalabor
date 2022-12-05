@@ -22,7 +22,7 @@ namespace BaseRPG.Controller.Input.InputActions.Effect
         public void OnPressed()
         {
             TargetedEffectParams targetedEffectParams = new TargetedEffectParams(unit);
-            unit.CastSkill(skillIndex, targetedEffectParams);
+            unit.CastSkill("invincibility", targetedEffectParams);
         }
 
     }

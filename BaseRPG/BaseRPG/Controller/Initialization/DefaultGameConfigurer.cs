@@ -6,19 +6,27 @@ using BaseRPG.Model.Effects.Dash;
 using BaseRPG.Model.Effects.EffectParams;
 using BaseRPG.Model.Effects.Invincibility;
 using BaseRPG.Model.Game;
+using BaseRPG.Model.Interfaces.ItemInterfaces;
 using BaseRPG.Model.Services;
 using BaseRPG.Model.Skills;
 using BaseRPG.Model.Tickable.Attacks;
+using BaseRPG.Model.Tickable.Attacks.Lifetime;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Model.Tickable.Item.Factories;
 using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Utility;
 using BaseRPG.Model.Worlds;
+using BaseRPG.Model.Worlds.Blocks;
+using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View;
 using BaseRPG.View.Animation;
 using BaseRPG.View.Animation.FacingPoint;
+using BaseRPG.View.Animation.Factory;
 using BaseRPG.View.Animation.ImageSequence;
 using BaseRPG.View.Camera;
 using BaseRPG.View.EntityView;
@@ -26,6 +34,7 @@ using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using BaseRPG.View.ItemView;
 using MathNet.Spatial.Euclidean;
+using System;
 using System.Collections.Generic;
 
 
@@ -37,6 +46,9 @@ namespace BaseRPG.Controller.Initialization
         public static readonly double VERY_LARGE_NUMBER = 9999999999999999999D;
         private AnimationProvider animationProvider = AnimationProvider.CreateDefault();
         private IImageProvider imageProvider;
+        private readonly CollisionNotifier2D collisionNotifier;
+        private InventoryControl inventoryControl;
+        private SpellControl spellControl;
         private readonly DrawableProvider drawableProvider = new();
 
         public IImageProvider ImageProvider => imageProvider;
@@ -45,12 +57,17 @@ namespace BaseRPG.Controller.Initialization
 
         public DrawableProvider DrawableProvider => drawableProvider;
 
-        public DefaultGameConfigurer(IImageProvider imageProvider)
+        public InventoryControl InventoryControl { get => inventoryControl; set => inventoryControl = value; }
+
+        public SpellControl SpellControl => spellControl;
+
+        public DefaultGameConfigurer(IImageProvider imageProvider, CollisionNotifier2D collisionNotifier)
         {
             this.imageProvider = imageProvider;
+            this.collisionNotifier = collisionNotifier;
         }
 
-        public void Configure(Controller controller, ViewManager viewManager)
+        public void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver)
         {
             FollowingCamera2D followingCamera = new FollowingCamera2D(new(0, 0), viewManager.Canvas.Size);
             Game.Instance.CurrentWorldChanged += (name, world) => {
@@ -58,19 +75,36 @@ namespace BaseRPG.Controller.Initialization
                 viewManager.SetCurrentWorldView(name,world,imageProvider,followingCamera);
             };
             Game.Instance.ChangeWorld("Empty");
+            var block = new Block(new PositionUnit2D(200, 0), Game.Instance.CurrentWorld);
+            var pos = PositionUnit2D.ToVector2D(block.Position);
+            controller.AddView(new DrawingImage(@"Assets\image\blocks\normal-block-outlined.png", imageProvider, pos));
+            controller.AddShape(new Polygon(block, new PhysicsFactory2D().CreateMovementManager(block.Position), Polygon.RectangleVertices(new(0, 0), 128, 128)));
 
             Hero hero = CreateHero(controller,Game.Instance.CurrentWorld);
-            //CreateEnemy(controller, hero, 200, 200, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.2, 180);
+            //CreateEnemy(controller, hero, 150, 300, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.2, 180);
             //CreateEnemy(controller, hero, -200, 200, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.5, 50);
-            CreateEnemy(controller, hero, -200, -200, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.1, 100);
-            //CreateEnemy(controller, hero, 200, -200, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.2, 90);
-            controller.PlayerControl = new PlayerControl(hero);
-            Dictionary<string, IDrawable> weaponViews = new();
-            Weapon weapon = CreateWeapon(hero, controller,weaponViews);
+            //CreateEnemy(controller, hero, -250,  0, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.1, 100);
+            //CreateEnemy(controller, hero, 150, -200, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.2, 90);
+            controller.PlayerControl = new PlayerControl(hero,DrawableProvider);
+            
 
-            drawableProvider.Connect(weaponViews["equipped"], weapon, "equipped");
-            drawableProvider.Connect(weaponViews["inventory"], weapon, "inventory");
-            controller.AddView(drawableProvider.GetDrawablesOf(weapon)["equipped"],100);
+            InventoryControl = new InventoryControl(hero.Inventory,drawableProvider,controller);
+            spellControl = new SpellControl(hero.SkillManager,drawableProvider,controller.BoolCallbackQueue);
+
+            SimpleBowFactory simpleBowFactory = new SimpleBowFactory();
+            SimpleBowFactory.OnItemCreatedStatic += item => CreateBowViews(@"Assets\image\weapons\normal-bow\normal-bow-outlined.png", controller, item as Weapon, hero,globalMousePositionObserver);
+            InventoryControl.CollectItem(simpleBowFactory.Create(Game.Instance.CurrentWorld));
+
+            SimpleSwordFactory simpleSwordFactory = new SimpleSwordFactory();
+            simpleSwordFactory.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\red-sword-outlined.png", controller, item as Weapon, hero);
+            InventoryControl.CollectItem(simpleSwordFactory.Create(Game.Instance.CurrentWorld));
+
+
+            SimpleSwordFactory simpleSwordFactory2 = new SimpleSwordFactory();
+            simpleSwordFactory2.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\normal-sword-outlined.png", controller, item as Weapon, hero);
+            InventoryControl.CollectItem(simpleSwordFactory2.Create(Game.Instance.CurrentWorld));
+            
+            InventoryControl.EquipItem(2);
             Game.Instance.Hero = hero;
             followingCamera.FollowedUnit = hero;// Game.Instance.CurrentWorld.GameObjectContainer.All[1] as Unit;
         }
@@ -82,12 +116,12 @@ namespace BaseRPG.Controller.Initialization
         /// <param name="controller"></param>
         /// <param name="weaponViews"> This dictionary contains all the views that the function creates after being called </param>
         /// <returns></returns>
-        private Weapon CreateWeapon(Hero hero, Controller controller, Dictionary<string,IDrawable> weaponViews) {
 
-            return new WeaponViewBuilder(imageProvider,controller, Game.Instance.CurrentWorld)
-                .Image(@"Assets\image\weapons\normal-sword-outlined.png")
+        private Dictionary<string, IDrawable> CreateSwordViews(string image, Controller controller, Weapon item, Hero hero) {
+            var result = new WeaponViewBuilder(new(image, imageProvider), controller, item
+                , w => new NormalSwordAnimationFactory(controller, w))
                 .EquippedBy(hero, controller.PlayerControl)
-                .LightAttackBuilder( 
+                .LightAttack2DBuilder(
                     new Attack2DBuilder(@"Assets\image\attacks\sword-attack-effect.png")
                     .ImageProvider(imageProvider)
                     .PolygonShape(new List<Point2D> {
@@ -97,10 +131,27 @@ namespace BaseRPG.Controller.Initialization
                             new(100,30)
                         }
                     ))
-                .LightAttackCreatedCallback(g => 
-                controller.AddVisible(g)
-                )
-                .CreateSword(weaponViews);
+                .LightAttackCreatedCallback(g => controller.AddVisible(g), 0.15)
+                .CreateWeapon();
+            drawableProvider.Connect(result["equipped"], item, "equipped");
+            drawableProvider.Connect(result["inventory"], item, "inventory");
+            return result;
+        }
+        private Dictionary<string, IDrawable> CreateBowViews(string image, Controller controller, Weapon item, Hero hero, IPositionProvider globalMousePositionObserver)
+        {
+            var result = new WeaponViewBuilder(new(image, imageProvider), controller, item as Weapon
+                , w => new NormalBowAnimationFactory(animationProvider, imageProvider, controller, w, globalMousePositionObserver))
+                .EquippedBy(hero, controller.PlayerControl)
+                .LightAttack2DBuilder(
+                    new Attack2DBuilder(@"Assets\image\attacks\arrow-outlined.png")
+                    .ImageProvider(imageProvider)
+                    .PolygonShape(Polygon.RectangleVertices(new(0, 0), 15, 35)
+                    ))
+                .LightAttackCreatedCallback(g => controller.AddVisible(g), 0)
+                .CreateWeapon();
+            drawableProvider.Connect(result["equipped"], item, "equipped");
+            drawableProvider.Connect(result["inventory"], item, "inventory");
+            return result;
         }
         private Hero CreateHero(Controller controller, World world) {
 
@@ -108,55 +159,65 @@ namespace BaseRPG.Controller.Initialization
             var movementManager = Game.Instance.PhysicsFactory.CreateMovementManager();
             
             var time = 0.2;
-            Hero hero = new Hero.HeroBuilder(100, movementManager, Game.Instance.CurrentWorld)
-                .WithSelfTargetEffectSkill(new DashEffectFactory(time, 250, world),
-                (effect) =>
-                        controller.AddView(
-                            new EffectView.Builder(effect, movementManager,
-                                ImageSequenceAnimation.WithTimeFrame(imageProvider, animationProvider.Get("dash-effect"), time))
-                                .DefaultTransformationAnimation(
-                                    new FacingPointOnCallbackAnimation(-100,
-                                        PositionObserver.CreateForLastMovement(movementManager, VERY_LARGE_NUMBER)
-                                    )
+            Hero hero = new Hero.HeroBuilder(100, movementManager, Game.Instance.CurrentWorld).Build() as Hero;
+            hero.SkillManager =
+                    new SkillManager.Builder()
+                    .WithSkill(
+                        new EffectCreatingSkill<DashEffectCreationParams>(
+                            "dash",
+                            new DashEffectFactory(time, 250,
+                            (effect) =>
+                                controller.AddView(
+                                    new EffectView.Builder(effect, movementManager,
+                                        ImageSequenceAnimation.WithTimeFrame(imageProvider, animationProvider.Get("dash-effect"), time))
+                                        .DefaultTransformationAnimation(
+                                            new FacingPointOnCallbackAnimation(-25 * App.IMAGE_SCALE,
+                                                PositionObserver.CreateForLastMovement(movementManager, VERY_LARGE_NUMBER)
+                                            )
+                                        )
+                                    .Build(), -100)
                                 )
-                            .Build()
-                            , -100
+                            )
+                        )
+                    .WithSkill(
+                        new EffectCreatingSkill<TargetedEffectParams>(
+                            "invincibility",
+                            new InvincibilityEffectFactory(5, (effect) =>
+                            controller.AddView(
+                                new EffectView.Builder(effect, movementManager,
+                                    ImageSequenceAnimation.LoopingAnimation(imageProvider, animationProvider.Get("invincibility-effect"), 0.5))
+                                    .DefaultTransformationAnimation(
+                                        new FacingPointOnCallbackAnimation(0,
+                                            PositionObserver.CreateForLastMovement(movementManager, VERY_LARGE_NUMBER)
+                                            )
+                                        )
+                                    .Build(), 200)
+                                )
+                            )
+                        )
+                    .WithSkill(
+                        new AttackCreatingSkill("meteor",
+                        new AttackBuilder(
+                            new DamagePerSecondAttackStrategy(100), 0.5, int.MaxValue)
+                                .World(world)
+                                .Attacker(hero)
+                                .AttackabilityService(
+                                    new AttackabilityService.Builder().AllowIf((attacker, attacked) => attacked == attacker).CreateByDefaultMapping()),
+                            a =>
+                                controller.AddVisibleInstantly(new Attack2DBuilder(@"Assets\image\effects\meteor\lava-ground-circle.png")
+                                .ImageProvider(imageProvider)
+                                .Attack(a)
+                                .OwnerPosition(movementManager.Position)
+                                .PolygonShape(Polygon.CircleVertices(new(0, 0), 300, 50))
+                                .CreateAttack(0, false))
                         )
                     )
-                .WithSelfTargetEffectSkill(new InvincibilityEffectFactory(5, world)
-                    , (effect) =>
-                        controller.AddView(
-                            new EffectView.Builder(effect, movementManager,
-                                ImageSequenceAnimation.LoopingAnimation(imageProvider, animationProvider.Get("invincibility-effect"), 0.5))
-                            .DefaultTransformationAnimation(
-                                new FacingPointOnCallbackAnimation(0,
-                                    PositionObserver.CreateForLastMovement(movementManager, VERY_LARGE_NUMBER)
-                                    )
-                                )
-                            .Build()
-                            , 200
-                            )
-                        )
-                .WithAttackCreatingSkill(
-                        new AttackBuilder(new DamagePerSecondAttackStrategy(100), world, 0.5, int.MaxValue)
-                        .AttackabilityService(
-                            new AttackabilityService.Builder().AllowIf((attacker, attacked) => attacked == attacker).CreateByDefaultMapping()
-                            )
-                        ,
-                        a =>
-                            controller.AddVisibleInstantly(new Attack2DBuilder(@"Assets\image\effects\meteor\lava-ground-circle.png")
-                            .ImageProvider(imageProvider)
-                            .Attack(a)
-                            .OwnerPosition(movementManager.Position)
-                            .PolygonShape(Polygon.CircleVertices(new(0, 0), 300, 50))
-                            .CreateAttack(false))
-                )
-                .WithSkill(unit=>new EffectCreatingSkill<TargetedEffectParams>(unit, new DamagingStunEffectFactory(unit, 5)))
-                .Build() as Hero;
-            var shape = new Polygon(
+                    .WithSkill(new EffectCreatingSkill<TargetedEffectParams>("stun", new DamagingStunEffectFactory(hero, 5)))
+                    .Create();
+            var shape = Polygon.ForUnit(
                        hero,
-                       hero.MovementManager,
-                       Polygon.RectangleVertices(new(0, 0), 120, 120)
+                       Polygon.RectangleVertices(new(0, 0), 120, 120),
+                       collisionNotifier
                        );
             UnitView heroView = 
                 new UnitView.Builder(new DrawingImage(heroImage, imageProvider),hero,new ShapeView(shape,new PositionObserver(()=>PositionUnit2D.ToVector2D(hero.Position))))
@@ -177,9 +238,8 @@ namespace BaseRPG.Controller.Initialization
                 Attack("normal", new DamagingAttackStrategy(1))
                 .Speed(speed)
                 .Build() as Enemy;
-            
             var enemyImage = idleImage;
-            Polygon shape = Polygon.Circle(enemy,enemy.MovementManager,new(0, 0), 50);
+            Polygon shape = Polygon.ForUnit(enemy,Polygon.CircleVertices(new(0,0),50), collisionNotifier);
             List<string>.Enumerator enumerator = attackAnimation.GetEnumerator();
             enumerator.MoveNext();
             UnitView enemyView = new UnitView.Builder(new DrawingImage(enemyImage,imageProvider), enemy, new ShapeView(shape, new PositionObserver(() => PositionUnit2D.ToVector2D(enemy.Position))))
@@ -189,9 +249,7 @@ namespace BaseRPG.Controller.Initialization
                     new ImageSequenceAnimation(
                         imageProvider,
                         enumerator,
-                        a => {
-                            
-                            controller.QueueAction( () => { 
+                        a => controller.QueueAction( () => { 
                                 var attack = enemy.Attack("normal");
                                     if (attack != null)
                                         controller.AddVisibleInstantly(
@@ -203,8 +261,7 @@ namespace BaseRPG.Controller.Initialization
                                             .CreateAttack()
                                         );
                                 }
-                            );
-                        }, timeBetweenFrames
+                            ), timeBetweenFrames
                         )
                 )
                 .WithFacingPointAnimation()

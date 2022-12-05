@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Interfaces.Skill
 {
-    public abstract class IGenericSkill<PARAM_TYPE> : ISkill where PARAM_TYPE : class 
+    public abstract class IGenericSkill<PARAM_TYPE> : Skill where PARAM_TYPE : class 
     {
-        public void Cast(object skillCastParams)
+        protected IGenericSkill(string name) : base(name)
+        {
+        }
+
+        public override void Cast(object skillCastParams)
         {
             PARAM_TYPE @params = skillCastParams as PARAM_TYPE;
             if (@params == null) 

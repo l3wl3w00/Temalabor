@@ -23,12 +23,12 @@ using System.Collections.Generic;
 
 namespace BaseRPG.Model.Tickable.FightingEntity
 {
-    public abstract class Unit : GameObject, IAttackable, IAttacking, ICollisionDetector<GameObject>
+    public abstract class Unit : GameObject, IAttackable, IAttacking, ICollisionDetector
     {
 
         private Health health;
         private IMovementManager movementManager;
-        private SkillManager skillManager = new();
+        private SkillManager skillManager;
         /// <summary>
         /// This field describes how this unit moves.
         /// This is NOT the only way a unit can move,
@@ -43,6 +43,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         private DamageTakingStateHandler damageTakingStateHandler;
         private MovementStateHandler movementStateHandler;
         public override event Action OnCeaseToExist;
+        public SkillManager SkillManager { get => skillManager; set { skillManager = value; } }
         public Health Health { get { return health; } }
         public int Damage => throw new NotImplementedException();
         public IMovementUnit NextMovement { get => MovementStrategy.CalculateNextMovement(MovementManager, speed); }
@@ -73,23 +74,18 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public override void BeforeStep(double delta)
         {
             base.BeforeStep(delta);
+            if (!(this is Hero.Hero))
             effectManager.OnTick(delta);
             _queueMovement(NextMovement?.Scaled(delta));
         }
         public override void Step(double delta) {
             MovementManager.MoveQueued();
         }
-        public void CastSkill<PARAM_TYPE>(int index, PARAM_TYPE skillCastParams)
+        public bool CastSkill<PARAM_TYPE>(string name, PARAM_TYPE skillCastParams)
         {
-            skillManager.Cast(index, skillCastParams);
+            return skillManager.Cast(name, skillCastParams);
         }
-        public void CastSkill<PARAM_TYPE>(int index)
-        {
-            skillManager.Cast(index, new object());
-        }
-        public void LearnSkill(ISkill skill) {
-            skillManager.Learn(skill);
-        }
+
         public void StopMoving() {
             MovementStrategy = new EmptyMovementStrategy();
         }
@@ -186,17 +182,20 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public void AddEffect(Effect effect) {
             effectManager.AddEffect(effect);
         }
-        public virtual void OnCollision(ICollisionDetector<GameObject> other, double delta)
+        public virtual void OnCollision(ICollisionDetector other, double delta)
         {
 
         }
-
+        bool ICollisionDetector.CanCollide(ICollisionDetector other)
+        {
+            return false;
+        }
         public abstract void OnTargetKilled(IAttackable target);
         public abstract void OnKilledByHero(Hero.Hero hero);
         public abstract void OnKilledByEnemy(Enemy.Enemy enemy);
 
 
-        public abstract class Builder{
+        public abstract class Builder {
             private double speed = 100;
             private int maxHp;
             private IMovementManager movementManager;
@@ -214,24 +213,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity
                 this.movementStrategy = movementStrategy;
                 this.world = world;
             }
-            public Builder WithSelfTargetEffectSkill<PARAM_TYPE>(
-                IEffectFactory<PARAM_TYPE> effectFactory,
-                Action<Effect> effectCreatedCallback = null) 
-                where PARAM_TYPE:class
-            {
-                callbackQueue.QueueForExecute(u => u.LearnSkill(new EffectCreatingSkill<PARAM_TYPE>(u, effectFactory)));
-                effectFactory.EffectCreated += effectCreatedCallback;
-                return this;
-            }
-            public Builder WithSkill(Func<Unit,ISkill> skillCreation) {
-                callbackQueue.QueueForExecute(u=>u.LearnSkill(skillCreation(u)));
-                return this;
-            }
-            public Builder WithAttackCreatingSkill(AttackBuilder attackBuilder, Action<Attack> attackCreationCallback)
-            {
-                callbackQueue.QueueForExecute(u => 
-                    u.LearnSkill(new AttackCreatingSkill(attackBuilder.Attacker(u),attackCreationCallback))
-                );
+            public Builder SkillManager(SkillManager skillManager) {
+                this.skillManager = skillManager;
                 return this;
             }
             public Builder Speed(double value) {

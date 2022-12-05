@@ -7,18 +7,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml" xmlns:inventory="using:BaseRPG.View.UIElements.Inventory"
     mc:Ignorable="d">
 
-
-    <StackPanel x:Name="stackPanel" Width="390" Margin="5" Height="500" Background="DarkSlateGray"
-                BorderBrush="White" BorderThickness="5" CornerRadius="1">
+    <StackPanel BorderBrush="White" BorderThickness="2" CornerRadius="0">
         <local:WindowHeader
             XButtonClicked="XButton_Click" 
             PointerMoved="UserControl_PointerMoved"
             PointerPressed="UserControl_PointerPressed"
             PointerReleased="UserControl_PointerReleased"
             TitleText="Inventory"></local:WindowHeader>
-        <inventory:EquippedItemUI x:Name="equippedItemUI"></inventory:EquippedItemUI>
-        <Rectangle Height="5" Fill="DarkBlue"></Rectangle>
-        <inventory:ItemsGrid></inventory:ItemsGrid>
-        
+        <Grid>
+            <Canvas Background="#471d09" Opacity="0.7"/>
+            <StackPanel x:Name="stackPanel" Margin="5">
+                <inventory:EquippedItemUI x:Name="equippedItemUI"></inventory:EquippedItemUI>
+                <Rectangle Height="2" Fill="White"></Rectangle>
+                <inventory:ItemsGrid x:Name="itemsGrid" ></inventory:ItemsGrid>
+
+            </StackPanel>
+        </Grid>
     </StackPanel>
+    
+    
 </local:CustomWindow>

@@ -61,5 +61,8 @@ namespace BaseRPG.View.Camera
             return globalPosition - MiddlePosition;
         }
 
+        public virtual void Update()
+        {
+        }
     }
 }

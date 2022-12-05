@@ -8,6 +8,18 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="View\UIElements\Spell\SingleSpellUI.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\UIElements\Spell\SpellsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\UIElements\Gold\GoldUI.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\UIElements\CustomControl\ButtonWithCanvas.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\UIElements\Inventory\ItemsGrid.xaml">
       <SubType>Designer</SubType>
     </Page>

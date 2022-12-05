@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.Item.Factories
 {
-    public class SimpleShoeFactory : IItemFactory
-    {
-        public Item Create()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //public class SimpleShoeFactory : IItemFactory
+    //{
+    //    public Item Create()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

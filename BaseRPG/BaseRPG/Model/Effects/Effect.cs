@@ -13,7 +13,7 @@ namespace BaseRPG.Model.Effects
         private Unit target;
         private double secondsSinceStarted;
         protected double SecondsSinceStarted => secondsSinceStarted;
-        protected Unit Target => target;
+        public Unit Target => target;
 
         public virtual void OnAddedToTarget()
         {
