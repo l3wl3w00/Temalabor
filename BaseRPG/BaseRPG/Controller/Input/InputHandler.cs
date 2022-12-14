@@ -91,8 +91,10 @@ namespace BaseRPG.Controller.Input
             lock (pressedButNotReleasedInput) {
 
                 if (pressedButNotReleasedInput.Contains(rawInput)) return;
-                IInputAction action = toAction(rawInput);
-                action.OnPressed();
+                foreach (var action in toAction(rawInput))
+                {
+                    action.OnPressed();
+                }
                 pressedButNotReleasedInput.Add(rawInput);
             }
             
@@ -102,8 +104,10 @@ namespace BaseRPG.Controller.Input
 
         private void reactToInputUp(string rawInput)
         {
-            IInputAction action = toAction(rawInput);
-            action.OnReleased();
+            foreach (var action in toAction(rawInput))
+            {
+                action.OnReleased();
+            }
             lock (pressedButNotReleasedInput)
             {
                 pressedButNotReleasedInput.RemoveAll((s) => s == rawInput);
@@ -111,11 +115,12 @@ namespace BaseRPG.Controller.Input
             
         }
         private void reactToPressedInput(string rawInput) {
-            IInputAction action = toAction(rawInput);
-            action.OnHold();
+            foreach (var action in toAction(rawInput)) {
+                action.OnHold();
+            }
         }
 
-        private IInputAction toAction(string rawInput) {
+        private IEnumerable<IInputAction> toAction(string rawInput) {
             return processedInputActionMapper.ToAction(rawInputProcessedInputMapper.toProcessedInput(rawInput));
         }
     }

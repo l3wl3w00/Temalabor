@@ -19,19 +19,15 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAQAAASAAAAAwAEAAABgAAQIAgAAAAIAAEAAAABxAA=</HashCode>
+      <HashCode>AAAQIAAQAQAAEwgAAgABAQESAAgBAAAIAAEAAAADYAA=</HashCode>
       <FileName>Controller\Controller.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="playerControl" />
       <Field Name="inputHandler" />
       <Field Name="viewManager" />
-      <Field Name="collisionNotifier" />
-      <Field Name="gameObjectCollectionControl" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Field Name="unitControls" />
-    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="BaseRPG.Controller.Input.InputHandler" Collapsed="true">
     <Position X="5.25" Y="2.5" Width="2" />
@@ -43,7 +39,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAASgUEAAAwAAAAAAABAGQAAQAAAAEAiAAA=</HashCode>
+      <HashCode>AAAAAAAAAAASgUEAAAwAAAAAAABAGQgAQAAAAEAiAAA=</HashCode>
       <FileName>Controller\Input\InputHandler.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -71,7 +67,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAQAAAIAAAAECAAAAAAAAAAAQAAAAAAAAAAAAgAEAAE=</HashCode>
+      <HashCode>AAQIAAAYCAAEEAABAAAAAAAAQAAAAAAAAAAAAgAEAAE=</HashCode>
       <FileName>Controller\UnitControl\PlayerControl.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -97,9 +93,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="BaseRPG.View.ViewManager" Collapsed="true">
-    <Position X="2" Y="8.75" Width="1.5" />
+    <Position X="3.75" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAIAAAAAgAAAAJAAAACAEAABAAIAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAIAAAAAgAAAAJAAAACAECABAAIAAAAAAAAAAA=</HashCode>
       <FileName>View\ViewManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -114,7 +110,7 @@
   <Class Name="BaseRPG.Controller.UnitControl.UnitControlBase" Collapsed="true">
     <Position X="11.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAEAAAAAAAAAAACAAAAAAAAAAEAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAQAAAAEAAAAAAAAAAASAAAAAAAAAAEAAA=</HashCode>
       <FileName>Controller\UnitControl\UnitControlBase.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -124,7 +120,7 @@
   <Class Name="BaseRPG.Model.Tickable.FightingEntity.Unit" Collapsed="true">
     <Position X="15.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgACAAIAAgEEgAAAAAAAAAAEACQIAKQAAgAlEAQg=</HashCode>
+      <HashCode>gAMAmACABAAABUAkEBiAABANgBEEAQIAOQIAgCtkAAk=</HashCode>
       <FileName>Model\Tickable\FightingEntity\Unit.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -184,7 +180,7 @@
   <Interface Name="BaseRPG.Model.Interfaces.Movement.IMovementUnit" Collapsed="true">
     <Position X="11.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAABAAAQAIAAACAAAAAAAAAAAAgAAAAABA=</HashCode>
+      <HashCode>ACIAAAAAAAAABAAAQAIAAACAAAAAAACAAAAgAAAAABA=</HashCode>
       <FileName>Model\Interfaces\Movement\IMovementUnit.cs</FileName>
     </TypeIdentifier>
   </Interface>

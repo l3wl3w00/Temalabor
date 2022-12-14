@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Physics.TwoDimensional.Interfaces;
+using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace BaseRPG.View.Animation
         public static PositionObserver CreateForLastMovement(IMovementManager movementManager,double veryLargeNumber) {
             return new PositionObserver(() =>
             {
-                double[] values = movementManager.LastMovement.Values;
-                return new Vector2D(values[0], values[1]) * veryLargeNumber;
+                var movement = MovementUnit2D.ToVector(movementManager.LastMovement);
+                return movement * veryLargeNumber;
             });
         }
 

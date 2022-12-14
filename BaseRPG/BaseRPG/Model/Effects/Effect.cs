@@ -1,4 +1,4 @@
-﻿using BaseRPG.Model.Interfaces;
+﻿using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity;
 using System;
 using System.Collections.Generic;

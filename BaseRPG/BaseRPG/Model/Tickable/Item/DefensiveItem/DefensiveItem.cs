@@ -10,8 +10,13 @@ namespace BaseRPG.Model.Tickable.Item.DefensiveItem
 {
     public class DefensiveItem : Item
     {
-        public DefensiveItem(World currentWorld) : base(currentWorld)
+        public DefensiveItem(World currentWorld, int basePrice) : base(currentWorld, basePrice)
         {
+        }
+
+        public override object Clone(int basePrice)
+        {
+            return new DefensiveItem(CurrentWorld,basePrice);
         }
 
         public override void EquippedBy(Inventory inventory)

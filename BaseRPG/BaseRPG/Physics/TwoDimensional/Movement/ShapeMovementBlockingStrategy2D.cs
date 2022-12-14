@@ -24,8 +24,29 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             this.shape = shape;
             this.collisionNotifier2D = collisionNotifier2D;
         }
-
+        private bool canStepThere(IShape2D shiftedShape) {
+            var shapes = collisionNotifier2D.ShapesCollidingWith(shiftedShape);
+            bool result = true;
+            foreach (IShape2D shape in shapes) {
+                if (!shape.Owner.CanBeOver)
+                    result = false;
+            }
+            return result;
+        }
         public IMovementUnit GenerateMovement(IMovementUnit movement, IPositionUnit position)
+        {
+            var movementVector = MovementUnit2D.ToVector(movement);
+            var shiftedShape = shape.ShiftedByPos;
+            if (canStepThere(shiftedShape.Shifted(movementVector))) return movement;
+            var interval = FindLargestWithBinary(
+                0, movementVector.Length,
+                middle => !canStepThere(shiftedShape.Shifted(movementVector * middle)),
+                10);
+            return movement.Scaled(interval.Item1);
+        }
+
+        //Not used right now
+        public IMovementUnit GenerateMovementWithRays(IMovementUnit movement, IPositionUnit position)
         {
             if (!(shape.Owner is Hero)) return movement;
             Vector2D movementVector = MovementUnit2D.ToVector(movement);
@@ -44,7 +65,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             {
 
                 if (shape.Owner == s.Owner) continue;
-                if (!shape.Owner.CanCollide(s.Owner))
+                if (!shape.Owner.CanCollide(s.Owner) || !s.Owner.CanCollide(shape.Owner))
                 {
                     //return new MovementUnit2D(-1*(s.GlobalPosition - shape.GlobalPosition).Normalize());
                     var other = s.ShiftedByPos.ToPolygon2D();
@@ -60,7 +81,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
                         if (length < shortestDistance)
                         {
                             shortestDistance = length;
-                            Console.WriteLine($"new shortest distance: {shortestDistance}");
+                            //Console.WriteLine($"new shortest distance: {shortestDistance}");
                         }
                     }
                     //var intersection = rays.Intersections(s.ShiftedByPos.ToPolygon2D()).ClosestIntersectionDistance();
@@ -76,6 +97,24 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             return movement.WithLength(shortestDistance );
         }
 
-        
+        public static (double,double) FindLargestWithBinary(double intervalBegin, double intervalEnd, Func<double,bool> condition, int depth) {
+            if (depth <= 0) return (intervalBegin,intervalEnd);
+            double interval = intervalEnd - intervalBegin;
+            var middle = intervalBegin + interval / 2;
+            if (condition(middle)) return FindLargestWithBinary(intervalBegin, middle, condition, depth - 1);
+            return FindLargestWithBinary(middle, intervalEnd,condition,depth-1);
+        }
+
+        public double CalculateTurnAngle(IPositionUnit position, double turnAngle)
+        {
+            var shiftedRotatedShape = shape.Rotated(turnAngle).ShiftedByPos;
+            var shapes = collisionNotifier2D.ShapesCollidingWith(shiftedRotatedShape);
+            if (canStepThere(shiftedRotatedShape)) {
+                return turnAngle;
+            }
+            var epsilon = 0.1;
+            var interval = FindLargestWithBinary(0, turnAngle, middle => !canStepThere(shape.Rotated(middle).ShiftedByPos), 10);
+            return (interval.Item1 + interval.Item2)/(2 + epsilon);
+        }
     }
 }

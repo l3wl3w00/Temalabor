@@ -7,6 +7,7 @@ using BaseRPG.Model.Tickable.Item;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
+using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View.Animation;
 using BaseRPG.View.Animation.Animators;
 using BaseRPG.View.Animation.ImageSequence;
@@ -24,27 +25,24 @@ using Windows.UI;
 
 namespace BaseRPG.View.ItemView
 {
-    public class EquippedItemView : BaseItemView
+    public class EquippedWeaponView : BaseItemView
     {
-        private Unit owner;
-
         private Animator animator;
         private readonly IAttackAnimationFactory lightAnimationFactory;
-        private Item observedWeapon;
+        private Weapon observedWeapon;
         public override bool Exists => Owner.Exists && observedWeapon.Exists; 
         protected override Item ObservedItem { get { return observedWeapon; } }
-        public EquippedItemView(Item item, Unit owner, Animator animator,
+        public EquippedWeaponView(Weapon weapon, Animator animator,
             IAttackAnimationFactory lightAnimationFactory)
         {
-            this.observedWeapon = item;
-            this.Owner = owner;
+            this.observedWeapon = weapon;
             this.animator = animator;
             this.lightAnimationFactory = lightAnimationFactory;
         }
 
-        public override Vector2D ObservedPosition => new(Owner.Position.Values[0], Owner.Position.Values[1]);
+        public override Vector2D ObservedPosition => PositionUnit2D.ToVector2D(Owner.Position);
 
-        public Unit Owner { get => owner; set => owner = value; }
+        public Unit Owner { get => observedWeapon.Owner; }
 
         public override void OnRender(DrawingArgs drawingArgs)
         {
@@ -60,7 +58,6 @@ namespace BaseRPG.View.ItemView
         {
             throw new NotImplementedException();
         }
-        private Vector2D OwnerPos { get => new(owner.Position.Values[0], owner.Position.Values[1]); }
         public void StartLightAttackAnimation(AttackBuilder attackFactory) {
 
                 animator.Start(

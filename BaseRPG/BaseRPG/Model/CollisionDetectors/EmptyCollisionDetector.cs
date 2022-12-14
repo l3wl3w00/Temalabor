@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Interfaces.Collision;
+using BaseRPG.Model.Tickable.FightingEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace BaseRPG.Model.CollisionDetectors
         {
 
         }
+
 
         bool ICollisionDetector.CanCollide(ICollisionDetector other)
         {

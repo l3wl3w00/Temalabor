@@ -1,4 +1,4 @@
-﻿using BaseRPG.Controller.UnitControl;
+﻿using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.View.EntityView;
 using System.Timers;
 
@@ -6,7 +6,7 @@ using System.Timers;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace BaseRPG.View.UIElements.Inventory
+namespace BaseRPG.View.UIElements.ItemCollectionUI
 {
     public sealed partial class InventoryWindow : CustomWindow
     {

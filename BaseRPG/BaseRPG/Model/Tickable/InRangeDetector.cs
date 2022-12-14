@@ -26,6 +26,9 @@ namespace BaseRPG.Model.Tickable
         private bool exists = true;
         // Exists for the duration of its owner
         public override bool Exists { get { return exists; }}
+
+        public bool CanBeOver => true;
+
         public void SetExists(bool value) {
             exists = value;
         }

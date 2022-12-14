@@ -1,4 +1,5 @@
-﻿using BaseRPG.Controller.Window;
+﻿using BaseRPG.Controller.UnitControl.ItemCollection;
+using BaseRPG.Controller.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace BaseRPG.Controller.Interfaces
 {
     public interface IWindowsInitializer
     {
-        WindowControl Initialize(MainWindow window);
+        WindowControl Initialize(MainWindow window,ShopControl shopControl);
     }
 }

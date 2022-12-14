@@ -3,6 +3,7 @@ using BaseRPG.Controller.Input;
 using BaseRPG.Controller.Input.InputActions;
 using BaseRPG.Controller.Input.InputActions.Attack;
 using BaseRPG.Controller.Input.InputActions.Effect;
+using BaseRPG.Controller.Input.InputActions.Interaction;
 using BaseRPG.Controller.Input.InputActions.Movement;
 using BaseRPG.Controller.Interfaces;
 using BaseRPG.Controller.UnitControl;
@@ -16,7 +17,6 @@ using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Model.Utility;
 using BaseRPG.Model.Worlds;
 using BaseRPG.Model.Worlds.Blocks;
-using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View;
@@ -25,7 +25,7 @@ using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using BaseRPG.View.UIElements;
-using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.ItemCollectionUI;
 using BaseRPG.View.UIElements.Spell;
 using BaseRPG.View.WorldView;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -71,26 +71,6 @@ namespace BaseRPG.Controller
             this.game = game;
             game.CollisionNotifier = collisionNotifier;
         }
-        public void MainLoop(int msBetweenTicks = 0) {
-            
-            lock (game) {
-                DeltaLoopHandler loopHandler = new();
-                var timer = new System.Timers.Timer(1000);
-                timer.Elapsed += (a,b) => Console.WriteLine("Tick fps: "+loopHandler.Fps);
-                timer.Start();
-                while (running)
-                {
-                    
-                    double delta = loopHandler.Tick();
-                    Tick(delta);
-                    Thread.Sleep(msBetweenTicks);
-
-                    
-                }
-            }
-            
-        }
-
         public void QueueAction(Action action) {
             callbackQueue.QueueAction(action);
         }
@@ -107,14 +87,14 @@ namespace BaseRPG.Controller
 
             inputHandler = new();
             PositionObserver globalMousePositionObserver = new PositionObserver(() => inputHandler.MousePosition + viewManager.CurrentCamera.MiddlePosition);
-            gameConfigurer.Configure(this, viewManager, globalMousePositionObserver);
+            gameConfigurer.Configure(this, viewManager, globalMousePositionObserver, window);
             DrawableProvider = gameConfigurer.DrawableProvider;
             
             imageProvider = gameConfigurer.ImageProvider;
             BindingHandler binding = BindingHandler.CreateAndLoad(@"Assets\config\input-binding.json");
             collisionNotifier.KeepTrackOf(globalMousePositionObserver);
-            
-            window.WindowControl = new DefaultWindowinitializer(binding, Game.Instance.Hero.Inventory,gameConfigurer.InventoryControl, gameConfigurer.SpellControl).Initialize(window);
+            gameConfigurer.ShopControl = new(playerControl);
+            window.WindowControl = new DefaultWindowinitializer(binding, Game.Instance.Hero.Inventory, gameConfigurer.InventoryControl, gameConfigurer.SpellControl).Initialize(window,gameConfigurer.ShopControl);
             inputHandler.Initialize(
                 RawInputProcessedInputMapper.FromBinding(binding),
                 new ProcessedInputActionMapper.Builder()
@@ -136,6 +116,7 @@ namespace BaseRPG.Controller
                 .AddMapping("settings-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(SettingsWindow.WindowName)))
                 .AddMapping("inventory-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(InventoryWindow.WindowName)))
                 .AddMapping("spells-window",new CustomInputAcion(actionOnPressed: () =>  window.WindowControl.OpenOrClose(SpellsWindow.WindowName)))
+                .AddMapping("initiate-interaction", new TargetClickInputAction(collisionNotifier,playerControl.ControlledUnitAsHero))
                 .Create()
             );
             

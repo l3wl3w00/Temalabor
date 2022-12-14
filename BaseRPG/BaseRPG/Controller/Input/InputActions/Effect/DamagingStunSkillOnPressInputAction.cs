@@ -1,7 +1,8 @@
 ﻿using BaseRPG.Controller.Interfaces;
 using BaseRPG.Model.Effects.EffectParams;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Tickable.FightingEntity;
-using BaseRPG.Physics.TwoDimensional;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +25,14 @@ namespace BaseRPG.Controller.Input.InputActions.Effect
         public void OnPressed() {
             var shapes = collisionNotifier2D.ShapesCollidingWithTrackedPosition;
             if (shapes.Count == 0) return;
-            Unit target = null;
+            LinkedList<Unit> targetableUnits = new LinkedList<Unit>();
+            LinkedList<ICollisionDetector> targetableOthers = new LinkedList<ICollisionDetector>();
             foreach (var shape in shapes)
             {
-                if (shape.Owner is Unit) {
-                    target = shape.Owner as Unit;
-                    break;
-                }
+                shape.Owner.SeletBySkillTargetability(targetableUnits,targetableOthers);
             }
-            if (target == null) return;
-            TargetedEffectParams targetedEffectParams = new TargetedEffectParams(target);
-            caster.CastSkill("stun", targetedEffectParams);
+            if(targetableUnits.First != null)
+                caster.CastSkill("stun", new TargetedEffectParams(targetableUnits.First.Value));
         }
     }
 }

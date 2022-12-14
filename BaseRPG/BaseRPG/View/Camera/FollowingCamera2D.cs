@@ -23,7 +23,7 @@ namespace BaseRPG.View.Camera
         public IMovementManager FollowedPosition {
             set {
                 observedPosition = value;
-                observedPosition.Moved += Update;
+                observedPosition.Moved += s => Update();
             } }
  
         public FollowingCamera2D(Vector2D position, Size size):base(position, size)

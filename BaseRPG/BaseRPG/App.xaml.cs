@@ -5,6 +5,7 @@ using BaseRPG.Model.Data;
 using BaseRPG.Model.Game;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Physics.TwoDimensional;
+using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
@@ -42,7 +43,6 @@ namespace BaseRPG
         private Game game;
         Controller.Controller controller;
         private MainWindow window;
-        private static Thread logicThread;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -57,7 +57,6 @@ namespace BaseRPG
             this.InitializeComponent();
             
         }
-        public static Thread LogicThread => logicThread;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -79,16 +78,13 @@ namespace BaseRPG
             
         }
         private void StartGame(IImageProvider imageProvider) {
-            controller.Initialize(
-                new DefaultGameConfigurer(new CenteredImageProvider(new ScalingImageProvider(IMAGE_SCALE, imageProvider)),controller.CollisionNotifier),
-                window);
-            StartLogic();
-        }
-        private void StartLogic() {
             
-            logicThread = new Thread(o => controller.MainLoop());
-            logicThread.IsBackground = true;
-            logicThread.Start();
+            controller.Initialize(
+                new DefaultGameConfigurer(
+                    new CenteredImageProvider(new ScalingImageProvider(IMAGE_SCALE, imageProvider)),
+                    controller.CollisionNotifier),
+                window);
+            new MainLoop(controller).Start();
         }
     }
 }

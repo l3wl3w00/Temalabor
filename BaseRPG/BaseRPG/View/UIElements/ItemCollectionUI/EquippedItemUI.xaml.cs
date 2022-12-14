@@ -1,4 +1,4 @@
-﻿using BaseRPG.Controller.UnitControl;
+﻿using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
@@ -25,7 +25,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace BaseRPG.View.UIElements.Inventory
+namespace BaseRPG.View.UIElements.ItemCollectionUI
 {
     public sealed partial class EquippedItemUI : UserControl
     {
@@ -41,8 +41,8 @@ namespace BaseRPG.View.UIElements.Inventory
             InventoryControl = inventoryControl;
             InventoryWeaponView = drawableProvider.GetDrawable(inventoryControl.EquippedWeapon,"inventory");
 
-            inventoryControl.OnUnequipped += (i,d) => Update(d);
-            inventoryControl.OnEquipped += (i, d) => Update(d);
+            inventoryControl.OnChanged += () => DispatcherQueue.TryEnqueue(()=>Update(drawableProvider));
+            inventoryControl.OnChanged += () => DispatcherQueue.TryEnqueue(() => Update(drawableProvider));
             Update(inventoryControl.DrawableProvider);
             equippedWeaponButton.EquippedArmor = InventoryWeaponView;
             equippedWeaponButton.DrawingArgsFactory = new ImageButtonDrawingArgsFactory(new(EquippedWeaponCanvas.Width,EquippedWeaponCanvas.Height));

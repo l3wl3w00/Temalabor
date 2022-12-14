@@ -35,6 +35,9 @@ namespace BaseRPG.Controller.Utility
             double delta = (currentTime - lastTickTime) / 1000.0;
             fps = 1/delta;
             lastTickTime = currentTime;
+            if (System.Diagnostics.Debugger.IsAttached) { 
+                return Math.Min(delta, 0.1);
+            }
             return delta;
         }
     }

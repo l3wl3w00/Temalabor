@@ -30,7 +30,6 @@ namespace BaseRPG.Controller.Initialization
     public class WeaponViewBuilder
     {
         private DrawingImage image;
-        private PlayerControl playerControl;
 
         private Attack2DBuilder lightAttack2DBuilder;
         private Attack2DBuilder heavyAttack2DBuilder;
@@ -47,9 +46,8 @@ namespace BaseRPG.Controller.Initialization
             this.factoryCreation = factoryCreation;
         }
 
-        public WeaponViewBuilder EquippedBy(Hero hero, PlayerControl playerControl) {
+        public WeaponViewBuilder EquippedBy(Hero hero) {
             weapon.Owner = hero;
-            this.playerControl = playerControl;
             return this;
         }
         public WeaponViewBuilder LightAttack2DBuilder(Attack2DBuilder attackBuilder) {
@@ -57,7 +55,7 @@ namespace BaseRPG.Controller.Initialization
             return this;
         }
         public WeaponViewBuilder LightAttackCreatedCallback(Action<ShapeViewPair> onAttackCreated,double secondsAfterDestroyed) {
-            weapon.LightAttackFactory.CreatedEvent += 
+            weapon.LightAttackBuilder.CreatedEvent += 
                 (a) => 
                 onAttackCreated(
                     lightAttack2DBuilder
@@ -72,10 +70,9 @@ namespace BaseRPG.Controller.Initialization
         public Dictionary<string, IDrawable> CreateWeapon()
         {
             Dictionary<string, IDrawable> weaponViews = new();
-            EquippedItemView equippedItemView =
-                new EquippedItemView(
-                    item: weapon,
-                    owner: weapon.Owner,
+            EquippedWeaponView equippedItemView =
+                new EquippedWeaponView(
+                    weapon: weapon,
                     animator:
                     new CustomAnimator(
                         new FacingMouseAnimation(distanceOffsetTowardsPointer: 25*App.IMAGE_SCALE),

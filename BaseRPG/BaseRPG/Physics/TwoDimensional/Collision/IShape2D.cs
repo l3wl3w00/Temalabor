@@ -25,11 +25,13 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         public ICollisionDetector Owner { get; set; }
         public Vector2D Middle { get; }
         void Rotate(double angle);
+        Polygon Rotated(double angle);
         Polygon2D ToPolygon2D();
         Polygon ToPolygon();
         bool IsColliding(IShape2D s2);
-        bool IsCollidingCircle(Circle circleSector);
+        //bool IsCollidingCircle(Circle circleSector);
         bool IsCollidingPoint(Vector2D point);
+        bool IsColliding(Polygon2D polygon2);
         IShape2D Shifted(Vector2D shift);
         IShape2D ShiftedByPos { get; }
         Vector2D LastCalculatedMiddle { get; }

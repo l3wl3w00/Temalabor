@@ -53,6 +53,10 @@
     "Action": "light-attack"
   },
   {
+    "Input": "MouseLeft",
+    "Action": "initiate-interaction"
+  },
+  {
     "Input": "MouseRight",
     "Action": "heavy-attack"
   },

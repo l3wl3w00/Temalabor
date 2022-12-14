@@ -16,4 +16,5 @@ namespace BaseRPG.Model.Effects.EffectParams
             Target = target;
         }
     }
+
 }

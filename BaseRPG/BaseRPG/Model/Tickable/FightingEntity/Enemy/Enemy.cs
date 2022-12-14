@@ -76,7 +76,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
         public override void Step(double delta)
         {
             base.Step(delta);
-            if (inRangeDetector.IsInRange(target)) {
+            if (inRangeDetector.IsInRange(target)) 
+            {
                 if (target is IAttackable)
                 {
                     var canAttack = new AttackabilityService.Builder().CreateByDefaultMapping().CanAttack(this, target as IAttackable);
@@ -156,6 +157,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             public override Enemy Build(int maxHp, IMovementManager movementManager, IMovementStrategy movementStrategy, SkillManager skillManager, World world)
 
             {
+                
                 Enemy enemy = new Enemy(maxHp,movementManager,movementStrategy,target,attacks,inRangeDetector,skillManager,world,xpValue,goldValue);
                 inRangeDetector.SetExists(true);
                 target.OnCeaseToExist += enemy.OnTargetDead;

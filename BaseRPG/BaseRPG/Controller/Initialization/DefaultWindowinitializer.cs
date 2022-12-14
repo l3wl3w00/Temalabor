@@ -1,10 +1,11 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Controller.Interfaces;
 using BaseRPG.Controller.UnitControl;
+using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.Controller.Window;
 using BaseRPG.Model.Attribute;
 using BaseRPG.View.UIElements;
-using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.ItemCollectionUI;
 using BaseRPG.View.UIElements.Spell;
 using System;
 using System.Collections.Generic;
@@ -29,14 +30,16 @@ namespace BaseRPG.Controller.Initialization
             this.spellControl = spellControl;
         }
 
-        public WindowControl Initialize(MainWindow window)
+        public WindowControl Initialize(MainWindow window, ShopControl shopControl)
         {
             var result = new WindowControl.Builder(window.MainCanvas)
                 .SettingsWindowAs(new SettingsWindow(exitCallback: window.Close))
                 .Window(InventoryWindow.WindowName, new InventoryWindow(inventory,window.Controller.DrawableProvider, inventoryControl))
                 .Window(KeyBindingsWindow.WindowName,new KeyBindingsWindow(bindingHandler, 2))
                 .Window(SpellsWindow.WindowName,new SpellsWindow(window.ImageProvider, spellControl))
+                .Window(ShopWindow.WindowName,new ShopWindow(window.Controller.DrawableProvider, shopControl))
                 .Build();
+            shopControl.WindowControl = result;
             return result;
         }
     }

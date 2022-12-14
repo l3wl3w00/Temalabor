@@ -1,30 +1,29 @@
 ﻿using BaseRPG.Controller.Interfaces;
 using BaseRPG.Controller.UnitControl;
+using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.Model.Combat;
 using BaseRPG.Model.Effects.DamagingStun;
 using BaseRPG.Model.Effects.Dash;
 using BaseRPG.Model.Effects.EffectParams;
 using BaseRPG.Model.Effects.Invincibility;
 using BaseRPG.Model.Game;
-using BaseRPG.Model.Interfaces.ItemInterfaces;
 using BaseRPG.Model.Services;
 using BaseRPG.Model.Skills;
 using BaseRPG.Model.Tickable.Attacks;
-using BaseRPG.Model.Tickable.Attacks.Lifetime;
-using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Tickable.Item.Factories;
 using BaseRPG.Model.Tickable.Item.Weapon;
-using BaseRPG.Model.Utility;
 using BaseRPG.Model.Worlds;
 using BaseRPG.Model.Worlds.Blocks;
+using BaseRPG.Model.Worlds.InteractionPoints;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View;
 using BaseRPG.View.Animation;
+using BaseRPG.View.Animation.Animators;
 using BaseRPG.View.Animation.FacingPoint;
 using BaseRPG.View.Animation.Factory;
 using BaseRPG.View.Animation.ImageSequence;
@@ -32,9 +31,8 @@ using BaseRPG.View.Camera;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
-using BaseRPG.View.ItemView;
+using BaseRPG.View.UIElements.ItemCollectionUI;
 using MathNet.Spatial.Euclidean;
-using System;
 using System.Collections.Generic;
 
 
@@ -49,6 +47,7 @@ namespace BaseRPG.Controller.Initialization
         private readonly CollisionNotifier2D collisionNotifier;
         private InventoryControl inventoryControl;
         private SpellControl spellControl;
+        private Controller controller;
         private readonly DrawableProvider drawableProvider = new();
 
         public IImageProvider ImageProvider => imageProvider;
@@ -61,14 +60,17 @@ namespace BaseRPG.Controller.Initialization
 
         public SpellControl SpellControl => spellControl;
 
+        public ShopControl ShopControl { get; set; }
+
         public DefaultGameConfigurer(IImageProvider imageProvider, CollisionNotifier2D collisionNotifier)
         {
             this.imageProvider = imageProvider;
             this.collisionNotifier = collisionNotifier;
         }
-
-        public void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver)
+        
+        public void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver,MainWindow window)
         {
+            this.controller = controller;
             FollowingCamera2D followingCamera = new FollowingCamera2D(new(0, 0), viewManager.Canvas.Size);
             Game.Instance.CurrentWorldChanged += (name, world) => {
 
@@ -80,33 +82,55 @@ namespace BaseRPG.Controller.Initialization
             controller.AddView(new DrawingImage(@"Assets\image\blocks\normal-block-outlined.png", imageProvider, pos));
             controller.AddShape(new Polygon(block, new PhysicsFactory2D().CreateMovementManager(block.Position), Polygon.RectangleVertices(new(0, 0), 128, 128)));
 
+            
+            var shop = AddShop(150,200);
+            SimpleSwordFactory simpleSwordFactory = new SimpleSwordFactory();
+            simpleSwordFactory.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\red-sword-outlined.png", controller, item as Weapon, null);
+            shop.AddItem(simpleSwordFactory.Create(Game.Instance.CurrentWorld), 1);
+
+            SimpleBowFactory.OnItemCreatedStatic += item => CreateBowViews(@"Assets\image\weapons\normal-bow\normal-bow-outlined.png", controller, item as Weapon, null, globalMousePositionObserver);
+            shop.AddItem(new SimpleBowFactory().Create(Game.Instance.CurrentWorld),2);
+
+            var shop2 = AddShop(0, 200);
+            SimpleSwordFactory simpleSwordFactory2 = new SimpleSwordFactory();
+            simpleSwordFactory2.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\normal-sword-outlined.png", controller, item as Weapon, null);
+            shop2.AddItem(simpleSwordFactory2.Create(Game.Instance.CurrentWorld), 1);
+
             Hero hero = CreateHero(controller,Game.Instance.CurrentWorld);
-            //CreateEnemy(controller, hero, 150, 300, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.2, 180);
-            //CreateEnemy(controller, hero, -200, 200, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.5, 50);
-            //CreateEnemy(controller, hero, -250,  0, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.1, 100);
-            //CreateEnemy(controller, hero, 150, -200, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.2, 90);
+            CreateEnemy(controller, hero, 150, 300, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.2, 180);
+            CreateEnemy(controller, hero, -200, 200, @"Assets\image\enemies\zombie-outlined.png", animationProvider.Get("zombie-attack"), 0.5, 50);
+            CreateEnemy(controller, hero, -250, 0, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.1, 100);
+            CreateEnemy(controller, hero, 150, -200, @"Assets\image\enemies\slime-outlined.png", animationProvider.Get("slime-attack"), 0.2, 90);
             controller.PlayerControl = new PlayerControl(hero,DrawableProvider);
             
 
             InventoryControl = new InventoryControl(hero.Inventory,drawableProvider,controller);
             spellControl = new SpellControl(hero.SkillManager,drawableProvider,controller.BoolCallbackQueue);
 
-            SimpleBowFactory simpleBowFactory = new SimpleBowFactory();
-            SimpleBowFactory.OnItemCreatedStatic += item => CreateBowViews(@"Assets\image\weapons\normal-bow\normal-bow-outlined.png", controller, item as Weapon, hero,globalMousePositionObserver);
-            InventoryControl.CollectItem(simpleBowFactory.Create(Game.Instance.CurrentWorld));
+            //Weapon w = new SimpleBowFactory().Create(Game.Instance.CurrentWorld) as Weapon;
+            //w.Owner = hero;
+            //InventoryControl.CollectItem(w);
 
-            SimpleSwordFactory simpleSwordFactory = new SimpleSwordFactory();
-            simpleSwordFactory.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\red-sword-outlined.png", controller, item as Weapon, hero);
-            InventoryControl.CollectItem(simpleSwordFactory.Create(Game.Instance.CurrentWorld));
-
-
-            SimpleSwordFactory simpleSwordFactory2 = new SimpleSwordFactory();
-            simpleSwordFactory2.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\normal-sword-outlined.png", controller, item as Weapon, hero);
-            InventoryControl.CollectItem(simpleSwordFactory2.Create(Game.Instance.CurrentWorld));
             
-            InventoryControl.EquipItem(2);
+            //SimpleSwordFactory simpleSwordFactory2 = new SimpleSwordFactory();
+            //simpleSwordFactory2.OnItemCreated += item => CreateSwordViews(@"Assets\image\weapons\normal-sword-outlined.png", controller, item as Weapon, hero);
+            //InventoryControl.CollectItem(simpleSwordFactory2.Create(Game.Instance.CurrentWorld));
+            
+            //InventoryControl.EquipItem(1);
             Game.Instance.Hero = hero;
             followingCamera.FollowedUnit = hero;// Game.Instance.CurrentWorld.GameObjectContainer.All[1] as Unit;
+        }
+
+        private Shop AddShop(int x,int y) {
+            var shop = new Shop(new PositionUnit2D(x, y), Game.Instance.CurrentWorld);
+            shop.InteractionStarted += (h, s) => {
+                ShopControl.ClickedOnShop(shop);
+            };
+            var shopPos = PositionUnit2D.ToVector2D(shop.Position);
+            controller.AddView(new DrawingImage(@"Assets\image\blocks\shop-outlined.png", imageProvider, shopPos));
+            controller.AddShape(new Polygon(shop, new PhysicsFactory2D().CreateMovementManager(shop.Position), Polygon.RectangleVertices(new(0, 0), 128, 128)));
+            return shop;
+            
         }
 
         /// <summary>
@@ -120,7 +144,7 @@ namespace BaseRPG.Controller.Initialization
         private Dictionary<string, IDrawable> CreateSwordViews(string image, Controller controller, Weapon item, Hero hero) {
             var result = new WeaponViewBuilder(new(image, imageProvider), controller, item
                 , w => new NormalSwordAnimationFactory(controller, w))
-                .EquippedBy(hero, controller.PlayerControl)
+                .EquippedBy(hero)
                 .LightAttack2DBuilder(
                     new Attack2DBuilder(@"Assets\image\attacks\sword-attack-effect.png")
                     .ImageProvider(imageProvider)
@@ -141,7 +165,7 @@ namespace BaseRPG.Controller.Initialization
         {
             var result = new WeaponViewBuilder(new(image, imageProvider), controller, item as Weapon
                 , w => new NormalBowAnimationFactory(animationProvider, imageProvider, controller, w, globalMousePositionObserver))
-                .EquippedBy(hero, controller.PlayerControl)
+                .EquippedBy(hero)
                 .LightAttack2DBuilder(
                     new Attack2DBuilder(@"Assets\image\attacks\arrow-outlined.png")
                     .ImageProvider(imageProvider)
@@ -264,6 +288,7 @@ namespace BaseRPG.Controller.Initialization
                             ), timeBetweenFrames
                         )
                 )
+                //.IdleTransformationAnimation(new EmptyAnimation(new(0,0)))
                 .WithFacingPointAnimation()
                 .Build();
 
@@ -275,5 +300,6 @@ namespace BaseRPG.Controller.Initialization
             controller.AddShape(shape);
             controller.AddShape(enemyConfigurer.FullInRangeDetectorShape);
         }
+
     }
 }

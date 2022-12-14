@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Data;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         private IMovementUnit lastMovement;
         private List<IMovementUnit> queuedMovements = new();
         private IMovementBlockingStrategy movementBlockingStrategy;
-        public event Action Moved;
+        public event Action<IMovementBlockingStrategy> Moved;
         public MovementManager2D(Vector2D vector, IMovementBlockingStrategy movementBlockingStrategy): this(new PositionUnit2D(vector), movementBlockingStrategy)
         {
         }
@@ -36,13 +37,13 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             if (movement == null) return;
             if (almostZeroLength(movement)) return;
 
-            var movementBefore = toVector2D(movement);
+            //var movementBefore = toVector2D(movement);
             movement = movementBlockingStrategy.GenerateMovement(movement, position);
-            var movementAfter = toVector2D(movement);
-            if(movementBefore.DotProduct(movementAfter) >= 0)
-                lastMovement = movement;
+            //var movementAfter = toVector2D(movement);
+            //if(movementBefore.DotProduct(movementAfter) >= 0)
+            lastMovement = movement;
             position.MoveBy(movement);
-            Moved?.Invoke();
+            Moved?.Invoke(movementBlockingStrategy);
         }
 
         private bool almostZeroLength(IMovementUnit movement) {
@@ -61,17 +62,6 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         }
 
         public IMovementBlockingStrategy MovementBlockingStrategy { get => movementBlockingStrategy; set => movementBlockingStrategy = value; }
-
-        private Vector2D toVector2D(IMovementUnit movementUnit) {
-            double[] values = movementUnit.Values;
-            return new(values[0], values[1]);
-        }
-        private Vector2D toVector2D(IPositionUnit positionUnit)
-        {
-            double[] values = positionUnit.Values;
-            return new(values[0], values[1]);
-        }
-
         private MovementManager2D(IPositionUnit position, IMovementUnit lastMovement, IMovementBlockingStrategy movementBlockingStrategy)
         {
             this.position = new(position.Values[0], position.Values[1]);

@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Controller.UnitControl;
+using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Utility;
 using BaseRPG.Physics.TwoDimensional.Collision;
@@ -21,7 +22,8 @@ namespace BaseRPG.Controller.Interfaces
         DrawableProvider DrawableProvider { get; }
         InventoryControl InventoryControl { get; }
         SpellControl SpellControl { get; }
+        ShopControl ShopControl { get; set; }
 
-        void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver);
+        void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver, MainWindow window);
     }
 }

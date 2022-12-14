@@ -11,6 +11,7 @@ using BaseRPG.Model.Tickable.Attacks.Lifetime;
 using BaseRPG.Model.Tickable.Item.Factories;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Model.Worlds;
+using BaseRPG.Model.Worlds.InteractionPoints;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using MathNet.Spatial.Euclidean;
 using System;
@@ -26,14 +27,14 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         protected override string Type { get { return "Hero"; } }
         private Model.Attribute.Inventory inventory;
         private Model.Attribute.ExperienceManager experienceManager;
-        private int gold = 0;
+        private GoldManager goldManager = new();
 
         public override AttackabilityService.Group OffensiveGroup => AttackabilityService.Group.Friendly;
         public override AttackabilityService.Group DefensiveGroup => OffensiveGroup;
 
         public int Level { get => ExperienceManager.Level; }
-        public int Gold { get => gold; set { gold = value; GoldChanged?.Invoke(); } } 
-        public event Action GoldChanged;
+        public int Gold { get => goldManager.Gold; } 
+        public event Action<int> GoldChanged;
         public ExperienceManager ExperienceManager { get => experienceManager; set => experienceManager = value; }
         public Inventory Inventory => inventory;
 
@@ -44,13 +45,21 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         {
             ExperienceManager = new();
             inventory = new(12);
+            goldManager.GoldChanged += g => GoldChanged?.Invoke(g);
+        }
+
+        internal bool SpendGold(int cost)
+        {
+            return goldManager.SpendGold(cost);
         }
 
         //public void Collect(ICollectible collectible)
         //{
         //    inventory.Collect(collectible);
         //}
-
+        public void Buy(Shop shop,int i) {
+            shop.Buy(this, i);
+        }
         public void OnLevelUpCallback(Action<int> callback) {
             ExperienceManager.LevelUp += callback;
         }
@@ -61,7 +70,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         {
             if (inventory.EquippedWeapon == null) return null;
             if (attackName == "light")
-                return inventory.EquippedWeapon.LightAttackFactory;
+                return inventory.EquippedWeapon.LightAttackBuilder;
             return null;
         }
         private void LightAttack()
@@ -78,6 +87,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public void CollectItem(Item.Item collectible)
         {
             inventory.Collect(collectible);
+
         }
         public void Equip(Item.Item item) {
             inventory.Equip(item);
@@ -106,7 +116,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         internal void OnEnemyKilled(Enemy.Enemy enemy)
         {
             ExperienceManager.GainExpirence(enemy.XpValue*10);
-            Gold += enemy.GoldValue;
+            goldManager.GainGold(enemy.GoldValue);
             Collect(new SimpleBowFactory().Create(CurrentWorld));
         }
 

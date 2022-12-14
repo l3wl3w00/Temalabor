@@ -48,3 +48,4 @@ Assets\image\effects\meteor\meteor-5.png
 Assets\image\effects\meteor\meteor-6.png
 Assets\image\effects\meteor\lava-ground-circle.png
 Assets\image\blocks\normal-block-outlined.png
+Assets\image\blocks\shop-outlined.png

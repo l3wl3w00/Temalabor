@@ -1,4 +1,5 @@
-﻿using BaseRPG.Controller.UnitControl;
+﻿using BaseRPG.Controller.Interfaces;
+using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
@@ -24,11 +25,11 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace BaseRPG.View.UIElements.Inventory
+namespace BaseRPG.View.UIElements.ItemCollectionUI
 {
     public sealed partial class ItemsGrid : UserControl
     {
-        private InventoryControl inventoryControl;
+        private IItemCollectionControl itemCollectionControl;
         private DrawableProvider drawableProvider;
         public List<ButtonWithCanvas> ItemPlaces
         {
@@ -52,20 +53,20 @@ namespace BaseRPG.View.UIElements.Inventory
         }
 
         public void Update() {
-            for (int i = 0; i < inventoryControl.Inventory.Capacity; i++)
+            for (int i = 0; i < itemCollectionControl.Capacity; i++)
             {
-                var item = inventoryControl.GetItemAt(i);
+                var item = itemCollectionControl.GetItemAt(i);
                 ItemPlaces[i].Drawable = drawableProvider.GetDrawable(item, "inventory");
             }
             ItemPlaces.ForEach(i => i.Canvas.Invalidate());
         }
 
-        internal void Init(InventoryControl inventoryControl, DrawableProvider drawableProvider)
+        internal void Init(IItemCollectionControl itemCollectionControl, DrawableProvider drawableProvider)
         {
             this.drawableProvider = drawableProvider;
-            this.inventoryControl = inventoryControl;
-            inventoryControl.OnCollected += (i,d)=>DispatcherQueue.TryEnqueue(Update);
-            new GridFillStrategy().Fill(grid, CreateButtonWithCanvas, 4, inventoryControl.Inventory.Capacity);
+            this.itemCollectionControl = itemCollectionControl;
+            itemCollectionControl.OnChanged += ()=>DispatcherQueue.TryEnqueue(Update);
+            new GridFillStrategy().Fill(grid, CreateButtonWithCanvas, 4, itemCollectionControl.Capacity);
 
             ItemPlaces.ForEach(i => i.DrawingArgsFactory = new ImageButtonDrawingArgsFactory(new(i.Canvas.Width, i.Canvas.Height)));
             for (int i = 0; i < ItemPlaces.Count; i++)
@@ -74,13 +75,12 @@ namespace BaseRPG.View.UIElements.Inventory
                 ItemPlaces[i].ButtonClick += (s, a) => ItemLeftClicked(index);
                 ItemPlaces[i].ButtonRightClick += (s, a) => ItemRightClicked(index);
             }
-            inventoryControl.OnUnequipped += (i, d) => Update();
             Update();
         }
 
         private void ItemRightClicked(int index)
         {
-            inventoryControl.DropItem(index);
+            itemCollectionControl.OnItemRightClicked(index);
             Update();
         }
 
@@ -91,7 +91,7 @@ namespace BaseRPG.View.UIElements.Inventory
             return buttonWithCanvas;
         }
         private void ItemLeftClicked(int index) {
-            inventoryControl.EquipItem(index);
+            itemCollectionControl.OnItemLeftClicked(index);
             Update();
         }
     }

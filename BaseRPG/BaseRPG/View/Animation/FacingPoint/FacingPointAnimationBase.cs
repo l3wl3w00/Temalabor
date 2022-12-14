@@ -16,6 +16,7 @@ namespace BaseRPG.View.Animation.FacingPoint
     // - the position given when creating the object. 
     public abstract class FacingPointAnimationBase : Interfaces.TransformationAnimation2D
     {
+        private Vector2D lastSecondPoint = new Vector2D(0,0);
         private double distanceOffsetTowardsPointer;
         public FacingPointAnimationBase(
             double distanceOffsetTowardsPointer)
@@ -32,6 +33,8 @@ namespace BaseRPG.View.Animation.FacingPoint
         {
             Vector2D firstPoint = animationArgs.PositionOnScreen + FirstPointOffset;
             Vector2D secondpoint = GetFacingPoint(animationArgs);
+            if (secondpoint.Length < 0.0000000001) secondpoint = lastSecondPoint;
+            else lastSecondPoint = secondpoint;
             var distanceVector = secondpoint - firstPoint;
             float angle = MathF.Atan2((float)distanceVector.Y, (float)distanceVector.X) + MathF.PI / 2;
             return Matrix3x2.CreateTranslation(0, (float)-distanceOffsetTowardsPointer) *

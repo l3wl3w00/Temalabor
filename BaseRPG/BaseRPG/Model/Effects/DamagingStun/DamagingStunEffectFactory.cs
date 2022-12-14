@@ -1,4 +1,5 @@
 ﻿using BaseRPG.Model.Effects.EffectParams;
+using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Effect;
 using BaseRPG.Model.Tickable.FightingEntity;
 using System;
@@ -24,6 +25,7 @@ namespace BaseRPG.Model.Effects.DamagingStun
 
         public Effect CreateEffect(TargetedEffectParams effectCreationParams)
         {
+            
             var result = new DamagingStunEffect(caster, effectCreationParams.Target, durationSeconds);
             EffectCreated?.Invoke(result);
             return result;

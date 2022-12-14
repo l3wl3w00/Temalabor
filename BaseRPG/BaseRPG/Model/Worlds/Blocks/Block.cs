@@ -1,6 +1,7 @@
 ﻿using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.Tickable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,12 @@ namespace BaseRPG.Model.Worlds.Blocks
         public override bool Exists => true;
 
         public IPositionUnit Position => positionUnit;
-
+        public bool CanBeOver { get => false; }
         public override event Action OnCeaseToExist;
 
         public bool CanCollide(ICollisionDetector other)
         {
-            return true;
+            return false;
         }
 
         public void OnCollision(ICollisionDetector other, double delta)

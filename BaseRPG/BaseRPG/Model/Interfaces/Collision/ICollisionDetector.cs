@@ -1,8 +1,6 @@
-﻿using System;
+﻿using BaseRPG.Model.Tickable;
+using BaseRPG.Model.Tickable.FightingEntity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Interfaces.Collision
 {
@@ -10,8 +8,9 @@ namespace BaseRPG.Model.Interfaces.Collision
     {
         void OnCollision(ICollisionDetector other, double delta);
         virtual void OnCollisionExit(ICollisionDetector gameObject) { }
-
         bool CanCollide(ICollisionDetector other);
-
+        bool CanBeOver { get => true; }
+        void SeletBySkillTargetability(LinkedList<Unit> targetableUnits, LinkedList<ICollisionDetector> targetableOther) { }
+        void SeletByInteractionTargetability(LinkedList<GameObject> targetableGameObjects, LinkedList<ICollisionDetector> targetableOther) { }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BaseRPG.Model.Interfaces;
+﻿using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using System;

@@ -35,8 +35,6 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         /// for example the player can move their own unit as they like
         /// </summary>
         private Default<IMovementStrategy> movementStrategy;
-
-        private Stat damage;
         private double speed;
         private bool exists = true;
         private EffectManager effectManager = new();
@@ -76,7 +74,9 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             base.BeforeStep(delta);
             if (!(this is Hero.Hero))
             effectManager.OnTick(delta);
-            _queueMovement(NextMovement?.Scaled(delta));
+            var nextMovement = NextMovement;
+            if(nextMovement != null)
+                _queueMovement(nextMovement.Scaled(delta));
         }
         public override void Step(double delta) {
             MovementManager.MoveQueued();
@@ -188,7 +188,10 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         }
         bool ICollisionDetector.CanCollide(ICollisionDetector other)
         {
-            return false;
+            return true;
+        }
+        public void SeletBySkillTargetability(LinkedList<Unit> targetableUnits, LinkedList<ICollisionDetector> targetableOther) {
+            targetableUnits.AddLast(this);
         }
         public abstract void OnTargetKilled(IAttackable target);
         public abstract void OnKilledByHero(Hero.Hero hero);

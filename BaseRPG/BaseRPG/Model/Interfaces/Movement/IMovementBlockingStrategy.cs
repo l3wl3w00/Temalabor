@@ -10,5 +10,6 @@ namespace BaseRPG.Model.Interfaces.Movement
     public interface IMovementBlockingStrategy
     {
         IMovementUnit GenerateMovement(IMovementUnit movement, IPositionUnit position);
+        public double CalculateTurnAngle(IPositionUnit position, double turnAngle);
     }
 }

@@ -12,6 +12,11 @@ namespace BaseRPG.Model.Movement
     /// </summary>
     public class UnstoppableMovementBlockingStrategy : IMovementBlockingStrategy
     {
+        public double CalculateTurnAngle(IPositionUnit position, double turnAngle)
+        {
+            return turnAngle;
+        }
+
         public IMovementUnit GenerateMovement(IMovementUnit movement, IPositionUnit position)
         {
             return movement;

@@ -96,6 +96,10 @@ namespace BaseRPG.View.EntityView
                 this.animator = animator;
                 return this;
             }
+            public Builder IdleTransformationAnimation(TransformationAnimation2D animation2D) {
+                animator = new CustomAnimator(animation2D, animations["idle"]);
+                return this;
+            }
             public Builder IdleAnimation(ImageSequenceAnimation animation) {
                 return Animation("idle", animation);
             }

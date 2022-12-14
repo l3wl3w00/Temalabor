@@ -8,6 +8,6 @@ namespace BaseRPG.Controller.Interfaces
 {
     public interface IRawInputProcessedInputMapper
     {
-        string toProcessedInput(string rawInput);
+        IEnumerable<string> toProcessedInput(string rawInput);
     }
 }

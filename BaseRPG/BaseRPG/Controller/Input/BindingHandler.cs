@@ -31,8 +31,8 @@ namespace BaseRPG.Controller.Input
         public bool HasInput(string rawInput) {
             return bindings.Select(b => b.Input).Contains(rawInput);
         }
-        public string BindingOf(string input) {
-            return bindings.Find(b=>b.Input == input).Action;
+        public IEnumerable<string> BindingOf(string input) {
+            return bindings.FindAll(b=>b.Input == input).Select(b=>b.Action);
         }
         public void Add(string rawInput, string processedInput) {
             AddBinding(new(rawInput, processedInput));

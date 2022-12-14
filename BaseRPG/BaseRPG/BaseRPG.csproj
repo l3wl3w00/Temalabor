@@ -45,8 +45,9 @@
     <None Remove="View\UIElements\HealthViewControl.xaml" />
     <None Remove="View\UIElements\Hud.xaml" />
     <None Remove="View\UIElements\InventoryWindow.xaml" />
-    <None Remove="View\UIElements\Inventory\EquippedItemUI.xaml" />
-    <None Remove="View\UIElements\Inventory\ItemsGrid.xaml" />
+    <None Remove="View\UIElements\ItemCollectionUI\EquippedItemUI.xaml" />
+    <None Remove="View\UIElements\ItemCollectionUI\ItemsGrid.xaml" />
+    <None Remove="View\UIElements\ItemCollectionUI\ShopWindow.xaml" />
     <None Remove="View\UIElements\KeyBinding.xaml" />
     <None Remove="View\UIElements\KeyBindingsWindow.xaml" />
     <None Remove="View\UIElements\LabelAndCombobox.xaml" />
@@ -149,6 +150,9 @@
     <None Update="Assets\config\input-binding.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\UIElements\ItemCollectionUI\ShopWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\UIElements\Spell\SingleSpellUI.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

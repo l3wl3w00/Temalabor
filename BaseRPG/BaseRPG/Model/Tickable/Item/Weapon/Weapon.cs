@@ -3,6 +3,7 @@ using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
+using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Worlds;
 using System;
 using System.Collections.Generic;
@@ -29,22 +30,32 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
                 
             } 
         }
-        public AttackBuilder LightAttackFactory { 
+        public AttackBuilder LightAttackBuilder { 
             get {
                 return lightAttackFactory;
             }  }
 
-        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, World world, Unit owner = null):base(world)
+        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, World world, Unit owner = null,int basePrice = 1):base(world, basePrice)
         {
             this.heavyAttackFactory = heavyAttackFactory.World(world);
             this.lightAttackFactory = lightAttackFactory.World(world);
             this.Owner = owner;
         }
-
+        public override void OnCollectedByHero(Hero hero)
+        {
+            Owner = hero;
+            base.OnCollectedByHero(hero);
+        }
         public override void EquippedBy(Inventory inventory)
         {
             inventory.EquippedWeapon = this;
         }
+
+        public override object Clone(int basePrice)
+        {
+            return new Weapon(heavyAttackFactory, lightAttackFactory, CurrentWorld,Owner, basePrice);
+        }
+
         public class Builder {
             private AttackBuilder lightAttackFactory = null;
             private AttackBuilder heavyAttackFactory = null;

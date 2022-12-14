@@ -42,12 +42,22 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             this.owner = owner;
             this.MovementManager = movementManager;
             if (movementManager != null)
-                movementManager.Moved += () =>
+                movementManager.Moved += (s) =>
                 {
-                    double[] values = movementManager.LastMovement.Values;
-                    Angle angle = new Vector2D(values[0], values[1]).SignedAngleTo(new(0, 1), true);
-                    SetRotation(angle.Radians);
+                    var movementVector = MovementUnit2D.ToVector(movementManager.LastMovement);
+                    if (movementVector.Length < 0.000001) return;
+                    Angle newAngle = movementVector.SignedAngleTo(new(0, 1), true);
+                    SetRotation(newAngle.Radians,s);
                 };
+        }
+
+        private Polygon(ICollisionDetector owner, IMovementManager movementManager, double angle,Vector2D lastMiddle,Polygon2D polygon)
+        {
+            this.owner = owner;
+            this.MovementManager = movementManager;
+            this.polygon = polygon;
+            this.angle = angle;
+            this.lastMiddle = lastMiddle;
         }
         public static Polygon ForUnit(Unit unit, IEnumerable<Point2D> vertices, CollisionNotifier2D collisionNotifier2D) {
             var result = new Polygon(unit, unit.MovementManager, vertices);
@@ -101,7 +111,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         {
             return IsColliding(s2.ToPolygon2D());
         }
-        private bool IsColliding(Polygon2D polygon2) {
+        public bool IsColliding(Polygon2D polygon2) {
             if (Polygon2D.ArePolygonVerticesColliding(this.ToPolygon2D(), polygon2)) return true;
             if (AreEgesColliding(polygon2)) return true;
             return false;
@@ -135,11 +145,18 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             return new Polygon(Owner, MovementManager.Copy(), polygon.TranslateBy(new(values[0], values[1])).Vertices.ToList());
         }
 
-        public void SetRotation(double newAngle)
+        public void SetRotation(double newAngle, IMovementBlockingStrategy movementBlockingStrategy)
         {
             var deltaAngle = newAngle - angle;
-            angle = newAngle;
-            polygon = polygon.RotateAround(Angle.FromRadians(deltaAngle), new(0, 0));
+            
+            deltaAngle = movementBlockingStrategy.CalculateTurnAngle(movementManager.Position, deltaAngle);
+            if (Math.Abs(newAngle - angle) > 0.00000001 && Math.Abs(deltaAngle)>0.00000001)
+            {
+
+            }
+            angle += deltaAngle;
+            var rotated = polygon.RotateAround(Angle.FromRadians(deltaAngle), new(0, 0));
+            polygon = rotated;
         }
 
         public Polygon ToPolygon()
@@ -147,10 +164,10 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             return this;
         }
 
-        public bool IsCollidingCircle(Circle circleSector)
-        {
-            throw new NotImplementedException();
-        }
+        //public bool IsCollidingCircle(Circle circleSector)
+        //{
+        //    throw new NotImplementedException();
+        //}
         public static Polygon Circle(
             ICollisionDetector owner,
             IMovementManager movementManager,
@@ -213,15 +230,15 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             Vector2D movementDirection = movementVector.Normalize();
             var baseTransformed = polygon.Rotate(angleToYAxis);
             var furthestPoints = FurthestFrom(new( Middle.ToPoint2D(), (Middle + movementDirection).ToPoint2D()));
-            Console.WriteLine($"furthest points: {furthestPoints.Item1},{furthestPoints.Item2}");
+            //Console.WriteLine($"furthest points: {furthestPoints.Item1},{furthestPoints.Item2}");
             Vector2D largestXPoint = baseTransformed.Vertices.MaxBy(p=>p.X).ToVector2D();
             Vector2D smallestXPoint = baseTransformed.Vertices.MinBy(p=>p.X).ToVector2D();
-            Console.WriteLine("largestXPoint before: " + largestXPoint);
-            Console.WriteLine("smallestXPoint before: " + smallestXPoint);
+            //Console.WriteLine("largestXPoint before: " + largestXPoint);
+            //Console.WriteLine("smallestXPoint before: " + smallestXPoint);
             smallestXPoint = smallestXPoint.Rotate(-angleToYAxis);
             largestXPoint = largestXPoint.Rotate(-angleToYAxis);
-            Console.WriteLine("largestXPoint after: " + largestXPoint);
-            Console.WriteLine("smallestXPoint after: " + smallestXPoint);
+            //Console.WriteLine("largestXPoint after: " + largestXPoint);
+            //Console.WriteLine("smallestXPoint after: " + smallestXPoint);
             //largestXPoint = furthestPoints.Item2;
             //smallestXPoint = furthestPoints.Item1;
             Vector2D diameter = (smallestXPoint - largestXPoint);
@@ -245,6 +262,12 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
                 newRays[i] = new NormalRay(rayStartPoint.Value, movementDirection);
             }
             return new RayCollection(newRays);
+        }
+
+        public Polygon Rotated(double angle)
+        {
+            var res = new Polygon(Owner, MovementManager, angle,lastMiddle,polygon.RotateAround(Angle.FromRadians(angle), new(0, 0)));
+            return res;
         }
 
         public IShape2D ShiftedByPos => this.Shifted(GlobalPosition);

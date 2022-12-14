@@ -3,7 +3,9 @@ using BaseRPG.Model.Skills;
 using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Model.Tickable.Item;
 using BaseRPG.Model.Tickable.Item.Weapon;
+using BaseRPG.Model.Worlds.InteractionPoints;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Movement;
@@ -29,11 +31,18 @@ namespace BaseRPG.Controller.UnitControl
     {
         private DirectionMovementUnitMapper directionVectorMapper;
         private List<IMovementUnit> movements = new List<IMovementUnit>();
+
+        internal void BuyFromShop(Shop shop, int index)
+        {
+            controlledUnitAsHero.Buy(shop, index);
+        }
+
         private IPositionProvider mousePositionProvider;
         private readonly Hero controlledUnitAsHero;
         private readonly DrawableProvider drawableProvider;
 
         public IPositionProvider MousePositionProvider { set => mousePositionProvider = value; }
+        public Hero ControlledUnitAsHero => controlledUnitAsHero;
 
         public PlayerControl( Hero controlledUnitAsHero, DrawableProvider drawableProvider):base(controlledUnitAsHero)
         {
@@ -55,7 +64,7 @@ namespace BaseRPG.Controller.UnitControl
             
             if (attackFactory != null)
                 drawableProvider
-                    .GetDrawable<EquippedItemView>(controlledUnitAsHero.Inventory.EquippedWeapon,"equipped")
+                    .GetDrawable<EquippedWeaponView>(controlledUnitAsHero.Inventory.EquippedWeapon,"equipped")
                     .StartLightAttackAnimation(attackFactory);
         }
         public void HeavyAttack()

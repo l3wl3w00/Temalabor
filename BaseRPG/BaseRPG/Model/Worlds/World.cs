@@ -1,6 +1,7 @@
 ﻿using BaseRPG.Model.Data;
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.WorldInterfaces;
+using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using System;

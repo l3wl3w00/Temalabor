@@ -23,10 +23,13 @@ namespace BaseRPG.Controller.Input
         }
         public Dictionary<string, Action> InputActionMap { get; set; }
 
-        public IInputAction ToAction(string key) {
-            if (!inputActionMap.ContainsKey(key))
-                return new EmptyInputAction();
-            return inputActionMap[key];
+        public IEnumerable<IInputAction> ToAction(IEnumerable<string> keys) {
+            var result = new LinkedList<IInputAction>();
+            foreach (var key in keys) {
+                if (inputActionMap.ContainsKey(key))
+                    result.AddLast(inputActionMap[key]);
+            }
+            return result;
         }
 
         public class Builder{

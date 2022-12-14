@@ -4,7 +4,7 @@ using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
 using BaseRPG.View.UIElements.DrawingArgsFactory;
-using BaseRPG.View.UIElements.Inventory;
+using BaseRPG.View.UIElements.ItemCollectionUI;
 using BaseRPG.View.UIElements.Spell;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;

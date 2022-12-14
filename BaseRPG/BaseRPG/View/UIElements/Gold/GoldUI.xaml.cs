@@ -28,7 +28,7 @@ namespace BaseRPG.View.UIElements.Gold
         public Hero Hero { get => hero; set{
                 hero = value;
                 goldText.Text = hero.Gold.ToString();
-                hero.GoldChanged +=()=>DispatcherQueue.TryEnqueue(() => goldText.Text = hero.Gold.ToString());
+                hero.GoldChanged += g => DispatcherQueue.TryEnqueue(() => goldText.Text = g.ToString());
             } }
         public IDrawable GoldIcon { get; set; }
         public CanvasControl Canvas => goldCanvas;

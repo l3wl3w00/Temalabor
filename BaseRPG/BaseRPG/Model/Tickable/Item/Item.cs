@@ -3,6 +3,7 @@ using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collecting;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using BaseRPG.Model.Worlds;
+using BaseRPG.Model.Worlds.InteractionPoints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Tickable.Item
 {
-    public abstract class Item : GameObject,ICollectible
+    public abstract class Item : GameObject,ICollectible,ICloneable
     {
-        public Item(World currentWorld) : base(currentWorld)
+        private int basePrice;
+        public Item(World currentWorld, int basePrice = 1) : base(currentWorld)
         {
+            this.basePrice = basePrice;
         }
 
         public override bool Exists { get => true; }
@@ -42,11 +45,24 @@ namespace BaseRPG.Model.Tickable.Item
             throw new NotImplementedException();
         }
 
-        public void OnCollectedByHero(Hero hero)
+        public virtual void OnCollectedByHero(Hero hero)
         {
             hero.CollectItem(this);
         }
 
         public abstract void EquippedBy(Inventory inventory);
+
+        public void OnCollectedByShop(Shop shop)
+        {
+            shop.AddItem(this,basePrice);
+        }
+        
+
+        public abstract object Clone(int basePrice);
+
+        public object Clone()
+        {
+            return Clone(basePrice);
+        }
     }
 }

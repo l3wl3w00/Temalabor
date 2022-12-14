@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Movement;
+using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using System;
 using System.Collections.Generic;

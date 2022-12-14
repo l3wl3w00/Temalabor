@@ -1,4 +1,4 @@
-﻿using BaseRPG.Model.Interfaces;
+﻿using BaseRPG.Model.Tickable;
 using System;
 using System.Runtime.Serialization;
 

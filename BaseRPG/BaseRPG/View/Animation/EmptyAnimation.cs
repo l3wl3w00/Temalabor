@@ -23,7 +23,7 @@ namespace BaseRPG.View.Animation
 
         protected override Matrix3x2 OnGetImage(DrawingArgs animationArgs)
         {
-            throw new NotImplementedException();
+            return Matrix3x2.Identity;
         }
     }
 }

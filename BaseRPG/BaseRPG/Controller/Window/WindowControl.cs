@@ -41,7 +41,14 @@ namespace BaseRPG.Controller.Window
             this.mainCanvas = mainCanvas;
             this.windows = windows;
         }
-
+        //public void AddWindow(string name, CustomWindow customWindow) {
+        //    WindowData windowData = new(customWindow, false);
+        //    windows.Add(name, windowData);
+        //}
+        //public void RemoveWindow(string name)
+        //{
+        //    windows.Remove(name);
+        //}
         public void Open(string windowName) {
             windows[windowName].Open(mainCanvas);
         }
