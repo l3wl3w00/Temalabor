@@ -276,7 +276,7 @@ namespace BaseRPG.Controller.Initialization
                         a => controller.QueueAction( () => { 
                                 var attack = enemy.Attack("normal");
                                 if (attack != null)
-                                    controller.AddVisibleInstantly(
+                                    controller.AddVisible(
                                     new Attack2DBuilder(@"Assets\image\attacks\enemy-attack.png")
                                         .ImageProvider(imageProvider)
                                         .Attack(attack)

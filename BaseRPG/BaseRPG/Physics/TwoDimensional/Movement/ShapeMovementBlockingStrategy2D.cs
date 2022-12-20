@@ -37,7 +37,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         {
             var movementVector = MovementUnit2D.ToVector(movement);
             var shiftedShape = shape.ShiftedByPos;
-            //if (canStepThere(shiftedShape.Shifted(movementVector))) 
+            if (canStepThere(shiftedShape.Shifted(movementVector))) 
                 return movement;
             var interval = FindLargestWithBinary(
                 0, movementVector.Length,
@@ -110,9 +110,9 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         {
             var shiftedRotatedShape = shape.Rotated(turnAngle).ShiftedByPos;
             var shapes = collisionNotifier2D.ShapesCollidingWith(shiftedRotatedShape);
-            //if (canStepThere(shiftedRotatedShape)) {
+            if (canStepThere(shiftedRotatedShape)) {
                 return turnAngle;
-            //}
+            }
             var epsilon = 0.1;
             var interval = FindLargestWithBinary(0, turnAngle, middle => !canStepThere(shape.Rotated(middle).ShiftedByPos), 10);
             return (interval.Item1 + interval.Item2)/(2 + epsilon);
