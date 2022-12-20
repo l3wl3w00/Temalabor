@@ -71,7 +71,7 @@ namespace BaseRPG.Controller.Initialization
         public void Configure(Controller controller, ViewManager viewManager, PositionObserver globalMousePositionObserver,MainWindow window)
         {
             this.controller = controller;
-            FollowingCamera2D followingCamera = new FollowingCamera2D(new(0, 0), viewManager.Canvas.Size);
+            var followingCamera = new FollowingCamera2D(new(0, 0), viewManager.Canvas.Size); //new Camera2D(new(0,0), viewManager.Canvas.Size); //new FollowingCamera2D(new(0, 0), viewManager.Canvas.Size);
             Game.Instance.CurrentWorldChanged += (name, world) => {
 
                 viewManager.SetCurrentWorldView(name,world,imageProvider,followingCamera);
@@ -275,15 +275,15 @@ namespace BaseRPG.Controller.Initialization
                         enumerator,
                         a => controller.QueueAction( () => { 
                                 var attack = enemy.Attack("normal");
-                                    if (attack != null)
-                                        controller.AddVisibleInstantly(
-                                        new Attack2DBuilder(@"Assets\image\attacks\enemy-attack.png")
-                                            .ImageProvider(imageProvider)
-                                            .Attack(attack)
-                                            .OwnerPosition(enemy.Position)
-                                            .PolygonShape(Polygon.RectangleVertices(new(0, 0), 120, 80))
-                                            .CreateAttack()
-                                        );
+                                if (attack != null)
+                                    controller.AddVisibleInstantly(
+                                    new Attack2DBuilder(@"Assets\image\attacks\enemy-attack.png")
+                                        .ImageProvider(imageProvider)
+                                        .Attack(attack)
+                                        .OwnerPosition(enemy.Position)
+                                        .PolygonShape(Polygon.RectangleVertices(new(0, 0), 120, 80))
+                                        .CreateAttack()
+                                    );
                                 }
                             ), timeBetweenFrames
                         )

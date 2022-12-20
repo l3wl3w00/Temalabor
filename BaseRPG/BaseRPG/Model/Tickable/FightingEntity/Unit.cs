@@ -10,6 +10,9 @@ using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.Skill;
 using BaseRPG.Model.Interfaces.State;
 using BaseRPG.Model.Movement;
+using BaseRPG.Model.ReflectionStuff;
+using BaseRPG.Model.ReflectionStuff.InteractionBuilder;
+using BaseRPG.Model.ReflectionStuff.InteractionBuilder.Factory;
 using BaseRPG.Model.Services;
 using BaseRPG.Model.Skills;
 using BaseRPG.Model.State;
@@ -131,13 +134,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         protected abstract string Type { get; }
 
         protected virtual void OnExistsSet(bool value) { }
-        public override bool Exists {
-            get
-            {
-                return exists;
-            }
-            
-        }
+        public override bool Exists => exists;
         private void SetExists(bool value){
             if (!value)
             {
@@ -175,17 +172,19 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             if (!Exists) return;
             health.CurrentValue -= damageTakingStateHandler.CalculateDamage(damage);
             if (!Exists){
-                attacker.OnTargetKilled(this);
+                OnKilledBy(attacker);
             }
         }
-
+        public void OnKilledBy(IAttacking attacker)
+        {
+            InteractionFactory.Instance
+                .CreateAttackInteraction(attacker,this)
+                .Attack();
+        }
         public void AddEffect(Effect effect) {
             effectManager.AddEffect(effect);
         }
-        public virtual void OnCollision(ICollisionDetector other, double delta)
-        {
 
-        }
         bool ICollisionDetector.CanCollide(ICollisionDetector other)
         {
             return true;
@@ -193,10 +192,6 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public void SeletBySkillTargetability(LinkedList<Unit> targetableUnits, LinkedList<ICollisionDetector> targetableOther) {
             targetableUnits.AddLast(this);
         }
-        public abstract void OnTargetKilled(IAttackable target);
-        public abstract void OnKilledByHero(Hero.Hero hero);
-        public abstract void OnKilledByEnemy(Enemy.Enemy enemy);
-
 
         public abstract class Builder {
             private double speed = 100;
@@ -230,8 +225,6 @@ namespace BaseRPG.Model.Tickable.FightingEntity
                 callbackQueue.ExecuteAll(unit);
                 return unit;
             }
-            //LearnSkill(new EffectCreatingSkill(this, this, new DashEffectFactory(0.2, 200)));
-            //LearnSkill(new EffectCreatingSkill(this, this, new InvincibilityEffectFactory(5)));
             public abstract Unit Build(int maxHp, IMovementManager movementManager,
                 IMovementStrategy movementStrategy, SkillManager skillManager, World world);
         }

@@ -17,7 +17,7 @@ namespace BaseRPG.Model.Tickable
         public event Action<ICollisionDetector> OnExitedRange;
         public override event Action OnCeaseToExist;
 
-        public List<ICollisionDetector> objectsInRange = new();
+        private List<ICollisionDetector> objectsInRange = new();
 
         public InRangeDetector(World currentWorld) : base(currentWorld)
         {
@@ -29,22 +29,27 @@ namespace BaseRPG.Model.Tickable
 
         public bool CanBeOver => true;
 
+        public List<ICollisionDetector> ObjectsInRange { get => objectsInRange; set => objectsInRange = value; }
+
         public void SetExists(bool value) {
             exists = value;
         }
         public void OnCollision(ICollisionDetector gameObject, double delta)
         {
-            if (!objectsInRange.Contains(gameObject))
+            if (!ObjectsInRange.Contains(gameObject))
             {
-                gameObject.OnCeaseToExist += () => objectsInRange.Remove(gameObject);
-                objectsInRange.Add(gameObject);
+                gameObject.OnCeaseToExist += () => ObjectsInRange.Remove(gameObject);
+                ObjectsInRange.Add(gameObject);
             }
             OnInRange?.Invoke(gameObject);
+        }
+        public void InvokeInRange(ICollisionDetector collisionDetector) {
+            OnInRange?.Invoke(collisionDetector);
         }
 
         public override void Step(double delta)
         {
-            objectsInRange.RemoveAll(o => !o.Exists);
+            ObjectsInRange.RemoveAll(o => !o.Exists);
         }
 
         public override void Separate(Dictionary<string, List<ISeparable>> dict)
@@ -52,12 +57,12 @@ namespace BaseRPG.Model.Tickable
             throw new NotImplementedException();
         }
         public bool IsInRange(object obj) {
-            return objectsInRange.Contains(obj);
+            return ObjectsInRange.Contains(obj);
         }
 
         public void OnCollisionExit(ICollisionDetector gameObject)
         {
-            objectsInRange.Remove(gameObject);
+            ObjectsInRange.Remove(gameObject);
             OnExitedRange?.Invoke(gameObject);
         }
 

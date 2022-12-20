@@ -20,7 +20,6 @@ namespace BaseRPG.Model.Worlds.Blocks
         }
 
         public override bool Exists => true;
-
         public IPositionUnit Position => positionUnit;
         public bool CanBeOver { get => false; }
         public override event Action OnCeaseToExist;
@@ -28,11 +27,6 @@ namespace BaseRPG.Model.Worlds.Blocks
         public bool CanCollide(ICollisionDetector other)
         {
             return false;
-        }
-
-        public void OnCollision(ICollisionDetector other, double delta)
-        {
-            
         }
 
         public override void Separate(Dictionary<string, List<ISeparable>> dict)

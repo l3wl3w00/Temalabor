@@ -49,7 +49,6 @@ namespace BaseRPG.Model.Tickable.Attacks
             this.numberOfMaxTargetsInOneStep = new(numberOfMaxTargetsInOneStep);
             this.numberOfMaxTargets = numberOfMaxTargets;
         }
-
         public IPositionUnit Position { get => movementManager.Position; }
 
         public override bool Exists { get =>
@@ -71,22 +70,16 @@ namespace BaseRPG.Model.Tickable.Attacks
             return true;
         }
 
-        public void OnCollision(ICollisionDetector other, double delta)
-        {
-
+        public void OnCollisionAttackable(IAttackable attackable, double delta) {
             if (numberOfMaxTargetsInOneStep.CurrentValue <= 0) return;
             if (numberOfMaxTargets <= 0) return;
-            
-            if (other is IAttackable)
+            var success = OnAttackHit(attackable, delta);
+            if (success)
             {
-                var success = OnAttackHit(other as IAttackable, delta);
-                if (success) {
-                    -- numberOfMaxTargetsInOneStep.CurrentValue;
-                    -- numberOfMaxTargets;
-                }
+                --numberOfMaxTargetsInOneStep.CurrentValue;
+                --numberOfMaxTargets;
             }
         }
-
 
         public override void Step(double delta)
         {

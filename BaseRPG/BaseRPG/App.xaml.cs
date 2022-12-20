@@ -4,6 +4,8 @@ using BaseRPG.Controller.Input;
 using BaseRPG.Model.Data;
 using BaseRPG.Model.Game;
 using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Model.ReflectionStuff.Attribute;
+using BaseRPG.Model.ReflectionStuff.Generation;
 using BaseRPG.Physics.TwoDimensional;
 using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View;
@@ -66,7 +68,7 @@ namespace BaseRPG
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
 
-
+            GeneratorInitializer.GenerateAll();
             game = Game.Instance;
             game.PhysicsFactory = new PhysicsFactory2D();
             window = new MainWindow();

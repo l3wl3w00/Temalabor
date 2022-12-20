@@ -6,7 +6,5 @@ namespace BaseRPG.Model.Interfaces.Collecting
 {
     public interface ICollectible
     {
-        void OnCollectedByHero(Hero hero);
-        void OnCollectedByShop(Shop shop);
     }
 }

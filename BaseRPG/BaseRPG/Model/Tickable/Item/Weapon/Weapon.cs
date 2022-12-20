@@ -41,11 +41,6 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
             this.lightAttackFactory = lightAttackFactory.World(world);
             this.Owner = owner;
         }
-        public override void OnCollectedByHero(Hero hero)
-        {
-            Owner = hero;
-            base.OnCollectedByHero(hero);
-        }
         public override void EquippedBy(Inventory inventory)
         {
             inventory.EquippedWeapon = this;

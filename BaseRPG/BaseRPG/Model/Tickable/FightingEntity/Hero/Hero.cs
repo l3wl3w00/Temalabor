@@ -1,5 +1,7 @@
 ﻿using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Combat;
+using BaseRPG.Model.Interaction;
+using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collecting;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Movement;
@@ -38,7 +40,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public ExperienceManager ExperienceManager { get => experienceManager; set => experienceManager = value; }
         public Inventory Inventory => inventory;
 
-        
+        public GoldManager GoldManager => goldManager;
 
         private Hero(int maxHp, IMovementManager movementManager, SkillManager skillManager, World world) :
             base(maxHp, movementManager, new EmptyMovementStrategy(), skillManager, world, false)
@@ -52,11 +54,6 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         {
             return goldManager.SpendGold(cost);
         }
-
-        //public void Collect(ICollectible collectible)
-        //{
-        //    inventory.Collect(collectible);
-        //}
         public void Buy(Shop shop,int i) {
             shop.Buy(this, i);
         }
@@ -78,10 +75,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
             //inventory.EquippedWeapon.OnLightAttack();
         }
         public override void Step(double delta)
-        
         {
             base.Step(delta);
-            //throw new NotImplementedException();
         }
 
         public void CollectItem(Item.Item collectible)
@@ -95,30 +90,10 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
 
         public void Collect(ICollectible collectible)
         {
-            collectible.OnCollectedByHero(this);
+            ICollector collector = this;
+            collector.OnCollect(collectible);
         }
 
-        public override void OnTargetKilled(IAttackable target)
-        {
-            target.OnKilledByHero(this);
-        }
-
-        public override void OnKilledByHero(Hero hero)
-        {
-            
-        }
-
-        public override void OnKilledByEnemy(Enemy.Enemy enemy)
-        {
-            
-        }
-
-        internal void OnEnemyKilled(Enemy.Enemy enemy)
-        {
-            ExperienceManager.GainExpirence(enemy.XpValue*10);
-            goldManager.GainGold(enemy.GoldValue);
-            Collect(new SimpleBowFactory().Create(CurrentWorld));
-        }
 
         public class HeroBuilder : Builder
         {

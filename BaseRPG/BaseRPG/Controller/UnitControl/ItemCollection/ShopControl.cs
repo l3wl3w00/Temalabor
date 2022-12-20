@@ -62,10 +62,5 @@ namespace BaseRPG.Controller.UnitControl.ItemCollection
             currentShop = shop;
             windowControl.Open("shop");
         }
-
-        internal void AddItemToShop(Item item)
-        {
-            currentShop.Collect(item);
-        }
     }
 }

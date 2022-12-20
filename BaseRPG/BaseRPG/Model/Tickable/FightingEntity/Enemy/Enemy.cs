@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Interfaces;
+﻿using BaseRPG.Model.Interaction;
+using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Combat;
 using BaseRPG.Model.Interfaces.Combat.Attack;
@@ -56,7 +57,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             this.inRangeDetector = inRangeDetector;
             inRangeDetector.SetExists(true);
             //inRangeDetector.OnInRange += OnInRange;
-            inRangeDetector.OnExitedRange += g => StartMoving();
+            inRangeDetector.OnExitedRange +=
+                g => { 
+                    if (g == Target)
+                        StartMoving();
+                };
             XpValue = xpValue;
             GoldValue = goldValue;
         }
@@ -65,10 +70,6 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             DefaultMovementStrategy = new EmptyMovementStrategy();
             MovementStrategy = DefaultMovementStrategy;
         }
-        public override void OnCollision(ICollisionDetector gameObject,double delta) 
-        {
-            
-        }
         public void OnInRange(ICollisionDetector gameObject) {
             if (gameObject == this) return;
             
@@ -76,18 +77,19 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
         public override void Step(double delta)
         {
             base.Step(delta);
-            if (inRangeDetector.IsInRange(target)) 
+            if (!inRangeDetector.IsInRange(target)) return;
+            if (target is not IAttackable) return;
+
+            var canAttack = new AttackabilityService.Builder()
+                .CreateByDefaultMapping()
+                .CanAttack(this, target as IAttackable);
+            if (canAttack)
             {
-                if (target is IAttackable)
-                {
-                    var canAttack = new AttackabilityService.Builder().CreateByDefaultMapping().CanAttack(this, target as IAttackable);
-                    if (canAttack)
-                    {
-                        StopMoving();
-                        AttackableInRange?.Invoke(target as IAttackable);
-                    }
-                }
+                StopMoving();
+                AttackableInRange?.Invoke(target as IAttackable);
             }
+                
+            
         }
         protected override void OnExistsSet(bool value) { 
             inRangeDetector.SetExists(value);
@@ -103,23 +105,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             return attacks[v];
         }
 
-        public override void OnTargetKilled(IAttackable target)
-        {
-            target.OnKilledByEnemy(this);
-            if (target == this.target) {
-                OnTargetDead();
-            }
-        }
 
-        public override void OnKilledByHero(Hero.Hero hero)
-        {
-            hero.OnEnemyKilled(this);
-        }
-
-        public override void OnKilledByEnemy(Enemy enemy)
-        {
-            throw new NotImplementedException();
-        }
 
         public class EnemyBuilder:Builder {
             private readonly Dictionary<string, AttackBuilder> attacks = new();

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Worlds.InteractionPoints
 {
-    public class Shop : GameObject, ICollisionDetector,ICollector
+    public class Shop : GameObject, ICollisionDetector
     {
         public static int Capacity => 20;
         private class ShopItem{
@@ -86,10 +86,6 @@ namespace BaseRPG.Model.Worlds.InteractionPoints
             //throw new NotImplementedException();
         }
 
-        public void OnCollision(ICollisionDetector other, double delta)
-        {
-            //throw new NotImplementedException();
-        }
 
         public bool CanCollide(ICollisionDetector other)
         {
@@ -103,11 +99,6 @@ namespace BaseRPG.Model.Worlds.InteractionPoints
         public override void InteractWith(Hero interactionStarter)
         {
             InteractionStarted?.Invoke(interactionStarter, this);
-        }
-
-        public void Collect(ICollectible collectible)
-        {
-            collectible.OnCollectedByShop(this);
         }
     }
 }

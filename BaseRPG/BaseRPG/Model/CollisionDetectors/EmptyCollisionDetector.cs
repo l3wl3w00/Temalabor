@@ -19,19 +19,12 @@ namespace BaseRPG.Model.CollisionDetectors
                 exists = value;
             } 
         }
-
         public event Action OnCeaseToExist;
 
         public void CanCollide(ICollisionDetector other)
         {
             throw new NotImplementedException();
         }
-
-        public void OnCollision(ICollisionDetector other, double delta)
-        {
-
-        }
-
 
         bool ICollisionDetector.CanCollide(ICollisionDetector other)
         {
