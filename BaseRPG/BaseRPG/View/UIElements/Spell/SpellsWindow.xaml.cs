@@ -1,6 +1,6 @@
 ﻿using BaseRPG.Controller.UnitControl;
 using BaseRPG.View.Image;
-using BaseRPG.View.Interfaces;
+using BaseRPG.View.Interfaces.Providers;
 using BaseRPG.View.UIElements.DrawingArgsFactory;
 using BaseRPG.View.UIElements.Initialization;
 using Microsoft.UI.Xaml;

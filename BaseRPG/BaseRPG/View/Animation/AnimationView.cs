@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Physics.TwoDimensional.Interfaces;
 using BaseRPG.View.Animation.Animators;
+using BaseRPG.View.Animation.Utility;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;

@@ -1,6 +1,7 @@
 ﻿using BaseRPG.View.Animation;
 using BaseRPG.View.Exceptions;
 using BaseRPG.View.Interfaces;
+using BaseRPG.View.Interfaces.Providers;
 using MathNet.Spatial.Euclidean;
 using MathNet.Spatial.Units;
 using Microsoft.Graphics.Canvas;

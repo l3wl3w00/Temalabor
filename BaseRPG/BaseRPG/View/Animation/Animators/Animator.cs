@@ -29,6 +29,7 @@ namespace BaseRPG.View.Animation.Animators
         public abstract void ResetTransformation();
         public abstract void ResetImageSequence();
         public abstract void Animate(DrawingArgs animationArgs);
+        public abstract void Freeze();
 
     }
 }

@@ -35,6 +35,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         IShape2D Shifted(Vector2D shift);
         IShape2D ShiftedByPos { get; }
         Vector2D LastCalculatedMiddle { get; }
+        double RotationAngle { get; }
 
         IShape2D Shifted(params double[] values);
         void OnCollision(IShape2D shape2, double delta)

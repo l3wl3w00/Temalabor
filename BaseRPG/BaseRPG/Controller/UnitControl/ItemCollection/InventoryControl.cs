@@ -2,6 +2,7 @@
 using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.Interfaces.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,14 @@ namespace BaseRPG.Controller.UnitControl.ItemCollection
     public class InventoryControl : IItemCollectionControl
     {
         private Inventory inventory;
-        private readonly DrawableProvider drawableProvider;
+        private readonly IDrawableProvider drawableProvider;
         private readonly Controller controller;
         //public event Action<Item, DrawableProvider> OnUnequipped;
         //public event Action<Item, DrawableProvider> OnEquipped;
         //public event Action<Item, DrawableProvider> OnCollected;
         public event Action OnChanged;
 
-        public InventoryControl(Inventory inventory, DrawableProvider drawableProvider, Controller controller)
+        public InventoryControl(Inventory inventory, IDrawableProvider drawableProvider, Controller controller)
         {
             this.inventory = inventory;
             this.drawableProvider = drawableProvider;
@@ -40,7 +41,7 @@ namespace BaseRPG.Controller.UnitControl.ItemCollection
         public Item EquippedArmor => inventory.EquippedArmor;
         public Item EquippedShoe => inventory.EquippedShoe;
 
-        public DrawableProvider DrawableProvider => drawableProvider;
+        public IDrawableProvider DrawableProvider => drawableProvider;
 
         public int Capacity => inventory.Capacity;
 

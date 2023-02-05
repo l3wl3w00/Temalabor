@@ -6,20 +6,13 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Model.Utility
 {
-    public class Default<T> where T : class
+    public class Default<T>
     {
         private T defaultValue;
         private T currentValue;
 
         public T CurrentValue { get => currentValue; set => currentValue = value; }
         public T DefaultValue { get => defaultValue; set => defaultValue = value; }
-        public bool IsDefault
-        {
-            get
-            {
-                return CurrentValue == DefaultValue;
-            }
-        }
         public Default(T defaultValue, T currentValue)
         {
             DefaultValue = defaultValue;
@@ -30,20 +23,39 @@ namespace BaseRPG.Model.Utility
             DefaultValue = defaultValue;
             CurrentValue = defaultValue;
         }
+        
         public void Reset()
         {
             CurrentValue = DefaultValue;
         }
         public static implicit operator Default<T>(T a) => new Default<T>(a);
     }
+    public class DefaultComparable<T> : Default<T> where T : IComparable<T> {
+        public DefaultComparable(T defaultValue) : base(defaultValue)
+        {
+        }
+        public DefaultComparable(T defaultValue, T currentValue) : base(defaultValue, currentValue)
+        {
+        }
 
-    public class DefaultInt
+        public bool isCurrentValueSmallerOrEqual 
+        { 
+            get 
+            { 
+                var result = CurrentValue.CompareTo(DefaultValue) <= 0; 
+                return result;
+            } 
+        }
+    }
+    public class DefaultRef<T> :Default<T> where T : class
     {
-        private int defaultValue;
-        private int currentValue;
+        public DefaultRef(T defaultValue) : base(defaultValue)
+        {
+        }
+        public DefaultRef(T defaultValue, T currentValue) : base(defaultValue, currentValue)
+        {
+        }
 
-        public int CurrentValue { get => currentValue; set => currentValue = value; }
-        public int DefaultValue { get => defaultValue; set => defaultValue = value; }
         public bool IsDefault
         {
             get
@@ -51,19 +63,7 @@ namespace BaseRPG.Model.Utility
                 return CurrentValue == DefaultValue;
             }
         }
-        public DefaultInt(int defaultValue, int currentValue)
-        {
-            DefaultValue = defaultValue;
-            CurrentValue = currentValue;
-        }
-        public DefaultInt(int defaultValue)
-        {
-            DefaultValue = defaultValue;
-            CurrentValue = defaultValue;
-        }
-        public void Reset()
-        {
-            CurrentValue = DefaultValue;
-        }
+        public static implicit operator DefaultRef<T>(T a) => new DefaultRef<T>(a);
     }
+
 }

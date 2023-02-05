@@ -3,6 +3,7 @@ using BaseRPG.Model.Interfaces.Utility;
 using BaseRPG.Model.Skills;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces.Providers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,12 +17,12 @@ namespace BaseRPG.Controller.UnitControl
     public class SpellControl
     {
         private SkillManager skillManager;
-        private readonly DrawableProvider drawableProvider;
+        private readonly IDrawableProvider drawableProvider;
         private readonly ICanQueueFunc<bool> boolDispatcher;
 
         public SkillManager SkillManager { get => skillManager;}
 
-        public SpellControl(SkillManager skillManager, DrawableProvider drawableProvider, ICanQueueFunc<bool> boolDispatcher)
+        public SpellControl(SkillManager skillManager, IDrawableProvider drawableProvider, ICanQueueFunc<bool> boolDispatcher)
         {
             this.skillManager = skillManager;
             this.drawableProvider = drawableProvider;

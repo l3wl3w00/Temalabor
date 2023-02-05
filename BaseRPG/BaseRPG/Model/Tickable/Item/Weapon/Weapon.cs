@@ -1,9 +1,12 @@
 ﻿using BaseRPG.Model.Attribute;
+using BaseRPG.Model.Exceptions;
 using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Combat.Attack;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
+using BaseRPG.Model.Utility;
 using BaseRPG.Model.Worlds;
 using System;
 using System.Collections.Generic;
@@ -15,31 +18,37 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
 {
     public class Weapon:Item
     {
+        private Default<double> chargeUpTime;
         private Unit owner;
         public event Action<Attack> HeavyAttackCreatedEvent;
         public event Action<Attack> LightAttackCreatedEvent;
-        private readonly AttackBuilder lightAttackFactory;
-        private readonly AttackBuilder heavyAttackFactory;
+        //private readonly AttackBuilder lightAttackBuilder;
+        //private readonly AttackBuilder heavyAttackBuilder;
+        private readonly IAttackFactory attackFactory;
         public Unit Owner { 
             get => owner;
             set
             {
                 owner = value;
-                heavyAttackFactory?.Attacker(owner);
-                lightAttackFactory?.Attacker(owner);
-                
+                //heavyAttackBuilder?.Attacker(owner);
+                //lightAttackBuilder?.Attacker(owner);
+                attackFactory.Owner = owner;
             } 
         }
-        public AttackBuilder LightAttackBuilder { 
-            get {
-                return lightAttackFactory;
-            }  }
+        //public AttackBuilder LightAttackBuilder => lightAttackBuilder;
+        //public AttackBuilder HeavyAttackBuilder => heavyAttackBuilder;
 
-        public Weapon(AttackBuilder heavyAttackFactory, AttackBuilder lightAttackFactory, World world, Unit owner = null,int basePrice = 1):base(world, basePrice)
+        public IAttackFactory AttackFactory => attackFactory;
+
+        public Weapon(IAttackFactory attackFactory, World world, Unit owner, int basePrice, double chargeUpTime) : base(world, basePrice)
         {
-            this.heavyAttackFactory = heavyAttackFactory.World(world);
-            this.lightAttackFactory = lightAttackFactory.World(world);
+            //this.heavyAttackBuilder = heavyAttackFactory.World(world);
+            //this.lightAttackBuilder = lightAttackFactory.World(world);
+            
+            this.attackFactory = attackFactory;
+            attackFactory.World = world;
             this.Owner = owner;
+            this.chargeUpTime = chargeUpTime;
         }
         public override void OnCollectedByHero(Hero hero)
         {
@@ -50,32 +59,31 @@ namespace BaseRPG.Model.Tickable.Item.Weapon
         {
             inventory.EquippedWeapon = this;
         }
+        public IAttackFactory GetHeavyAttackIfPossible() {
+            if (chargeUpTime.CurrentValue <= 0)
+            {
+                chargeUpTime.Reset();
+                return attackFactory;
+            }
+            throw new AttackNotFullyChargedException();
+        }
 
         public override object Clone(int basePrice)
         {
-            return new Weapon(heavyAttackFactory, lightAttackFactory, CurrentWorld,Owner, basePrice);
+            return new Weapon(attackFactory, CurrentWorld,Owner, basePrice,chargeUpTime.DefaultValue);
+        }
+        internal void OnChargeHold(double delta)
+        {
+            chargeUpTime.CurrentValue -= delta;
+        }
+        public void OnLightAttack() 
+        { 
+        
+        }
+        public void OnHeavyAttack() 
+        { 
+        
         }
 
-        public class Builder {
-            private AttackBuilder lightAttackFactory = null;
-            private AttackBuilder heavyAttackFactory = null;
-            private Unit owner = null;
-
-            public Builder Owner(Unit owner)
-            {
-                this.owner = owner;
-                return this;
-            }
-
-            public Builder LightAttackFactory(AttackBuilder lightAttackFactory) {
-                this.lightAttackFactory = lightAttackFactory;
-                return this;
-            }
-            public Builder HeavyAttackFactory(AttackBuilder heavyAttackFactory)
-            {
-                this.heavyAttackFactory = heavyAttackFactory;
-                return this;
-            }
-        }
     }
 }

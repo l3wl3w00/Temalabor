@@ -44,7 +44,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             if (movementManager != null)
                 movementManager.Moved += (s) =>
                 {
-                    var movementVector = MovementUnit2D.ToVector(movementManager.LastMovement);
+                    var movementVector = MovementUnit2D.ToVector2D(movementManager.LastMovement);
                     if (movementVector.Length < 0.000001) return;
                     Angle newAngle = movementVector.SignedAngleTo(new(0, 1), true);
                     SetRotation(newAngle.Radians,s);
@@ -189,10 +189,21 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
             double radius,
             int numberOfVertices = 20)
         {
+            return CircleVertices(center,radius,Angle.FromDegrees(0),Angle.FromDegrees(360),numberOfVertices);
+        }
+
+        public static List<Point2D> CircleVertices(
+            Vector2D center,
+            double radius,
+            Angle angleBegin,
+            Angle angleEnd,
+            int numberOfVertices = 20)
+        {
             double step = (Math.PI * 2) / numberOfVertices;
             List<Point2D> vertices = new();
-            for (double angle = 0; angle < (Math.PI * 2); angle += step)
+            for (double i = angleBegin.Radians; i <= angleEnd.Radians; i += step)
             {
+                var angle = i;// + angleBegin.Radians;
                 Vector2D v = Vector2D.FromPolar(radius, Angle.FromRadians(angle)) + center;
                 vertices.Add(new(v.X, v.Y));
             }
@@ -271,5 +282,8 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
         }
 
         public IShape2D ShiftedByPos => this.Shifted(GlobalPosition);
+
+        public double RotationAngle => angle;
+
     }
 }

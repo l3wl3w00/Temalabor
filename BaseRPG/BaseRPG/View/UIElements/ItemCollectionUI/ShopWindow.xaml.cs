@@ -2,6 +2,7 @@
 using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.Model.Worlds.InteractionPoints;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.Interfaces.Providers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,7 +25,7 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
 {
     public sealed partial class ShopWindow : CustomWindow
     {
-        public ShopWindow( DrawableProvider drawableProvider, ShopControl shopControl)
+        public ShopWindow(IDrawableProvider drawableProvider, ShopControl shopControl)
         {
             this.InitializeComponent();
             itemsGrid.Init(shopControl, drawableProvider);

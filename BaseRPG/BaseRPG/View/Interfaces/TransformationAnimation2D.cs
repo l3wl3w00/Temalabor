@@ -13,7 +13,7 @@ namespace BaseRPG.View.Interfaces
 {
     public abstract class TransformationAnimation2D:IAnimation<TransformationAnimation2D>
     {
-
+        public static EmptyAnimation Empty => new EmptyAnimation();
         private Matrix3x2 lastTransformation;
         public Matrix3x2 LastTransformation => lastTransformation;
         public virtual event Action<TransformationAnimation2D> OnAnimationCompleted;

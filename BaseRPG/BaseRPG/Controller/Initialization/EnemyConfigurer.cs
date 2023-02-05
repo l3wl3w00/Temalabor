@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.Controller.Initialization
 {
+    /// <summary>
+    /// Connects the UnitView, the Shape and the model part of the enemy, and makes configurations across all 3 layers
+    /// </summary>
     public class EnemyConfigurer
     {
         private readonly Enemy enemy;

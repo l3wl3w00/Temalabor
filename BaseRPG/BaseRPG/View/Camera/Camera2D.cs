@@ -1,4 +1,6 @@
-﻿using MathNet.Spatial.Euclidean;
+﻿using BaseRPG.Model.Interfaces.Movement;
+using BaseRPG.Physics.TwoDimensional.Movement;
+using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using System;
@@ -55,7 +57,10 @@ namespace BaseRPG.View.Camera
         {
 
         }
-
+        public Vector2D CalculatePositionOnScreen(IPositionUnit globalPosition)
+        {
+            return CalculatePositionOnScreen(PositionUnit2D.ToVector2D(globalPosition));
+        }
         public Vector2D CalculatePositionOnScreen(Vector2D globalPosition)
         {
             return globalPosition - MiddlePosition;

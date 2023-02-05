@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Tickable;
+﻿using BaseRPG.Model.Exceptions;
+using BaseRPG.Model.Tickable;
 using BaseRPG.Model.Tickable.FightingEntity.Enemy;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
 using System;

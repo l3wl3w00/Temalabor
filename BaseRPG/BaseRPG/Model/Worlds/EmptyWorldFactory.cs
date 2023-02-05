@@ -13,17 +13,20 @@ namespace BaseRPG.Model.Worlds
 {
     public class EmptyWorldFactory:IWorldFactory
     {
+        private readonly string name;
+
         //private IPositionUnit initialHeroPosition;
 
-        public EmptyWorldFactory()
+        public EmptyWorldFactory(string name)
         {
+            this.name = name;
             //this.initialHeroPosition = initialHeroPosition;
         }
 
         public World Create()
         {
             GameObjectContainer gameObjectContainer = new GameObjectContainer();
-            var world = new World(gameObjectContainer);
+            var world = new World(gameObjectContainer, name);
             return world;
         }
     }

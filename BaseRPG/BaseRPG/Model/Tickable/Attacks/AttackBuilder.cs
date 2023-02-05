@@ -24,18 +24,20 @@ namespace BaseRPG.Model.Tickable.Attacks
         private IAttackStrategy attackStrategy;
         private World world;
         private IPositionUnit initialPosition;
-        private double lifeTime;
+        private double lifeTimeInSeconds;
         private int numberOfMaxTargetsInOneStep;
         private int numberOfMaxTargets = int.MaxValue;
         private  AttackabilityService attackabilityService;
         private IMovementStrategy movementStrategy = new EmptyMovementStrategy();
         private IAttackLifetimeOverStrategy attackLifetimeOverStrategy = new DestroyAfterAllTargetsHitStrategy();
+        private bool canHitSameTarget;
+        private double secondsBetween2Hits;
 
         public event Action<Attack> CreatedEvent;
         public AttackBuilder(IAttackStrategy attackStrategy, double lifeTime = 0, int numberOfMaxTargetsInOneStep = 1)
         {
             this.attackStrategy = attackStrategy;
-            this.lifeTime = lifeTime;
+            this.lifeTimeInSeconds = lifeTime;
             this.numberOfMaxTargetsInOneStep = numberOfMaxTargetsInOneStep;
             attackabilityService = new AttackabilityService.Builder().CreateByDefaultMapping();
         }
@@ -54,8 +56,8 @@ namespace BaseRPG.Model.Tickable.Attacks
             attacker = value;
             return this;
         }
-        public AttackBuilder LifeTime(double lifeTime) {
-            this.lifeTime = lifeTime;
+        public AttackBuilder LifeTimeInSeconds(double lifeTimeInSeconds) {
+            this.lifeTimeInSeconds = lifeTimeInSeconds;
             return this;
         }
         public AttackBuilder MovementStrategy(IMovementStrategy value)
@@ -77,13 +79,33 @@ namespace BaseRPG.Model.Tickable.Attacks
             this.attackabilityService = attackabilityService;
             return this;
         }
-
+        public AttackBuilder CanHitSameTarget(bool value) {
+            this.canHitSameTarget = value;
+            return this;
+        }
+        public AttackBuilder HitTicksPerSecond(double ticksPerSecond)
+        {
+            this.secondsBetween2Hits = 1/ticksPerSecond;
+            return this;
+        }
         private Attack CreateAttack(IAttacking attacker, IPositionUnit position)
         {
-            Attack attack = new Attack(
-                attacker, position, attackStrategy,movementStrategy, attackLifetimeOverStrategy,
-                world,attackabilityService,lifeTime,
-                numberOfMaxTargetsInOneStep,numberOfMaxTargets);
+            var creationParams = new AttackCreationParams
+            {
+                Attacker = attacker,
+                InitialPosition = position,
+                AttackStrategy = attackStrategy,
+                MovementStrategy = movementStrategy,
+                AttackLifetimeOverStrategy = attackLifetimeOverStrategy,
+                World = world,
+                AttackabilityService = attackabilityService,
+                LifeTimeInSeconds = lifeTimeInSeconds,
+                NumberOfMaxTargetsInOneStep = numberOfMaxTargetsInOneStep,
+                NumberOfMaxTargets = numberOfMaxTargets,
+                SecondsBetween2Hits = secondsBetween2Hits,
+                CanHitSameTarget = canHitSameTarget
+            };
+            Attack attack = new Attack(creationParams);
             CreatedEvent?.Invoke(attack);
             return attack;
 

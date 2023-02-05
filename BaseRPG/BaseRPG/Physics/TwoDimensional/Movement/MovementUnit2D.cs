@@ -45,7 +45,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
             return new MovementUnit2D(avgMovement);
         }
 
-        internal static Vector2D ToVector(IMovementUnit movement)
+        internal static Vector2D ToVector2D(IMovementUnit movement)
         {
             var values = movement.Values;
             return new Vector2D(values[0], values[1]);

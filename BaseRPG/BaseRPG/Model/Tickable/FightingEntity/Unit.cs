@@ -5,6 +5,7 @@ using BaseRPG.Model.Effects;
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Interfaces.Collision;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Combat.Attack;
 using BaseRPG.Model.Interfaces.Effect;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Interfaces.Skill;
@@ -34,7 +35,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         /// This is NOT the only way a unit can move,
         /// for example the player can move their own unit as they like
         /// </summary>
-        private Default<IMovementStrategy> movementStrategy;
+        private DefaultRef<IMovementStrategy> movementStrategy;
         private double speed;
         private bool exists = true;
         private EffectManager effectManager = new();
@@ -66,7 +67,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             movementStateHandler = new(new NormalMovementState());
         }
 
-        public abstract AttackBuilder AttackFactory(string v);
+        public abstract IAttackFactory AttackFactory(string v);
 
         public IMovementManager MovementManager => movementManager;
         public override void BeforeStep(double delta)
@@ -173,7 +174,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity
         public void TakeDamage(double damage,IAttacking attacker)
         {
             if (!Exists) return;
-            health.CurrentValue -= damageTakingStateHandler.CalculateDamage(damage);
+            var damageTaken = damageTakingStateHandler.CalculateDamage(damage);
+            health.CurrentValue -= damageTaken;
             if (!Exists){
                 attacker.OnTargetKilled(this);
             }
@@ -234,6 +236,8 @@ namespace BaseRPG.Model.Tickable.FightingEntity
             //LearnSkill(new EffectCreatingSkill(this, this, new InvincibilityEffectFactory(5)));
             public abstract Unit Build(int maxHp, IMovementManager movementManager,
                 IMovementStrategy movementStrategy, SkillManager skillManager, World world);
+
+            
         }
     }
 }

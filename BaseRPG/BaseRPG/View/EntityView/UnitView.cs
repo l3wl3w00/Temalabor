@@ -1,5 +1,5 @@
 ﻿using BaseRPG.Controller;
-using BaseRPG.Controller.Initialization;
+using BaseRPG.Controller.Initialization.GameConfiguring;
 using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Interfaces;
 using BaseRPG.Model.Services;
@@ -12,6 +12,7 @@ using BaseRPG.View.Animation;
 using BaseRPG.View.Animation.Animators;
 using BaseRPG.View.Animation.FacingPoint;
 using BaseRPG.View.Animation.ImageSequence;
+using BaseRPG.View.Animation.Utility;
 using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
@@ -111,7 +112,7 @@ namespace BaseRPG.View.EntityView
                 if (animator != null) throw new ParameterAlreadyDefined("The animator parameter is already defined");
                 animator = new CustomAnimator(
                     new FacingPointOnCallbackAnimation(0,
-                        PositionObserver.CreateForLastMovement(unit.MovementManager,DefaultGameConfigurer.VERY_LARGE_NUMBER)
+                        PositionObserver.CreateForLastMovement(unit.MovementManager,GameConfigurer.VERY_LARGE_NUMBER)
                         ),
                     animations["idle"]
                 );

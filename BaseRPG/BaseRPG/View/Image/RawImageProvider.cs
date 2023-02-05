@@ -1,5 +1,4 @@
 ﻿using BaseRPG.View.Exceptions;
-using BaseRPG.View.Interfaces;
 using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
@@ -11,25 +10,15 @@ using System.Drawing;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using System.Threading;
+using BaseRPG.View.Interfaces.Providers;
 
 namespace BaseRPG.View.Image
 {
     public class RawImageProvider : IImageProvider
     {
-        //private static RawImageProvider instance;
-        //public static RawImageProvider Instance
-        //{
-        //    get { 
-        //        if(instance==null) return new RawImageProvider();
-        //        return instance;
-        //    }
-        //}
-        //private RawImageProvider() {
-        
-        //}
-        private Dictionary<string, CanvasVirtualBitmap> images = new Dictionary<string, CanvasVirtualBitmap>();
-        private bool initialized = false;
-        public async Task LoadImages(ICanvasResourceCreator canvasResourceCreator)
+        private static Dictionary<string, CanvasVirtualBitmap> images = new Dictionary<string, CanvasVirtualBitmap>();
+        private static bool initialized = false;
+        public static async Task LoadImages(ICanvasResourceCreator canvasResourceCreator)
         {
             string projectPath =  AppDomain.CurrentDomain.BaseDirectory;
             List<string> pics = 

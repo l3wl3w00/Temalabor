@@ -35,7 +35,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         }
         public IMovementUnit GenerateMovement(IMovementUnit movement, IPositionUnit position)
         {
-            var movementVector = MovementUnit2D.ToVector(movement);
+            var movementVector = MovementUnit2D.ToVector2D(movement);
             var shiftedShape = shape.ShiftedByPos;
             if (canStepThere(shiftedShape.Shifted(movementVector))) return movement;
             var interval = FindLargestWithBinary(
@@ -49,7 +49,7 @@ namespace BaseRPG.Physics.TwoDimensional.Movement
         public IMovementUnit GenerateMovementWithRays(IMovementUnit movement, IPositionUnit position)
         {
             if (!(shape.Owner is Hero)) return movement;
-            Vector2D movementVector = MovementUnit2D.ToVector(movement);
+            Vector2D movementVector = MovementUnit2D.ToVector2D(movement);
             //angle to the y axis
 
             var rays = shape.CastRays(movementVector.Normalize(),3);

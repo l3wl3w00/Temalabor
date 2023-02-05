@@ -98,9 +98,10 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Enemy
             var attack = attacks[v].Attacker(this).CreateTargeted(Target);
             return attack;
         }
-        public override AttackBuilder AttackFactory(string v)
+        public override IAttackFactory AttackFactory(string v)
         {
-            return attacks[v];
+            throw new NotImplementedException();
+            //return attacks[v];
         }
 
         public override void OnTargetKilled(IAttackable target)

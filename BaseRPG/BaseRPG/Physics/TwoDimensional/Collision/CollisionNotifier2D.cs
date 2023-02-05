@@ -16,7 +16,7 @@ namespace BaseRPG.Physics.TwoDimensional.Collision
     {
         private List<IShape2D> collisionObjects = new List<IShape2D>();
         private List<Collision> collisions = new List<Collision>();
-
+        public CollisionNotifier2D() { }
         /// <summary>
         /// Stores all of the shapes that collide with the given position provider's position
         /// </summary>

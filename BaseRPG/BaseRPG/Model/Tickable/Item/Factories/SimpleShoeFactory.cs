@@ -1,4 +1,4 @@
-﻿using BaseRPG.Model.Interfaces.ItemInterfaces;
+﻿using BaseRPG.Model.Interfaces.Factories.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;

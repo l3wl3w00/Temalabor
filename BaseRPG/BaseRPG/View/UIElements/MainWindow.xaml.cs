@@ -6,6 +6,7 @@ using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView.Health;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
+using BaseRPG.View.Interfaces.Providers;
 using BaseRPG.View.UIElements.ItemCollectionUI;
 using MathNet.Spatial.Euclidean;
 using Microsoft.Graphics.Canvas.UI;
@@ -28,14 +29,14 @@ namespace BaseRPG
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : Window, ICanvasProvider
     {
 
-        public event Action<RawImageProvider> OnResourcesReady;
+        public event Action OnResourcesReady;
         private Controller.Controller controller;
-        private ViewManager viewManager;
-        public ViewManager ViewManager { get { return viewManager; } set { viewManager = value; } }
-        private RawImageProvider rawImageProvider;
+        private IViewManager viewManager;
+        public IViewManager ViewManager { get { return viewManager; } set { viewManager = value; } }
+        public Vector2D CameraPosition => viewManager.CameraPosition;
         private DeltaLoopHandler drawLoopHandler;
         private WindowControl windowControl;
         public CanvasVirtualControl Canvas => canvas;
@@ -58,35 +59,35 @@ namespace BaseRPG
                 canvas.Width = e.Size.Width;
                 canvas.Height = e.Size.Height;
             };
-            
+
             drawLoopHandler = new DeltaLoopHandler();
             var timer = new System.Timers.Timer(1000);
             timer.Elapsed += (a, b) => Console.WriteLine("Draw fps: " + drawLoopHandler.Fps);
             timer.Start();
         }
-        public Vector2D MiddleOfScreen => new(canvas.Width/2, canvas.Height/2);
+        public Vector2D MiddleOfScreen => new(canvas.Width / 2, canvas.Height / 2);
 
         public IImageProvider ImageProvider => controller.ImageProvider;
 
         public async Task CreateResourceAsync(CanvasVirtualControl sender)
         {
-            rawImageProvider = new();
-            await rawImageProvider.LoadImages(sender);
+            await RawImageProvider.LoadImages(sender);
         }
         public void canvas_CreateResources(CanvasVirtualControl sender, CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResourceAsync(sender).AsAsyncAction());
             sender.Invalidate();
-            drawLoopHandler.FirsTickEvent += () => OnResourcesReady(rawImageProvider);
+            drawLoopHandler.FirsTickEvent += () => OnResourcesReady();
             drawLoopHandler.FirsTickEvent += ResourcesReady;
         }
-        public void ResourcesReady() {
-            
+        public void ResourcesReady()
+        {
+
             hud.Init(controller.ImageProvider, controller.Game.Hero);
         }
         public void canvas_Draw(CanvasVirtualControl sender, CanvasRegionsInvalidatedEventArgs args)
         {
-            
+
             foreach (var region in args.InvalidatedRegions)
             {
                 using (var ds = sender.CreateDrawingSession(region))
@@ -94,7 +95,7 @@ namespace BaseRPG
                     var delta = drawLoopHandler.Tick();
                     DrawingArgs drawingArgs = new DrawingArgs(sender, delta, controller.InputHandler.MousePosition, ds);
                     viewManager.Draw(drawingArgs);
-                    
+
                 }
             }
             canvas.Invalidate();
@@ -119,8 +120,8 @@ namespace BaseRPG
 
         private void PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            
-            OnPointerPressed?.Invoke(sender,e);
+
+            OnPointerPressed?.Invoke(sender, e);
         }
 
         private void PointerReleased(object sender, PointerRoutedEventArgs e)

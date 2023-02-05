@@ -8,6 +8,7 @@ namespace BaseRPG.Model.Interfaces.Movement
 {
     public interface IPhysicsFactory
     {
+        public static IPhysicsFactory Instance {get;set;}
         IMovementManager CreateMovementManager(IPositionUnit initialPosition);
         IMovementManager CreateMovementManager( );
         IMovementUnit CreateMovement(params double[] args);

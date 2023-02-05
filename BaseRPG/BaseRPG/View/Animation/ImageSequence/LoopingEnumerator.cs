@@ -9,16 +9,16 @@ namespace BaseRPG.View.Animation.ImageSequence
 {
     internal class LoopingEnumerator<T> : IEnumerator<T>
     {
-        private List<T> images;
+        private List<T> items;
         private int index = 0;
         public LoopingEnumerator(List<T> images)
         {
-            this.images = images;
+            this.items = images;
         }
 
-        public T Current => images[index];
+        public T Current => items[index];
 
-        object IEnumerator.Current => images[index];
+        object IEnumerator.Current => items[index];
 
         public void Dispose()
         {
@@ -27,7 +27,7 @@ namespace BaseRPG.View.Animation.ImageSequence
 
         public bool MoveNext()
         {
-            if (index < images.Count - 1)
+            if (index < items.Count - 1)
                 index++;
             else index = 0;
             return true;

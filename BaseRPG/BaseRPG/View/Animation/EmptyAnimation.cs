@@ -11,15 +11,9 @@ using System.Threading.Tasks;
 
 namespace BaseRPG.View.Animation
 {
-    internal class EmptyAnimation : Interfaces.TransformationAnimation2D
+    public class EmptyAnimation : Interfaces.TransformationAnimation2D
     {
-        private Vector2D relativePosition;
-
-        public EmptyAnimation(Vector2D relativePosition)
-        {
-            this.relativePosition = relativePosition;
-        }
-
+        public override event Action<TransformationAnimation2D> OnAnimationCompleted;
 
         protected override Matrix3x2 OnGetImage(DrawingArgs animationArgs)
         {

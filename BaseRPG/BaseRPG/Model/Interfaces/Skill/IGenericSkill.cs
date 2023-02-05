@@ -1,4 +1,5 @@
-﻿using BaseRPG.Model.Utility;
+﻿using BaseRPG.Model.Exceptions;
+using BaseRPG.Model.Utility;
 using System;
 using System.Linq;
 using System.Text;

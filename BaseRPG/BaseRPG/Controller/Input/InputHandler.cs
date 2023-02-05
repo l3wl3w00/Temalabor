@@ -1,5 +1,5 @@
 ﻿using BaseRPG.Controller.Interfaces;
-using BaseRPG.View.Animation;
+using BaseRPG.View.Animation.Utility;
 using BaseRPG.View.Interfaces;
 using MathNet.Spatial.Euclidean;
 using Microsoft.UI.Input;
@@ -26,12 +26,16 @@ namespace BaseRPG.Controller.Input
             } 
         }
         public PositionTracker MousePositionTracker => mousePositionTracker;
-        internal void OnTick()
+        public InputHandler(IRawInputProcessedInputMapper rawInputProcessedInputMapper)
+        {
+            this.rawInputProcessedInputMapper = rawInputProcessedInputMapper;
+        }
+        internal void OnTick(double delta)
         {
             lock (pressedButNotReleasedInput) {
                 foreach (string input in pressedButNotReleasedInput)
                 {
-                    reactToPressedInput(input);
+                    reactToPressedInput(input, delta);
                 }
             }
             
@@ -66,12 +70,12 @@ namespace BaseRPG.Controller.Input
             reactToInputDown(key);
         }
 
-        internal void Initialize(
-            IRawInputProcessedInputMapper rawInputProcessedInputMapper,
-            IProcessedInputActionMapper processedInputActionMapper)
+        internal IProcessedInputActionMapper ProcessedInputActionMapper 
         {
-            this.rawInputProcessedInputMapper = rawInputProcessedInputMapper;
-            this.processedInputActionMapper = processedInputActionMapper;
+            set 
+            {
+                this.processedInputActionMapper = value;
+            } 
         }
 
         public void KeyUp(object sender, KeyRoutedEventArgs e)
@@ -114,9 +118,9 @@ namespace BaseRPG.Controller.Input
             }
             
         }
-        private void reactToPressedInput(string rawInput) {
+        private void reactToPressedInput(string rawInput,double delta) {
             foreach (var action in toAction(rawInput)) {
-                action.OnHold();
+                action.OnHold(delta);
             }
         }
 

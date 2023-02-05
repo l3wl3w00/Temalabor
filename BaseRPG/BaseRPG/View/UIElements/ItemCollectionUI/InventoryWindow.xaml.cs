@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller.UnitControl.ItemCollection;
 using BaseRPG.View.EntityView;
+using BaseRPG.View.Interfaces.Providers;
 using System.Timers;
 
 
@@ -13,9 +14,9 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
         public static string WindowName => windowName;
         private static readonly string windowName = "inventory";
         private InventoryControl inventoryControl;
-        private DrawableProvider drawableProvider;
+        private IDrawableProvider drawableProvider;
 
-        public InventoryWindow(Model.Attribute.Inventory inventory,DrawableProvider drawableProvider,InventoryControl inventoryControl)
+        public InventoryWindow(Model.Attribute.Inventory inventory, IDrawableProvider drawableProvider,InventoryControl inventoryControl)
         {
             this.InitializeComponent();
             Inventory = inventory;

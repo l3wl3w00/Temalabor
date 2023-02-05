@@ -19,7 +19,7 @@ namespace BaseRPG.Controller.Input.InputActions.Movement
             this.playerControl = playerControl;
         }
 
-        public void OnHold()
+        public void OnHold(double delta)
         {
             playerControl.OnMove(moveDirection);
         }

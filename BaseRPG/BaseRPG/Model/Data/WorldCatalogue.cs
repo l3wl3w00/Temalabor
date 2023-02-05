@@ -13,7 +13,8 @@ namespace BaseRPG.Model.Data
     {
         protected override void FillFactories(Dictionary<string, IWorldFactory> factories)
         {
-            factories.Add("Empty", new EmptyWorldFactory());
+            string name1 = "Empty";
+            factories.Add(name1, new EmptyWorldFactory(name1));
         }
 
     }

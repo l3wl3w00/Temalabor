@@ -3,6 +3,7 @@ using BaseRPG.Controller.UnitControl;
 using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces.Providers;
 using BaseRPG.View.UIElements.CustomControl;
 using BaseRPG.View.UIElements.DrawingArgsFactory;
 using BaseRPG.View.UIElements.Initialization;
@@ -30,7 +31,7 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
     public sealed partial class ItemsGrid : UserControl
     {
         private IItemCollectionControl itemCollectionControl;
-        private DrawableProvider drawableProvider;
+        private IDrawableProvider drawableProvider;
         public List<ButtonWithCanvas> ItemPlaces
         {
             get 
@@ -61,7 +62,7 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
             ItemPlaces.ForEach(i => i.Canvas.Invalidate());
         }
 
-        internal void Init(IItemCollectionControl itemCollectionControl, DrawableProvider drawableProvider)
+        internal void Init(IItemCollectionControl itemCollectionControl, IDrawableProvider drawableProvider)
         {
             this.drawableProvider = drawableProvider;
             this.itemCollectionControl = itemCollectionControl;

@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller.Input;
 using BaseRPG.Model.Interfaces;
+using BaseRPG.Model.Interfaces.Combat.Attack;
 using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.FightingEntity;
 using BaseRPG.Model.Tickable.FightingEntity.Hero;
@@ -10,6 +11,7 @@ using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.Physics.TwoDimensional.Movement;
 using BaseRPG.View.Animation;
 using BaseRPG.View.Animation.Animators;
+using BaseRPG.View.Animation.Attack;
 using BaseRPG.View.Animation.ImageSequence;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Interfaces;
@@ -28,21 +30,33 @@ namespace BaseRPG.View.ItemView
     public class EquippedWeaponView : BaseItemView
     {
         private Animator animator;
-        private readonly IAttackAnimationFactory lightAnimationFactory;
+        private readonly IAttackAnimationFactory lightAttackAnimationFactory;
+        private readonly IAttackAnimationFactory heavyAttackStrikeAnimationFactory;
+        private readonly IAttackAnimationFactory heavyAttackChargeAnimationFactory;
         private Weapon observedWeapon;
+        private bool isCharging = false;
         public override bool Exists => Owner.Exists && observedWeapon.Exists; 
         protected override Item ObservedItem { get { return observedWeapon; } }
-        public EquippedWeaponView(Weapon weapon, Animator animator,
-            IAttackAnimationFactory lightAnimationFactory)
+        public EquippedWeaponView(
+            Weapon weapon, 
+            Animator animator,
+            IAttackAnimationFactory lightAnimationFactory, 
+            IAttackAnimationFactory heavyAttackAnimationFactory, 
+            IAttackAnimationFactory heavyAttackChargeAnimationFactory)
         {
             this.observedWeapon = weapon;
             this.animator = animator;
-            this.lightAnimationFactory = lightAnimationFactory;
+            this.lightAttackAnimationFactory = lightAnimationFactory;
+            this.heavyAttackStrikeAnimationFactory = heavyAttackAnimationFactory;
+            this.heavyAttackChargeAnimationFactory = heavyAttackChargeAnimationFactory;
         }
 
         public override Vector2D ObservedPosition => PositionUnit2D.ToVector2D(Owner.Position);
 
         public Unit Owner { get => observedWeapon.Owner; }
+
+        public IAttackAnimationFactory HeavyAttackChargeAnimationFactory => heavyAttackChargeAnimationFactory;
+        public IAttackAnimationFactory HeavyAttackStrikeAnimationFactory => heavyAttackStrikeAnimationFactory;
 
         public override void OnRender(DrawingArgs drawingArgs)
         {
@@ -50,19 +64,37 @@ namespace BaseRPG.View.ItemView
         }
 
         public void StartHeavyAttackChargeAnimation() {
-            
-            throw new NotImplementedException();
+            isCharging = true;
+            animator.ResetAll();
+            animator.Start(
+                HeavyAttackChargeAnimationFactory.CreateTransformation(null),
+                HeavyAttackChargeAnimationFactory.CreateImageSequence(null));
+
         }
 
-        public void StartHeavyAttackStrikeAnimation()
+        public void StartHeavyAttackStrikeAnimation(IAttackFactory attackFactory)
         {
-            throw new NotImplementedException();
+            isCharging = false;
+            animator.ResetAll();
+            animator.Start(
+                heavyAttackStrikeAnimationFactory.CreateTransformation(attackFactory),
+                heavyAttackStrikeAnimationFactory.CreateImageSequence(attackFactory));
         }
-        public void StartLightAttackAnimation(AttackBuilder attackFactory) {
+        public void StartLightAttackAnimation(IAttackFactory attackFactory) {
 
-                animator.Start(
-                    lightAnimationFactory.CreateTransformation(attackFactory),
-                    lightAnimationFactory.CreateImageSequence(attackFactory));
+            animator.ResetAll();
+            animator.Start(
+                lightAttackAnimationFactory.CreateTransformation(attackFactory),
+                lightAttackAnimationFactory.CreateImageSequence(attackFactory));
+        }
+
+        internal void CancelHeavyChargeAnimation()
+        {
+            if (isCharging) { 
+                animator.ResetAll();
+                isCharging = false;
+            }
+            
         }
     }
 }

@@ -10,6 +10,6 @@ namespace BaseRPG.Controller.Interfaces
     {
         void OnPressed() { }
         void OnReleased() { }
-        void OnHold() { }
+        void OnHold(double delta) { }
     }
 }

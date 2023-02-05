@@ -1,6 +1,6 @@
 ﻿using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
-using BaseRPG.View.Interfaces;
+using BaseRPG.View.Interfaces.Providers;
 using MathNet.Spatial.Euclidean;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,9 @@
 ﻿using BaseRPG.Model.Attribute;
 using BaseRPG.Model.Combat;
+using BaseRPG.Model.Exceptions;
 using BaseRPG.Model.Interfaces.Collecting;
 using BaseRPG.Model.Interfaces.Combat;
+using BaseRPG.Model.Interfaces.Combat.Attack;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Model.Movement;
 using BaseRPG.Model.Services;
@@ -9,6 +11,7 @@ using BaseRPG.Model.Skills;
 using BaseRPG.Model.Tickable.Attacks;
 using BaseRPG.Model.Tickable.Attacks.Lifetime;
 using BaseRPG.Model.Tickable.Item.Factories;
+using BaseRPG.Model.Tickable.Item.Factories.WeaponFactories;
 using BaseRPG.Model.Tickable.Item.Weapon;
 using BaseRPG.Model.Worlds;
 using BaseRPG.Model.Worlds.InteractionPoints;
@@ -37,6 +40,7 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public event Action<int> GoldChanged;
         public ExperienceManager ExperienceManager { get => experienceManager; set => experienceManager = value; }
         public Inventory Inventory => inventory;
+        public Weapon EquippedWeapon => inventory.EquippedWeapon;
 
         
 
@@ -66,12 +70,17 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public void OnXpChagedCallback(Action<double,double> action) {
             ExperienceManager.ExperienceChanged += action;
         }
-        public override AttackBuilder AttackFactory(string attackName)
+        public override IAttackFactory AttackFactory(string attackName)
         {
-            if (inventory.EquippedWeapon == null) return null;
+            if (EquippedWeapon == null) throw new NoSuchAttackBuilderException();
             if (attackName == "light")
-                return inventory.EquippedWeapon.LightAttackBuilder;
-            return null;
+                return EquippedWeapon.AttackFactory;
+            if (attackName == "heavy") {
+                
+                return EquippedWeapon.GetHeavyAttackIfPossible();
+            }
+
+            throw new NoSuchAttackBuilderException();
         }
         private void LightAttack()
         {
@@ -111,6 +120,11 @@ namespace BaseRPG.Model.Tickable.FightingEntity.Hero
         public override void OnKilledByEnemy(Enemy.Enemy enemy)
         {
             
+        }
+
+        internal void OnChargeHold(double delta)
+        {
+            EquippedWeapon.OnChargeHold(delta);
         }
 
         internal void OnEnemyKilled(Enemy.Enemy enemy)

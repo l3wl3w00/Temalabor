@@ -13,25 +13,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controller\NewFolder\**" />
-    <Compile Remove="Model\Exceptions\**" />
     <Compile Remove="Model\Interfaces\NewFolder1\**" />
     <Compile Remove="Model\Tickable\Collectible\**" />
     <Compile Remove="Tests\**" />
     <Compile Remove="View\Shapes\**" />
     <EmbeddedResource Remove="Controller\NewFolder\**" />
-    <EmbeddedResource Remove="Model\Exceptions\**" />
     <EmbeddedResource Remove="Model\Interfaces\NewFolder1\**" />
     <EmbeddedResource Remove="Model\Tickable\Collectible\**" />
     <EmbeddedResource Remove="Tests\**" />
     <EmbeddedResource Remove="View\Shapes\**" />
     <None Remove="Controller\NewFolder\**" />
-    <None Remove="Model\Exceptions\**" />
     <None Remove="Model\Interfaces\NewFolder1\**" />
     <None Remove="Model\Tickable\Collectible\**" />
     <None Remove="Tests\**" />
     <None Remove="View\Shapes\**" />
     <Page Remove="Controller\NewFolder\**" />
-    <Page Remove="Model\Exceptions\**" />
     <Page Remove="Model\Interfaces\NewFolder1\**" />
     <Page Remove="Model\Tickable\Collectible\**" />
     <Page Remove="Tests\**" />
@@ -76,6 +72,8 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="SimpleInjector" Version="5.4.1" />
+    <PackageReference Include="SimpleInjector.Extensions.LifetimeScoping" Version="4.0.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
@@ -91,6 +89,9 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Model\Interfaces\Factories\Enemy\NewFolder\" />
+    <Folder Include="Model\Interfaces\Factories\Hero\" />
+    <Folder Include="Model\Interfaces\ItemInterfaces\" />
     <Folder Include="Model\Interfaces\WorldInterfaces\NewFolder\" />
     <Folder Include="Model\Tickable\Item\Weapon\Attacks\" />
     <Folder Include="Physics\NewFolder\" />
@@ -124,9 +125,6 @@
     <Page Update="View\Windows\InventoryWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Remove="Model\Exceptions\**" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="Model\Tickable\Collectible\**" />

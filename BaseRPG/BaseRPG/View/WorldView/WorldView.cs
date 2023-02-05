@@ -59,7 +59,7 @@ namespace BaseRPG.View.WorldView
         }
         public void Render(DrawingArgs drawingArgs)
         {
-            var backgoundPos = camera.CalculatePositionOnScreen(new(0, 0));
+            var backgoundPos = camera.CalculatePositionOnScreen(new Vector2D(0, 0));
             drawingArgs.PositionOnScreen = backgoundPos;
             backgroundImageRenderer.Render(drawingArgs);
             camera.Update();

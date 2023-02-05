@@ -24,26 +24,6 @@ namespace BaseRPG.Controller.Input
             //if (!binding.HasInput(input)) { return ""; }
             return binding.BindingOf(input);
         }
-
-        public static RawInputProcessedInputMapper CreateDefault(string filePath) {
-            RawInputProcessedInputMapper rawInputProcessedInputMapper = new RawInputProcessedInputMapper(new BindingHandler(filePath));
-            //var mapping = rawInputProcessedInputMapper.binding;
-            //mapping.Add("W", "move-forward");
-            //mapping.Add("A", "move-left");
-            //mapping.Add("D", "move-right");
-            //mapping.Add("S", "move-backward");
-            //mapping.Add("E", "skill-1");
-            //mapping.Add("Q", "skill-2");
-            //mapping.Add("Left", "move-left");
-            //mapping.Add("Right", "move-right");
-            //mapping.Add("Up", "move-forward");
-            //mapping.Add("Down", "move-backward");
-            //mapping.Add("MouseLeft", "light-attack");
-            //mapping.Add("MouseLeft", "initiate-interaction");
-            //mapping.Add("MouseRight", "heavy-attack");
-            //mapping.Save();
-            return rawInputProcessedInputMapper;
-        }
         public static RawInputProcessedInputMapper FromBinding(BindingHandler bindingHandler)
         {
             RawInputProcessedInputMapper rawInputProcessedInputMapper = new RawInputProcessedInputMapper(bindingHandler);

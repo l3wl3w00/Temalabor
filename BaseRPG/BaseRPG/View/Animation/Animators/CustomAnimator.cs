@@ -1,5 +1,6 @@
 ﻿using BaseRPG.Controller.Utility;
 using BaseRPG.View.Animation.ImageSequence;
+using BaseRPG.View.Animation.Utility;
 using BaseRPG.View.Interfaces;
 using Microsoft.Graphics.Canvas.Effects;
 using System;
@@ -13,6 +14,8 @@ namespace BaseRPG.View.Animation.Animators
 
         private AnimationLifeCycle<TransformationAnimation2D> transformationAnimation;
         private AnimationLifeCycle<ImageSequenceAnimation> sequenceAnimation;
+        private Transform2DEffect lastFrame;
+        private bool freezed = false;
         private readonly bool cancelAnimations;
 
         public CustomAnimator(
@@ -31,13 +34,17 @@ namespace BaseRPG.View.Animation.Animators
             transformationAnimation.ResetIfQueued();
             sequenceAnimation.ResetIfQueued();
 
-            Transform2DEffect transform2DEffect = new Transform2DEffect
-            {
-                Source = sequenceAnimation.CurrentAnimation.CalculateImage(animationArgs.Delta),
-                TransformMatrix = transformationAnimation.CurrentAnimation.GetImage(animationArgs)
-            };
+            if (!freezed) 
+            { 
+                lastFrame = new Transform2DEffect
+                {
+                    Source = sequenceAnimation.CurrentAnimation.CalculateImage(animationArgs.Delta),
+                    TransformMatrix = transformationAnimation.CurrentAnimation.GetImage(animationArgs)
+                };
+            }
+            
 
-            animationArgs.DrawingSession.DrawImage(transform2DEffect
+            animationArgs.DrawingSession.DrawImage(lastFrame
                 , (float)animationArgs.PositionOnScreen.X
                 , (float)animationArgs.PositionOnScreen.Y);
         }
@@ -67,5 +74,6 @@ namespace BaseRPG.View.Animation.Animators
 
         public override void ResetImageSequence() =>
             sequenceAnimation.Reset();
+        public override void Freeze() => freezed = true;
     }
 }

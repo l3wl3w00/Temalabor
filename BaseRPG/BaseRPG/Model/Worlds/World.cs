@@ -16,15 +16,20 @@ namespace BaseRPG.Model.Worlds
     {
         private GameObjectContainer gameObjectContainer = new GameObjectContainer();
         private CallbackQueue callbackQueue = new();
+        private readonly string name;
+
         //private IWorldInitializationStrategy initializationStrategy;
-        
+
         public Hero Hero { get { return GameObjectContainer.Hero; } set { GameObjectContainer.Hero = value; } }
 
         public GameObjectContainer GameObjectContainer { get => gameObjectContainer; set => gameObjectContainer = value; }
 
-        public World(GameObjectContainer gameObjectContainer)
+        public string Name => name;
+
+        public World(GameObjectContainer gameObjectContainer, string name)
         {
             this.GameObjectContainer = gameObjectContainer;
+            this.name = name;
         }
 
         //public void Initialize() {

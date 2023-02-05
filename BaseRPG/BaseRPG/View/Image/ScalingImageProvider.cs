@@ -1,5 +1,5 @@
 ﻿using BaseRPG.View.Exceptions;
-using BaseRPG.View.Interfaces;
+using BaseRPG.View.Interfaces.Providers;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using System;

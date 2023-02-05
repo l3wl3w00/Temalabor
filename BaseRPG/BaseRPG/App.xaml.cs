@@ -1,32 +1,18 @@
 ﻿using BaseRPG.Controller;
-using BaseRPG.Controller.Initialization;
+using BaseRPG.Controller.Initialization.GameConfiguring;
 using BaseRPG.Controller.Input;
-using BaseRPG.Model.Data;
+using BaseRPG.Controller.Interfaces;
 using BaseRPG.Model.Game;
 using BaseRPG.Model.Interfaces.Movement;
 using BaseRPG.Physics.TwoDimensional;
-using BaseRPG.Physics.TwoDimensional.Collision;
 using BaseRPG.View;
+using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
 using BaseRPG.View.Interfaces;
-using BaseRPG.View.WorldView;
+using BaseRPG.View.Interfaces.Providers;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using SimpleInjector;
 using System.Runtime.InteropServices;
-using System.Threading;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -40,8 +26,7 @@ namespace BaseRPG
     {
 
         public static readonly int IMAGE_SCALE = 4;
-        private Game game;
-        Controller.Controller controller;
+        private Container container;
         private MainWindow window;
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -65,25 +50,56 @@ namespace BaseRPG
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-
-
-            game = Game.Instance;
-            game.PhysicsFactory = new PhysicsFactory2D();
+            Container container = registerDependecies();
+            
             window = new MainWindow();
-            window.ViewManager = new(game, new DefaultWorldNameImageMapper(), window.Canvas);
-            controller = new Controller.Controller(window.ViewManager, new CollisionNotifier2D(),Game.Instance);
-            window.Controller = controller;
             window.OnResourcesReady += StartGame;
             window.Activate();
-            
         }
-        private void StartGame(IImageProvider imageProvider) {
-            
-            controller.Initialize(
-                new DefaultGameConfigurer(
-                    new CenteredImageProvider(new ScalingImageProvider(IMAGE_SCALE, imageProvider)),
-                    controller.CollisionNotifier),
-                window);
+        private Container registerDependecies() {
+            container = new Container();
+
+            container.RegisterSingleton<IWorldNameImageMapper, DefaultWorldNameImageMapper>();
+            container.RegisterSingleton<IViewManager, ViewManager>();
+            container.RegisterSingleton<Controller.Controller>();
+            container.Register<IPhysicsFactory,PhysicsFactory2D>();
+
+            container.RegisterSingleton<ICanvasProvider>(() => window);
+            container.RegisterSingleton<MainWindow>(() => window);
+            container.Register<IGameConfigurer, GameConfigurer>();
+
+            container.Register<IDrawableProvider, DrawableProvider>();
+            container.Register<IImageProvider>(() => 
+                new CenteredImageProvider(new ScalingImageProvider(IMAGE_SCALE, new RawImageProvider())));
+            container.Register<IMovementManager>(() => {
+                var physicsFactory = container.GetInstance<IPhysicsFactory>();
+                return physicsFactory.CreateMovementManager();
+            });
+            container.Register<BindingHandler>(()=>
+                BindingHandler.CreateAndLoad(@"Assets\config\input-binding.json"));
+            container.Register<IRawInputProcessedInputMapper, RawInputProcessedInputMapper>();
+
+            return container;
+        }
+        private void StartGame() {
+            container.Register<InputHandler>();
+            container.RegisterSingleton<IReadOnlyGameConfiguration>(() =>
+                container
+                .GetInstance<IGameConfigurer>()
+                .Configure(container)
+            );
+            container.Register<IProcessedInputActionMapper>(() => {
+                var config = container.GetInstance<IReadOnlyGameConfiguration>();
+                return ProcessedInputActionMapper.Default(config, window);
+            });
+            container.Verify();
+            IPhysicsFactory.Instance = container.GetInstance<IPhysicsFactory>();
+            window.ViewManager = container.GetInstance<IViewManager>();
+            window.Controller = container.GetInstance<Controller.Controller>();
+            var config = container.GetInstance<IReadOnlyGameConfiguration>();
+            var controller = container.GetInstance<Controller.Controller>();
+
+            controller.Initialize(config,window);
             new MainLoop(controller).Start();
         }
     }

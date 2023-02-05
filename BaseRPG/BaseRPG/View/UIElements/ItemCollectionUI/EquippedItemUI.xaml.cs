@@ -3,6 +3,7 @@ using BaseRPG.Model.Tickable.Item;
 using BaseRPG.View.Animation;
 using BaseRPG.View.EntityView;
 using BaseRPG.View.Image;
+using BaseRPG.View.Interfaces.Providers;
 using BaseRPG.View.ItemView;
 using BaseRPG.View.UIElements.DrawingArgsFactory;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -37,7 +38,7 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
             
             
         }
-        public void Init(InventoryControl inventoryControl, DrawableProvider drawableProvider) {
+        public void Init(InventoryControl inventoryControl, IDrawableProvider drawableProvider) {
             InventoryControl = inventoryControl;
             InventoryWeaponView = drawableProvider.GetDrawable(inventoryControl.EquippedWeapon,"inventory");
 
@@ -52,7 +53,7 @@ namespace BaseRPG.View.UIElements.ItemCollectionUI
         public CanvasControl EquippedWeaponCanvas { get => 
                 equippedWeaponButton.Canvas;
         }
-        private void Update(DrawableProvider drawableProvider) {
+        private void Update(IDrawableProvider drawableProvider) {
             equippedWeaponButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedWeapon, "inventory");
             equippedShoeButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedArmor, "inventory");
             equippedArmorButton.Drawable = drawableProvider.GetDrawable(inventoryControl.EquippedShoe, "inventory");
